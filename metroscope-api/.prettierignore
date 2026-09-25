@@ -1,0 +1,10 @@
+node_modules
+.next
+out
+build
+coverage
+*.log
+
+# drizzle-kit rewrites these on every generate; formatting them just makes each
+# migration produce a spurious diff. The .sql migrations stay formatted.
+supabase/migrations/meta/

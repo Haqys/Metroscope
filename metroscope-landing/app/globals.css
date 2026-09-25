@@ -1,0 +1,682 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+/**
+ * Tailwind v4 theme bridge.
+ *
+ * The design tokens below were authored for Tailwind v3 + a shared preset that
+ * mapped CSS variables to utility names. v4 has no preset mechanism, so the
+ * same mapping is declared here with @theme inline, which keeps every existing
+ * utility class in the ported pages working (bg-background, text-muted-foreground,
+ * border-border, bg-navy-dark, text-maroon, ...) without touching the markup.
+ */
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  /* Brand palette (was tailwind.config.ts theme.extend.colors) */
+  --color-navy: #192e5f;
+  --color-navy-dark: #101f42;
+  --color-navy-light: #eef1f8;
+  --color-maroon: #7d0e03;
+  --color-maroon-dark: #5c0a02;
+  --color-maroon-deep: #3d0701;
+  --color-maroon-ink: #1c0301;
+  --color-maroon-light: #f8efed;
+
+  --font-sans: var(--font-inter), Inter, system-ui, sans-serif;
+  --font-serif: var(--font-edict), Georgia, Cambria, 'Times New Roman', serif;
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+/**
+ * `container`, the site's horizontal rhythm, restored.
+ *
+ * Tailwind v3 let a config centre the container and give it a gutter:
+ *
+ *   container: { center: true, padding: '1.5rem' }
+ *
+ * v4 removed those options, and `container` became a bare max-width. That
+ * config lived in the shared preset this file's header says was dropped in the
+ * port, so every one of the 21 components that lays itself out with
+ * `container` has been rendering with `margin: 0` and `padding: 0` since.
+ *
+ * The effect on a wide screen: the hero headline starts hard against the left
+ * edge of the glass while a 640px gutter opens on the right, because a
+ * max-width that is not centred simply hugs the start edge. It reads as a
+ * broken page rather than a deliberate one.
+ *
+ * Restored here rather than by editing 21 files: the utility is the thing that
+ * changed, so the utility is the thing to fix. The gutter scales the way the
+ * rest of the type does, tighter on a phone, roomier once there is room.
+ */
+@utility container {
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+
+  @media (width >= 40rem) {
+    padding-inline: 2rem;
+  }
+
+  @media (width >= 64rem) {
+    padding-inline: 3rem;
+  }
+
+  @media (width >= 96rem) {
+    padding-inline: 4rem;
+  }
+}
+/* shadcn/ui-compatible theme tokens, consumed by the tailwind preset
+   (packages/config/tailwind-preset.ts). Adjust brand colors here. */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    /* Brand maroon #7d0e03 (navy #192e5f is the secondary accent) */
+    --primary: 5 95% 25%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 5 95% 25%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  ::selection {
+    background: #7d0e03;
+    color: #fff;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Portal surface: the student portal uses the block (sans) face everywhere, 
+   the display serif stays a marketing-only identity. Scoped override so
+   portal components can keep sharing markup with the rest of the app.
+--------------------------------------------------------------------------- */
+.portal-surface .font-serif {
+  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  letter-spacing: -0.015em;
+}
+
+/* ---------------------------------------------------------------------------
+   Portal motion system, smooth, GPU-friendly entrances (opacity + transform)
+   with a staggered cascade so every page reveals block-by-block. The `.fx-*`
+   utilities let any grid or element opt into the same language. Everything is
+   disabled under prefers-reduced-motion.
+--------------------------------------------------------------------------- */
+@keyframes fx-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fx-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fx-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fx-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  65% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes fx-grow-y {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+@keyframes fx-grow-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes fx-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+@keyframes fx-drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(6%, -8%, 0) scale(1.1);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+/* The page fades in fast, then its top-level blocks rise in a soft cascade. */
+.portal-page-up {
+  animation: fx-fade 0.3s ease both;
+}
+.portal-page-up > * > * {
+  opacity: 0;
+  animation: fx-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.portal-page-up > * > *:nth-child(1) {
+  animation-delay: 0.04s;
+}
+.portal-page-up > * > *:nth-child(2) {
+  animation-delay: 0.11s;
+}
+.portal-page-up > * > *:nth-child(3) {
+  animation-delay: 0.18s;
+}
+.portal-page-up > * > *:nth-child(4) {
+  animation-delay: 0.25s;
+}
+.portal-page-up > * > *:nth-child(5) {
+  animation-delay: 0.32s;
+}
+.portal-page-up > * > *:nth-child(6) {
+  animation-delay: 0.39s;
+}
+.portal-page-up > * > *:nth-child(7) {
+  animation-delay: 0.46s;
+}
+.portal-page-up > * > *:nth-child(n + 8) {
+  animation-delay: 0.52s;
+}
+
+/* Single-element entrance utilities. */
+.fx-rise {
+  opacity: 0;
+  animation: fx-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.fx-scale {
+  opacity: 0;
+  animation: fx-scale-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.fx-pop {
+  opacity: 0;
+  animation: fx-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Stagger a group: children rise with incremental delays. */
+.fx-stagger > * {
+  opacity: 0;
+  animation: fx-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.fx-stagger > *:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.fx-stagger > *:nth-child(2) {
+  animation-delay: 0.12s;
+}
+.fx-stagger > *:nth-child(3) {
+  animation-delay: 0.19s;
+}
+.fx-stagger > *:nth-child(4) {
+  animation-delay: 0.26s;
+}
+.fx-stagger > *:nth-child(5) {
+  animation-delay: 0.33s;
+}
+.fx-stagger > *:nth-child(6) {
+  animation-delay: 0.4s;
+}
+.fx-stagger > *:nth-child(7) {
+  animation-delay: 0.47s;
+}
+.fx-stagger > *:nth-child(8) {
+  animation-delay: 0.54s;
+}
+.fx-stagger > *:nth-child(n + 9) {
+  animation-delay: 0.6s;
+}
+
+/* Manual delay helpers. */
+.fx-d1 {
+  animation-delay: 0.08s;
+}
+.fx-d2 {
+  animation-delay: 0.16s;
+}
+.fx-d3 {
+  animation-delay: 0.24s;
+}
+.fx-d4 {
+  animation-delay: 0.32s;
+}
+.fx-d5 {
+  animation-delay: 0.4s;
+}
+
+/* Bars that grow on reveal (origin set here; width/height set at call site). */
+.fx-bar-x {
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: fx-grow-x 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+}
+.fx-bar-y {
+  transform: scaleY(0);
+  transform-origin: bottom center;
+  animation: fx-grow-y 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Gentle hover lift for interactive cards. */
+.fx-hover {
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+}
+.fx-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 26px rgba(16, 24, 40, 0.09);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portal-page-up,
+  .portal-page-up > * > *,
+  .fx-rise,
+  .fx-scale,
+  .fx-pop,
+  .fx-stagger > *,
+  .fx-bar-x,
+  .fx-bar-y,
+  .fx-float,
+  .fx-drift {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .fx-hover:hover {
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Portal surface polish, modern & light. Soft elevation, hairline borders,
+   thin scrollbars, and calmer focus rings shared across every portal page.
+--------------------------------------------------------------------------- */
+@layer components {
+  /* Reusable soft-elevation card. Lighter than a hard border + shadow-md. */
+  .ms-card {
+    @apply rounded-2xl border border-neutral-200/70 bg-white;
+    box-shadow:
+      0 1px 2px rgba(16, 24, 40, 0.04),
+      0 1px 3px rgba(16, 24, 40, 0.03);
+  }
+  .ms-card-hover {
+    @apply transition-all duration-200;
+  }
+  .ms-card-hover:hover {
+    box-shadow:
+      0 4px 12px rgba(16, 24, 40, 0.06),
+      0 2px 4px rgba(16, 24, 40, 0.04);
+    transform: translateY(-1px);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Range slider (components/ui/slider.tsx). The track fill is a gradient set
+   inline; these rules only style the thumb, which needs vendor pseudo-elements.
+--------------------------------------------------------------------------- */
+.ms-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 1.15rem;
+  width: 1.15rem;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: 3px solid #192e5f;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.2);
+  cursor: grab;
+  transition: transform 0.15s ease;
+}
+.ms-range::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.12);
+}
+.ms-range::-moz-range-thumb {
+  height: 1.15rem;
+  width: 1.15rem;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: 3px solid #192e5f;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.2);
+  cursor: grab;
+}
+.ms-range::-moz-range-track {
+  background: transparent;
+}
+
+/* Thin, unobtrusive scrollbars inside the portal. */
+.portal-surface ::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+.portal-surface ::-webkit-scrollbar-thumb {
+  background: #d4d4d8;
+  border-radius: 9999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+.portal-surface ::-webkit-scrollbar-thumb:hover {
+  background: #a1a1aa;
+  background-clip: content-box;
+}
+.portal-surface ::-webkit-scrollbar-track {
+  background: transparent;
+}
+.portal-surface {
+  scrollbar-width: thin;
+  scrollbar-color: #d4d4d8 transparent;
+}
+
+/* Calmer, consistent focus rings for interactive elements in the portal. */
+.portal-surface :focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(25, 46, 95, 0.16);
+  border-radius: 0.5rem;
+}
+
+/* ---------------------------------------------------------------------------
+   FullCalendar theme (scoped to .ms-fc). Restyles the default look into a
+   clean, Google-Calendar-like surface using the brand palette. FullCalendar
+   v6 injects its own base CSS; these overrides ride on its CSS variables plus
+   a few structural tweaks (segmented view buttons, softer grid, brand today).
+--------------------------------------------------------------------------- */
+.ms-fc {
+  --fc-border-color: #eef0f3;
+  --fc-page-bg-color: #ffffff;
+  --fc-neutral-bg-color: #fafafb;
+  --fc-today-bg-color: #eef1f8; /* navy-light */
+  --fc-highlight-color: rgba(25, 46, 95, 0.08);
+  --fc-now-indicator-color: #7d0e03; /* maroon */
+  --fc-event-border-color: transparent;
+  --fc-list-event-hover-bg-color: #f7f8fa;
+  --fc-small-font-size: 0.72rem;
+  font-size: 0.85rem;
+}
+
+/* Toolbar */
+.ms-fc .fc-toolbar.fc-header-toolbar {
+  margin-bottom: 1rem;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.ms-fc .fc-toolbar-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #171717;
+}
+
+/* Buttons, flat, pill/segmented, navy accents */
+.ms-fc .fc .fc-button {
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  color: #404040;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.4rem 0.85rem;
+  border-radius: 9999px;
+  box-shadow: none;
+  text-transform: capitalize;
+  transition:
+    background-color 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+}
+.ms-fc .fc .fc-button:not(:disabled):hover {
+  background: #f5f5f5;
+  border-color: #d4d4d4;
+  color: #192e5f;
+}
+.ms-fc .fc .fc-button:focus,
+.ms-fc .fc .fc-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(25, 46, 95, 0.18);
+}
+.ms-fc .fc .fc-button-primary:not(:disabled).fc-button-active,
+.ms-fc .fc .fc-button-primary:not(:disabled):active {
+  background: #192e5f;
+  border-color: #192e5f;
+  color: #ffffff;
+}
+.ms-fc .fc .fc-button:disabled {
+  opacity: 0.45;
+}
+/* Segmented view switcher (dayGrid / timeGrid / list) */
+.ms-fc .fc .fc-button-group {
+  gap: 0;
+  background: #f3f4f6;
+  border-radius: 9999px;
+  padding: 2px;
+}
+.ms-fc .fc .fc-button-group .fc-button {
+  border: none;
+  background: transparent;
+}
+.ms-fc .fc .fc-button-group .fc-button-active {
+  background: #ffffff;
+  color: #192e5f;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+.ms-fc .fc .fc-icon {
+  font-size: 1.15em;
+}
+
+/* Grid + headers */
+.ms-fc .fc-theme-standard .fc-scrollgrid {
+  border-radius: 12px;
+  overflow: hidden;
+  border-color: var(--fc-border-color);
+}
+.ms-fc .fc-col-header-cell {
+  background: #fafafb;
+  padding: 0.55rem 0;
+}
+.ms-fc .fc-col-header-cell-cushion {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #a3a3a3;
+  padding: 4px;
+}
+.ms-fc .fc-daygrid-day-number {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #525252;
+  padding: 6px 8px;
+}
+.ms-fc .fc-day-other .fc-daygrid-day-number {
+  color: #d4d4d4;
+}
+/* Today's date pill (month view) */
+.ms-fc .fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
+  background: #192e5f;
+  color: #ffffff;
+  border-radius: 9999px;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 4px;
+}
+.ms-fc .fc-daygrid-day.fc-day-today {
+  background: transparent;
+}
+
+/* Events */
+.ms-fc .fc-daygrid-event {
+  border-radius: 6px;
+  padding: 1px 5px;
+  font-weight: 600;
+  font-size: 0.7rem;
+  margin: 1px 3px;
+  cursor: pointer;
+}
+.ms-fc .fc-timegrid-event {
+  border-radius: 6px;
+  cursor: pointer;
+}
+.ms-fc .fc-event:focus-visible {
+  outline: 2px solid rgba(25, 46, 95, 0.4);
+  outline-offset: 1px;
+}
+.ms-fc .fc-daygrid-event-dot {
+  display: none;
+}
+
+/* List view */
+.ms-fc .fc-list {
+  border-radius: 12px;
+  overflow: hidden;
+  border-color: var(--fc-border-color);
+}
+.ms-fc .fc-list-day-cushion {
+  background: #fafafb;
+}
+.ms-fc .fc-list-event {
+  cursor: pointer;
+}
+.ms-fc .fc-list-event-dot {
+  border-width: 5px;
+}
+
+/* Editorial scroll effects (used by components/marketing/scroll-fx.tsx).
+   Pure CSS transitions toggled by IntersectionObserver, no animation lib.
+--------------------------------------------------------------------------- */
+@layer utilities {
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Word-by-word mask reveal for display headings */
+  .word-reveal .word-mask {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+  }
+  .word-reveal .word {
+    display: inline-block;
+    transform: translateY(115%);
+    transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+  .word-reveal.is-visible .word {
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    .reveal,
+    .word-reveal .word {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+}

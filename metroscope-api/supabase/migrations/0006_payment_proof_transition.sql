@@ -1,0 +1,20 @@
+-- ═══════════════════════════════════════════════════════════════════════════
+--  Superseded. Intentionally a no-op.
+-- ═══════════════════════════════════════════════════════════════════════════
+--
+-- This migration redefined app.guard_invoice_columns(). So does
+-- supabase/policies/60_billing.sql, and that directory re-applies on EVERY
+-- deploy, so it always won. Every change made here was reverted the next time
+-- `npm run db:policies` ran, silently, with nothing failing.
+--
+-- The live effect was not a lost improvement but a live regression: the
+-- database reverted to a version where a guardian could not submit a transfer
+-- proof at all, and where the column guard's caller check was absent.
+--
+-- The function now has ONE home, 60_billing.sql, which carries the final
+-- version. `apply-policies.mjs` refuses to run if any migration redefines a
+-- policy-owned function, so this cannot recur.
+--
+-- The body is removed rather than the file deleted: drizzle's journal records
+-- this migration as applied, and deleting it would make the two disagree.
+SELECT 1;
