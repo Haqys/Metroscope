@@ -4,7 +4,7 @@ Student portal + internal dashboard + CRM + finance + assessment + scheduling.
 
 ## Quick start (development)
 
-> ⚠️ **Architecture migration in progress (2026-07-28).** Target: **five independent
+> ⚠️ **Architecture migration in progress (2026-07-28).** Target: **five independent 
 > Next.js projects + Supabase**, deployed on Vercel, see
 > [doc 04 v3.0](./docs/04-architecture.md) and [doc 15](./docs/15-repositories-and-migration.md).
 > **NestJS, Prisma, production Docker, and BullMQ/Redis workers are removed from the
