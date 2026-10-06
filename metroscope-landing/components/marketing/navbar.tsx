@@ -19,6 +19,7 @@ const NAV_LINKS = [
   { href: '/roadmap', label: 'Roadmap & Services' },
   { href: '/team', label: 'Team' },
   { href: '/showcase', label: 'Students & Alumni' },
+  { href: '/articles', label: 'Insights & Articles' },
   { href: '/contact', label: 'FAQ & Contact' },
 ];
 

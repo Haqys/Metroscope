@@ -9,6 +9,7 @@ const FOOTER_LINKS = [
   { href: '/roadmap', label: 'Roadmap & Services' },
   { href: '/team', label: 'Team' },
   { href: '/showcase', label: 'Students & Alumni' },
+  { href: '/articles', label: 'Insights & Articles' },
   { href: '/contact', label: 'FAQ & Contact' },
   { href: '/register', label: 'Free Consultation' },
   ...(STANDALONE ? [] : [{ href: '/login', label: 'Student Portal' }]),

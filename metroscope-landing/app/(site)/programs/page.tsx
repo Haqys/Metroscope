@@ -34,18 +34,18 @@ export default async function ProgramsPage() {
         <Reveal>
           <p className="text-maroon text-xs font-medium tracking-[0.35em] uppercase">Programmes</p>
           <h1 className="mt-5 max-w-4xl font-serif text-[clamp(2.75rem,7vw,5.5rem)] leading-[1.02] font-medium tracking-tight text-neutral-900">
-            <WordReveal text="Choose Your Stage." />
+            <WordReveal text="Mentoring Portfolios." />
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed font-light text-neutral-500">
-            Mentoring tracks with specialist mentors in their fields, from science research to business competitions.
+            A comprehensive overview of our mentoring frameworks designed to cultivate research excellence and competitive edge.
           </p>
         </Reveal>
 
         {programs.length === 0 ? (
           <div className="mt-16">
             <EmptyState
-              title="Programmes unavailable"
-              description="Contact us for a consultation. We'll help map the right competition for you."
+              title="Portfolios unavailable"
+              description="We are currently updating our program portfolios. Please check back later."
             />
           </div>
         ) : (
