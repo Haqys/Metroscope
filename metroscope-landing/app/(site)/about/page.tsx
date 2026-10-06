@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
-import { Target, Users, ShieldCheck } from 'lucide-react';
+import { Target, ShieldCheck } from 'lucide-react';
 
-import { Reveal, WordReveal } from '@/components/marketing/scroll-fx';
+import { Reveal } from '@/components/marketing/scroll-fx';
 import { absolute, social } from '@/lib/seo';
 
 const DESCRIPTION =
@@ -106,7 +105,7 @@ export default function AboutPage() {
                 Our Dual Approach.
               </h2>
               <p className="mx-auto mt-5 max-w-2xl text-lg font-light text-neutral-500">
-                Specifically designed to bridge parental expectations with students' exploration needs.
+                Specifically designed to bridge parental expectations with students&apos; exploration needs.
               </p>
             </div>
           </Reveal>
@@ -117,7 +116,7 @@ export default function AboutPage() {
                 <ShieldCheck className="text-maroon h-10 w-10 mb-6" />
                 <h3 className="font-serif text-3xl font-medium text-neutral-900">For Parents</h3>
                 <p className="mt-4 leading-relaxed font-light text-neutral-500 text-lg">
-                  Credibility, program transparency, and real results. You will always have full access to your child's academic progress, assessment reports, and ongoing curriculum.
+                  Credibility, program transparency, and real results. You will always have full access to your child&apos;s academic progress, assessment reports, and ongoing curriculum.
                 </p>
               </div>
             </Reveal>

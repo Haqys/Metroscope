@@ -76,7 +76,7 @@ export default async function MentorsPage() {
           The People Behind the Scenes.
         </h1>
         <p className="mt-6 max-w-xl text-lg leading-relaxed font-light text-neutral-500">
-          Metroscope's dedicated core team and specialist mentors. Your child learns from people who have been on the same stage.
+          Metroscope&apos;s dedicated core team and specialist mentors. Your child learns from people who have been on the same stage.
         </p>
       </Reveal>
 
