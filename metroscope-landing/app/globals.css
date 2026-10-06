@@ -39,8 +39,8 @@
   --color-maroon-ink: #1c0301;
   --color-maroon-light: #f8efed;
 
-  --font-sans: var(--font-inter), Inter, system-ui, sans-serif;
-  --font-serif: var(--font-edict), Georgia, Cambria, 'Times New Roman', serif;
+  --font-sans: var(--font-jakarta), 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-serif: var(--font-jakarta), 'Plus Jakarta Sans', system-ui, sans-serif;
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
@@ -152,7 +152,7 @@
    portal components can keep sharing markup with the rest of the app.
 --------------------------------------------------------------------------- */
 .portal-surface .font-serif {
-  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  font-family: var(--font-jakarta), 'Plus Jakarta Sans', system-ui, sans-serif;
   letter-spacing: -0.015em;
 }
 
@@ -657,6 +657,8 @@
     display: inline-block;
     overflow: hidden;
     vertical-align: bottom;
+    padding-bottom: 0.2em;
+    margin-bottom: -0.2em;
   }
   .word-reveal .word {
     display: inline-block;

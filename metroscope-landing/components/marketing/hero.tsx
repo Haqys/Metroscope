@@ -17,7 +17,7 @@ export function Hero() {
       <div className="bg-maroon-ink sticky top-0 flex h-screen items-end overflow-hidden">
         <Image
           src={HERO_IMAGE}
-          alt="Siswa belajar bersama mentor"
+          alt="Students studying with mentor"
           fill
           priority
           sizes="100vw"
@@ -31,22 +31,21 @@ export function Hero() {
         <div className="relative container pt-40 pb-24 lg:pb-32">
           <Reveal>
             <p className="mb-8 text-xs font-medium tracking-[0.35em] text-white/80 uppercase">
-              Bimbingan Lomba SD · SMP · SMA
+              Elementary · Junior · Senior High Mentoring
             </p>
           </Reveal>
 
           <h1 className="max-w-5xl font-serif text-[clamp(3.5rem,10vw,8.75rem)] leading-[0.95] font-medium tracking-tight text-white">
-            <WordReveal text="Tempat Anak" startDelay={150} />
+            <WordReveal text="Where Champions" startDelay={150} />
             <br />
-            <WordReveal text="Juara" startDelay={450} className="text-white italic" />{' '}
-            <WordReveal text="Dibentuk." startDelay={600} />
+            <WordReveal text="Are" startDelay={450} className="text-white italic" />{' '}
+            <WordReveal text="Forged." startDelay={600} />
           </h1>
 
           <Reveal delay={900}>
             <div className="mt-10 flex max-w-xl flex-col gap-8 sm:flex-row sm:items-center">
               <p className="text-lg leading-relaxed font-light text-white/80">
-                Bimbingan intensif olimpiade, debat, dan karya tulis: dari persiapan pertama sampai
-                hari-H di atas podium.
+                Intensive mentoring for olympiads, debates, and scientific papers: from initial preparation to the podium.
               </p>
             </div>
           </Reveal>
@@ -57,13 +56,13 @@ export function Hero() {
                 href="/register"
                 className="text-maroon rounded-full bg-white px-8 py-4 text-sm font-medium tracking-wide transition-transform duration-300 hover:scale-[1.03]"
               >
-                Konsultasi Gratis
+                Initial Assessment
               </Link>
               <Link
                 href="/programs"
                 className="rounded-full border border-white/40 px-8 py-4 text-sm font-medium tracking-wide text-white transition-colors duration-300 hover:bg-white/10"
               >
-                Lihat Program
+                View Programmes
               </Link>
               <HeroVideo />
             </div>

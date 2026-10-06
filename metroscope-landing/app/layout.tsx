@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Cormorant_Garamond, Inter } from 'next/font/google';
+import { Plus_Jakarta_Sans } from 'next/font/google';
 
 import { PreviewBadge } from '@/components/marketing/preview-badge';
 import { Providers } from '@/lib/providers';
@@ -8,18 +8,11 @@ import { STANDALONE } from '@/lib/standalone';
 
 import './globals.css';
 
-/* Editorial display serif, fills the --font-edict slot used by `font-serif`. */
-const serif = Cormorant_Garamond({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   style: ['normal', 'italic'],
-  variable: '--font-edict',
-  display: 'swap',
-});
-
-const sans = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-jakarta',
   display: 'swap',
 });
 
@@ -43,7 +36,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="id" className={`${serif.variable} ${sans.variable}`} suppressHydrationWarning>
+    <html lang="id" className={`${jakarta.variable}`} suppressHydrationWarning>
       <body>
         <a
           href="#main"

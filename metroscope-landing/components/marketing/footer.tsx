@@ -2,17 +2,16 @@ import Link from 'next/link';
 
 import { CONTACT, STANDALONE } from '@/lib/standalone';
 
-/** `Portal Siswa` is dropped in standalone, like the navbar's `Masuk`. */
+/** `Portal Siswa` is dropped in standalone, like the navbar's `Sign In`. */
 const FOOTER_LINKS = [
-  { href: '/programs', label: 'Program' },
-  { href: '/competitions', label: 'Info Lomba' },
-  { href: '/articles', label: 'Artikel' },
-  { href: '/mentors', label: 'Mentor' },
-  { href: '/faq', label: 'FAQ' },
-  { href: '/about', label: 'Tentang Kami' },
-  { href: '/contact', label: 'Hubungi Kami' },
-  { href: '/register', label: 'Konsultasi Gratis' },
-  ...(STANDALONE ? [] : [{ href: '/login', label: 'Portal Siswa' }]),
+  { href: '/about', label: 'About Us' },
+  { href: '/programs', label: 'Programmes & Impacts' },
+  { href: '/roadmap', label: 'Roadmap & Services' },
+  { href: '/team', label: 'Team' },
+  { href: '/showcase', label: 'Students & Alumni' },
+  { href: '/contact', label: 'FAQ & Contact' },
+  { href: '/register', label: 'Free Consultation' },
+  ...(STANDALONE ? [] : [{ href: '/login', label: 'Student Portal' }]),
 ];
 
 /**
@@ -40,8 +39,7 @@ export function Footer() {
 
         <div className="mt-16 flex flex-col gap-10 border-t border-white/10 pt-10 lg:flex-row lg:items-start lg:justify-between">
           <p className="max-w-sm text-sm leading-relaxed font-light text-white/60">
-            Bimbingan lomba untuk siswa SD–SMA, olimpiade, debat, dan karya tulis. Dari persiapan
-            pertama sampai podium.
+            Competition mentoring for elementary to high school students, olympiads, debates, and scientific papers. From the first preparation to the podium.
           </p>
 
           <nav aria-label="Footer" className="flex flex-wrap gap-x-10 gap-y-3 text-sm">
@@ -57,7 +55,7 @@ export function Footer() {
           </nav>
 
           <nav
-            aria-label="Sosial media"
+            aria-label="Social media"
             className="flex gap-x-10 text-sm"
             hidden={SOCIALS.length === 0}
           >
@@ -76,8 +74,8 @@ export function Footer() {
         </div>
 
         <div className="mt-14 flex flex-col gap-2 text-xs text-white/40 sm:flex-row sm:justify-between">
-          <p>© {new Date().getFullYear()} Metroscope. Bimbingan olimpiade &amp; kompetisi.</p>
-          <p>Konfirmasi konsultasi via email dalam 1×24 jam.</p>
+          <p>© {new Date().getFullYear()} Metroscope. Olympiad &amp; competition mentoring.</p>
+          <p>Consultation confirmation via email within 24 hours.</p>
         </div>
       </div>
     </footer>

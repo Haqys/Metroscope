@@ -35,7 +35,7 @@ export function HeroVideo() {
           <Play className="ml-0.5 h-5 w-5 fill-white" />
         </span>
         <span className="text-sm font-medium tracking-wide text-white/90 transition-colors group-hover:text-white">
-          Tonton Video
+          Watch Video
         </span>
       </button>
 
@@ -76,7 +76,7 @@ export function HeroVideo() {
                 className="flex items-center gap-2.5 rounded-full border border-white/30 px-8 py-3.5 text-sm font-medium tracking-wide text-white transition-colors hover:bg-white hover:text-black"
               >
                 <X className="h-4 w-4" />
-                Tutup Video
+                Close Video
               </button>
             </div>
           </div>,

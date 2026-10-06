@@ -19,9 +19,9 @@ import { listArticles } from '@/lib/articles-api';
 import { listPublicPrograms } from '@/lib/programs-api';
 import { absolute, organizationJsonLd, social } from '@/lib/seo';
 
-const TITLE = 'Metroscope. Bimbingan Olimpiade & Kompetisi';
+const TITLE = 'Metroscope. Olympiad & Competition Mentoring';
 const DESCRIPTION =
-  'Bimbingan lomba untuk siswa SD–SMA di Denpasar: olimpiade, debat, dan karya tulis. Mentor spesialis, progress terpantau, konsultasi awal gratis.';
+  'Competition mentoring for elementary to high school students: olympiads, debates, and scientific papers. Specialist mentors, tracked progress, free initial consultation.';
 
 /** Character-for-character the `<loc>` the sitemap publishes, see `absolute`. */
 const URL = absolute('/');
@@ -52,83 +52,73 @@ const IMG = {
 };
 
 const STATS = [
-  { to: 128, suffix: '+', label: 'Siswa aktif dibimbing' },
-  { to: 40, suffix: '+', label: 'Gelar juara & finalis' },
-  { to: 3, suffix: '', label: 'Program unggulan' },
-  { to: 4.8, suffix: '/5', decimals: 1, label: 'Rating mentor' },
+  { to: 128, suffix: '+', label: 'Active Students Mentored' },
+  { to: 40, suffix: '+', label: 'Championship Titles & Finalists' },
+  { to: 3, suffix: '', label: 'Flagship Programmes' },
+  { to: 4.8, suffix: '/5', decimals: 1, label: 'Mentor Rating' },
 ];
 
 const JOURNEY = [
   {
     step: '01',
-    title: 'Konsultasi gratis',
-    body: 'Ngobrol dengan tim kami untuk menentukan program & jadwal yang pas. Tanpa komitmen, konfirmasi via email dalam 1×24 jam.',
+    title: 'Free Consultation',
+    body: 'Talk with our team to determine the right program & schedule. No commitment, confirmation via email within 24 hours.',
   },
   {
     step: '02',
-    title: 'Les rutin & terukur',
-    body: 'Dua kali seminggu bersama mentor tetap. Jadwal otomatis sinkron ke Google Calendar, progress tercatat per topik.',
+    title: 'Routine & Measured Lessons',
+    body: 'Twice a week with a dedicated mentor. Schedules automatically sync to Google Calendar, progress recorded per topic.',
   },
   {
     step: '03',
-    title: 'Persiapan intensif lomba',
-    body: 'Jelang hari-H, latihan difokuskan ke kisi-kisi lomba target, kesiapan dipantau orang tua dari portal.',
+    title: 'Intensive Competition Prep',
+    body: 'Approaching the D-Day, practice is focused on the target competition\'s syllabus, readiness monitored by parents from the portal.',
   },
   {
     step: '04',
-    title: 'Assessment & naik level',
-    body: 'Setiap bulan mentor menilai secara terstruktur. Poin, badge, dan level membuat momentum belajar terjaga.',
+    title: 'Assessment & Level Up',
+    body: 'Every month, mentors provide structured assessments. Points, badges, and levels keep the learning momentum alive.',
   },
 ];
 
 /** Three latest achievement stories on the homepage. */
 
-/* Dummy Unsplash portraits until real testimonial photos land. */
+/* Real testimonials from parents. */
 const TESTIMONIALS = [
   {
     quote:
-      'Anak saya jadi lebih percaya diri ikut lomba sejak bimbingan di Metroscope. Progressnya juga bisa saya pantau langsung dari portal.',
-    name: 'Bunda Rani',
-    role: 'Orang Tua Siswa · Olimpiade Sains',
-    rating: 5,
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop&q=60',
+      'Congratulations to all the good and smart children, your hard work has borne fruit. And be grateful that your parents provide these facilities, as many out there do not get the same opportunity... Congratulations and success! This outcome is truly a reflection of who accompanies them; thank you, Kak Balqis. We are proud that Fara has the right circle.',
+    name: 'Ayah Fara (SCA)',
   },
   {
     quote:
-      'Progress per topik bikin aku tahu persis bagian mana yang masih lemah. Pas hari-H OSK rasanya jauh lebih siap.',
-    name: 'Aditya Pratama',
-    role: 'Siswa SMP · Olimpiade Sains & Matematika',
-    rating: 5,
-    imageUrl:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=60',
+      'Alhamdulillah... Congratulations to Kak Balqis and the team. May this serve as even greater motivation for future successes! Praise be to Allah. Wishing everyone a wonderful holiday! Thank you so much to Kak Balqis, Kak Jessica, and Kak Aravinda for guiding the children so patiently, accompanying them, and providing motivation and enlightenment so they grow into better, broad-minded individuals. May success always surround us all, aamiin.',
+    name: 'Parent (+62 813-6932-6209)',
   },
   {
     quote:
-      'Jadwal les otomatis masuk Google Calendar dan selalu ada reminder. Sebagai orang tua yang sibuk, ini sangat membantu.',
-    name: 'Bapak Surya',
-    role: 'Orang Tua Siswa · Debat & Public Speaking',
-    rating: 5,
-    imageUrl:
-      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=60',
+      'Alhamdulillah, thanks to Kak Balqis and the other mentors, great leaders, great teams, great result! Congratulations! Amen, thank you Metroscope mentor kakas, may Metroscope continue to thrive forever.',
+    name: 'Bunda Raffa',
   },
   {
     quote:
-      'Mentornya sabar dan benar-benar paham medan lomba. Draft karya tulisku dibedah bab per bab sampai lolos ke final.',
-    name: 'Nabila Putri',
-    role: 'Siswa SMA · Karya Tulis & Riset',
-    rating: 5,
-    imageUrl:
-      'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&auto=format&fit=crop&q=60',
+      'Congratulations to all the kids, the process never betrays the results... Thank you, Kak Bilqis!',
+    name: 'Bunda Abhie',
   },
   {
     quote:
-      'Assessment bulanannya jelas dan terukur, bukan sekadar pujian. Kami jadi tahu apa yang perlu ditingkatkan setiap bulan.',
-    name: 'Bunda Sinta',
-    role: 'Orang Tua Siswa · Karya Tulis & Riset',
-    rating: 4,
-    imageUrl:
-      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&auto=format&fit=crop&q=60',
+      "Alhamdulillah, congratulations on the children's achievements and thank you very much to the mentors.",
+    name: 'Ayah Vindy',
+  },
+  {
+    quote:
+      'Alhamdulillah, the series of competition activities went smoothly and successfully. Congratulations to our creative and high-achieving children! Thank you to the mentor Kak Balqis, Kak Jesica, and Kak Ara for guiding and accompanying the kids through the competition until they returned safely to their respective homes. Thank you also to all the parents for the cooperation.',
+    name: 'Bunda Meera',
+  },
+  {
+    quote:
+      "Assalamu'alaikum. Thank you, Kak Balqis and team, for your extraordinary dedication in accompanying the children from the start until they returned home with satisfying results. Thank you also to all the mothers (Mama Vindi, Mama Fara, Mama Ameera, Mama Abi, Mama Raffa) for your support, cooperation, and help. May all your kindness be counted as worship and bring future blessings to the children. I also apologize to Kak Balqis and the mothers for my fussiness in the group. Once again, sincere apologies and thank you to everyone. May our bonds of friendship always be preserved. Success to Kak Balqis and the kids... aamiin ya rabbal 'alamin.",
+    name: 'Bunda Gisel (Metroscope)',
   },
 ];
 
@@ -163,7 +153,7 @@ export default async function HomePage() {
       <div className="relative z-10 bg-white">
         {/*,,, Editorial opening statement,,, */}
         <section className="relative overflow-hidden py-32 lg:py-44">
-          <BgWord word="Prestasi" className="text-maroon" />
+          <BgWord word="Achievement" className="text-maroon" />
           <div className="relative container">
             <Reveal>
               <p className="text-maroon text-center text-xs font-medium tracking-[0.35em] uppercase">
@@ -171,7 +161,7 @@ export default async function HomePage() {
               </p>
             </Reveal>
             <h2 className="mx-auto mt-8 max-w-4xl text-center font-serif text-[clamp(2rem,4.5vw,3.75rem)] leading-[1.2] font-medium tracking-tight text-neutral-900">
-              <WordReveal text="Setiap anak punya potensi juara. Tugas kami menyiapkan panggungnya, kurikulum per topik, mentor berpengalaman, dan pendampingan sampai hari-H." />
+              <WordReveal text="Every child has champion potential. Our job is to prepare the stage, curriculum per topic, experienced mentors, and guidance until the D-day." />
             </h2>
           </div>
         </section>
@@ -183,20 +173,19 @@ export default async function HomePage() {
               <div className="lg:sticky lg:top-32">
                 <Reveal>
                   <p className="text-maroon text-xs font-medium tracking-[0.35em] uppercase">
-                    Program
+                    Programmes
                   </p>
                   <h2 className="mt-5 font-serif text-[clamp(2.5rem,5vw,4.5rem)] leading-[1.02] font-medium tracking-tight text-neutral-900">
-                    Pilih Panggung Lombamu.
+                    Choose Your Stage.
                   </h2>
                   <p className="mt-6 max-w-sm leading-relaxed font-light text-neutral-500">
-                    Tiga jalur pembinaan untuk SD, SMP, dan SMA, masing-masing dengan mentor
-                    spesialis di bidangnya.
+                    Three mentoring tracks for elementary, junior, and senior high school students, each with specialist mentors in their fields.
                   </p>
                   <Link
                     href="/programs"
                     className="hover:border-maroon hover:text-maroon mt-8 inline-block rounded-full border border-neutral-300 px-7 py-3.5 text-sm font-medium text-neutral-900 transition-colors"
                   >
-                    Semua Program
+                    All Programmes
                   </Link>
                 </Reveal>
               </div>
@@ -222,11 +211,11 @@ export default async function HomePage() {
 
         {/*,,, Impact: deep maroon band, animated counters,,, */}
         <section className="bg-maroon-deep relative overflow-hidden py-32 text-white lg:py-40">
-          <BgWord word="Juara" className="text-white" />
+          <BgWord word="Champion" className="text-white" />
           <div className="relative container">
             <Reveal>
               <p className="text-xs font-medium tracking-[0.35em] text-white/60 uppercase">
-                Dampak Nyata
+                Real Impact
               </p>
             </Reveal>
             <div className="mt-14 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
@@ -269,12 +258,12 @@ export default async function HomePage() {
               <div className="lg:sticky lg:top-24">
                 <Reveal>
                   <p className="text-maroon text-xs font-medium tracking-[0.35em] uppercase">
-                    Perjalanan Siswa
+                    Student Journey
                   </p>
                   <div className="relative mt-6 aspect-[4/5] overflow-hidden rounded-3xl lg:h-[calc(100vh-14rem)] lg:w-full">
                     <Image
                       src={IMG.classroom}
-                      alt="Suasana kelas bimbingan Metroscope"
+                      alt="Metroscope mentoring classroom atmosphere"
                       fill
                       sizes="(min-width: 1024px) 50vw, 100vw"
                       className="object-cover"
@@ -292,17 +281,17 @@ export default async function HomePage() {
             <div className="flex flex-wrap items-end justify-between gap-6">
               <div>
                 <p className="text-maroon text-xs font-medium tracking-[0.35em] uppercase">
-                  Artikel
+                  Articles
                 </p>
                 <h2 className="mt-5 font-serif text-[clamp(2.5rem,5vw,4.5rem)] leading-[1.02] font-medium tracking-tight text-neutral-900">
-                  Jejak Prestasi Siswa.
+                  Student Achievement Traces.
                 </h2>
               </div>
               <Link
                 href="/articles"
                 className="bg-navy hover:bg-navy-dark mb-2 rounded-full px-7 py-3.5 text-sm font-medium tracking-wide text-white transition-colors"
               >
-                Lihat Semua Artikel →
+                View All Articles →
               </Link>
             </div>
           </Reveal>
@@ -328,10 +317,10 @@ export default async function HomePage() {
           <div className="container">
             <Reveal>
               <p className="text-navy text-center text-xs font-medium tracking-[0.35em] uppercase">
-                Testimoni
+                Testimonials
               </p>
               <h2 className="mx-auto mt-5 max-w-2xl text-center font-serif text-[clamp(2.5rem,5vw,4.5rem)] leading-[1.02] font-medium tracking-tight text-neutral-900">
-                Kata Orang Tua &amp; Siswa.
+                Words from Parents &amp; Students.
               </h2>
             </Reveal>
             <Reveal delay={200} className="mt-14">
@@ -345,7 +334,7 @@ export default async function HomePage() {
           <Parallax speed={-0.12} className="absolute inset-x-0 -inset-y-[10%]">
             <Image
               src={IMG.winners}
-              alt="Siswa Metroscope merayakan kemenangan lomba"
+              alt="Metroscope students celebrating a competition victory"
               fill
               sizes="100vw"
               className="object-cover"
@@ -353,21 +342,21 @@ export default async function HomePage() {
           </Parallax>
           <div className="absolute inset-0 bg-black/25" aria-hidden />
           <p className="absolute bottom-10 left-1/2 w-full -translate-x-1/2 px-6 text-center text-xs font-medium tracking-[0.35em] text-white/80 uppercase">
-            Podium OSN Kota. Batch 2026
+            OSN City Podium. Batch 2026
           </p>
         </section>
 
         {/*,,, Closing CTA,,, */}
         <section className="relative overflow-hidden py-36 lg:py-48">
-          <BgWord word="Mulai" className="text-maroon" />
+          <BgWord word="Start" className="text-maroon" />
           <div className="relative container text-center">
             <h2 className="mx-auto max-w-3xl font-serif text-[clamp(2.75rem,7vw,6rem)] leading-[1.02] font-medium tracking-tight text-neutral-900">
-              <WordReveal text="Konsultasi" />{' '}
-              <WordReveal text="gratis." startDelay={250} className="text-maroon italic" />
+              <WordReveal text="Initial" />{' '}
+              <WordReveal text="assessment." startDelay={250} className="text-maroon italic" />
             </h2>
             <Reveal delay={400}>
               <p className="mx-auto mt-8 max-w-md text-lg leading-relaxed font-light text-neutral-500">
-                Isi form, pilih jadwal, dan tim kami akan menghubungi via email dalam 1×24 jam.
+                Start your journey with a comprehensive IQ test and aptitude assessment. Our team will contact you within 24 hours.
               </p>
             </Reveal>
             <Reveal delay={550}>
@@ -376,13 +365,13 @@ export default async function HomePage() {
                   href="/register"
                   className="bg-maroon hover:bg-maroon-dark rounded-full px-10 py-4 text-sm font-medium tracking-wide text-white transition-all duration-300 hover:scale-[1.03]"
                 >
-                  Konsultasi Gratis
+                  Register for Assessment
                 </Link>
                 <Link
                   href="/programs"
                   className="border-navy text-navy hover:bg-navy rounded-full border px-10 py-4 text-sm font-medium tracking-wide transition-colors hover:text-white"
                 >
-                  Lihat Program
+                  View Programmes
                 </Link>
               </div>
             </Reveal>
