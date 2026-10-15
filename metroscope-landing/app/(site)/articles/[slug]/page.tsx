@@ -144,8 +144,8 @@ function articleJsonLd(article: PublicArticle) {
 
 function articleTrail(article: PublicArticle) {
   return breadcrumbList([
-    { name: 'Beranda', path: '/' },
-    { name: 'Artikel', path: '/articles' },
+    { name: 'Home', path: '/' },
+    { name: 'Articles', path: '/articles' },
     ...(article.categorySlug && article.categoryName
       ? [{ name: article.categoryName, path: `/articles/kategori/${article.categorySlug}` }]
       : []),
@@ -181,10 +181,10 @@ export default async function ArticlePage({ params }: PageProps) {
       <JsonLd docs={[articleJsonLd(article), articleTrail(article)]} />
 
       <article className="container pt-10 pb-24 lg:pt-14">
-        <nav aria-label="Remah roti" className="text-sm text-neutral-400">
+        <nav aria-label="Breadcrumbs" className="text-sm text-neutral-400">
           <Link href="/articles" className="hover:text-navy inline-flex items-center gap-1.5">
             <ArrowLeft className="h-4 w-4" aria-hidden />
-            Semua artikel
+            All articles
           </Link>
           {article.categorySlug && article.categoryName && (
             <>
@@ -218,7 +218,7 @@ export default async function ArticlePage({ params }: PageProps) {
             )}
             <span className="inline-flex items-center gap-1.5">
               <Clock className="h-3.5 w-3.5" aria-hidden />
-              {article.readingMin} menit baca
+              {article.readingMin} min read
             </span>
           </div>
         </header>
@@ -260,10 +260,10 @@ export default async function ArticlePage({ params }: PageProps) {
 
             {article.authorName && (
               <aside className="mt-10 rounded-3xl bg-neutral-50 p-6">
-                <p className="text-xs tracking-[0.2em] text-neutral-400 uppercase">Penulis</p>
+                <p className="text-xs tracking-[0.2em] text-neutral-400 uppercase">Author</p>
                 <p className="mt-2 font-serif text-xl text-neutral-900">{article.authorName}</p>
                 <p className="mt-1 text-sm text-neutral-500">
-                  Tim editorial Metroscope, mendampingi siswa menuju kompetisi sejak hari pertama.
+                  Metroscope editorial team, guiding students towards competitions from day one.
                 </p>
               </aside>
             )}
@@ -275,8 +275,8 @@ export default async function ArticlePage({ params }: PageProps) {
           */}
           {toc.length >= 3 && (
             <aside className="hidden lg:block">
-              <nav aria-label="Daftar isi" className="sticky top-28">
-                <p className="text-xs tracking-[0.2em] text-neutral-400 uppercase">Daftar isi</p>
+              <nav aria-label="Table of contents" className="sticky top-28">
+                <p className="text-xs tracking-[0.2em] text-neutral-400 uppercase">Table of contents</p>
                 <ul className="mt-4 space-y-2.5 border-l border-neutral-200 pl-4">
                   {toc.map((h) => (
                     <li key={h.id}>
@@ -297,7 +297,7 @@ export default async function ArticlePage({ params }: PageProps) {
         {article.related.length > 0 && (
           <section className="mx-auto mt-24 max-w-5xl border-t border-neutral-200 pt-14">
             <h2 className="font-serif text-2xl font-medium tracking-tight text-neutral-900">
-              Bacaan lain
+              Related articles
             </h2>
             <div className="mt-8 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
               {article.related.map((r) => (
@@ -309,17 +309,16 @@ export default async function ArticlePage({ params }: PageProps) {
 
         <section className="from-navy to-maroon mx-auto mt-24 max-w-5xl rounded-3xl bg-gradient-to-br px-8 py-14 text-center text-white">
           <h2 className="font-serif text-3xl font-medium tracking-tight">
-            Ingin anak Anda punya cerita seperti ini?
+            Want your child to have a story like this?
           </h2>
           <p className="mx-auto mt-3 max-w-xl font-light text-white/80">
-            Mulai dari konsultasi gratis. Kami petakan minat, level, dan lomba yang paling masuk
-            akal untuk anak Anda.
+            Start with a free consultation. We map out interests, levels, and competitions that make the most sense for your child.
           </p>
           <Link
             href="/register"
             className="text-navy mt-8 inline-flex rounded-full bg-white px-7 py-3.5 text-sm font-semibold transition-opacity hover:opacity-90"
           >
-            Konsultasi Gratis
+            Free Consultation
           </Link>
         </section>
       </article>

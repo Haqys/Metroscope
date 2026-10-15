@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import type { ArticleCard as Article } from '@/lib/articles-api';
 
-const DATE = new Intl.DateTimeFormat('id-ID', {
+const DATE = new Intl.DateTimeFormat('en-US', {
   day: 'numeric',
   month: 'long',
   year: 'numeric',
@@ -75,7 +75,7 @@ export function ArticleCard({
             </p>
           )}
           <span className="text-navy mt-auto pt-4 text-sm font-medium underline-offset-4 group-hover:underline">
-            Baca cerita, {article.readingMin} menit
+            Read story, {article.readingMin} min
           </span>
         </div>
       </Link>

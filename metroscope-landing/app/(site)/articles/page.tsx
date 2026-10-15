@@ -9,12 +9,12 @@ interface PageProps {
 }
 
 const DESCRIPTION =
-  'Cerita prestasi siswa, tips lomba, dan panduan orang tua dari mentor Metroscope.';
+  'Student achievement stories, competition tips, and parent guides from Metroscope mentors.';
 const URL = absolute('/articles');
-const SOCIAL = social({ title: 'Artikel · Metroscope', description: DESCRIPTION, url: URL });
+const SOCIAL = social({ title: 'Articles · Metroscope', description: DESCRIPTION, url: URL });
 
 export const metadata: Metadata = {
-  title: 'Artikel',
+  title: 'Articles',
   description: DESCRIPTION,
   alternates: { canonical: URL },
   openGraph: { ...SOCIAL.openGraph, type: 'website' },
@@ -49,8 +49,8 @@ export default async function ArticlesPage({ searchParams }: PageProps) {
 
   return (
     <ArticleIndex
-      title="Artikel"
-      description="Cerita prestasi siswa, tips lomba, dan panduan untuk orang tua."
+      title="Articles"
+      description="Student achievement stories, competition tips, and guides for parents."
       results={{
         ...results,
         // The featured article is already shown large; don't repeat it below.

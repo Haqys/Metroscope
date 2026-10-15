@@ -25,7 +25,7 @@ const STORIES = [
     education: 'SMP Cahaya Bangsa',
     program: 'Science Castle Asia (SCA)',
     quote: '"Metroscope performed an extraordinary job by extending this opportunity to me. Hardships undoubtedly existed, but we successfully navigated them collaboratively. And to this day, I have never regretted my decision to walk hand in hand with Metroscope."',
-    imageUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop&q=60'
+    imageUrl: '/images/students/Aura.jpeg'
   },
   {
     slug: 'bulan-putri-ayu',
@@ -34,7 +34,7 @@ const STORIES = [
     education: '— (Age: 15 years old)',
     program: 'Metro City Junior High School Star Ambassador',
     quote: '"For me, passion is not something that appears instantly. It is discovered through courage, consistency, and the willingness to try new things, a path that Metroscope helped me unlock."',
-    imageUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&auto=format&fit=crop&q=60'
+    imageUrl: '/images/students/Bulan.jpeg'
   },
   {
     slug: 'oktavianus-alexa-pratama',
@@ -43,7 +43,7 @@ const STORIES = [
     education: 'SMPN 1 Metro',
     program: 'Science Castle Asia (SCA)',
     quote: '"From the day Metroscope reached out to me, I feel like I\'m as free as a bird. I get to walk along the path I desire, and gain leadership experience."',
-    imageUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=60'
+    imageUrl: '/images/students/Alex.jpeg'
   },
   {
     slug: 'vien-dhia-feyza-as',
@@ -52,7 +52,7 @@ const STORIES = [
     education: 'Cahaya Rancamaya Islamic Boarding School',
     program: 'Science Castle Asia & I²ASPO',
     quote: '"Every challenge I embrace alongside Metroscope and my academic pursuits has shaped me into a resilient individual ready to make a lasting impact."',
-    imageUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&auto=format&fit=crop&q=60'
+    imageUrl: '/images/students/Vien.jpeg'
   }
 ];
 

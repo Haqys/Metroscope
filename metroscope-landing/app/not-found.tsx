@@ -6,11 +6,11 @@ export default function NotFound() {
   return (
     <main className="mx-auto flex min-h-[60vh] max-w-lg items-center px-6">
       <EmptyState
-        title="Halaman tidak ditemukan"
-        description="Tautan mungkin sudah berubah atau dihapus."
+        title="Page not found"
+        description="The link may have changed or been removed."
         action={
           <Button asChild>
-            <Link href="/">Kembali ke beranda</Link>
+            <Link href="/">Back to home</Link>
           </Button>
         }
       />

@@ -41,7 +41,7 @@ export default async function CompetitionsPage() {
       <JsonLd
         docs={[
           breadcrumbList([
-            { name: 'Beranda', path: '/' },
+            { name: 'Home', path: '/' },
             { name: 'Info Lomba', path: '/competitions' },
           ]),
         ]}

@@ -31,8 +31,8 @@ export function EmptyState({
 
 /** Error state. Say what failed and what the user can do, never leak internals. */
 export function ErrorState({
-  title = 'Terjadi kesalahan',
-  description = 'Silakan coba lagi. Jika masalah berlanjut, hubungi tim.',
+  title = 'An error occurred',
+  description = 'Please try again. If the problem persists, contact the team.',
   action,
 }: {
   title?: string;

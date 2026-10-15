@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!tag) return {};
 
   const url = absolute(`/articles/tag/${slug}`);
-  const description = `Artikel Metroscope dengan topik ${tag.name}.`;
+  const description = `Metroscope articles with the topic ${tag.name}.`;
   const s = social({ title: `#${tag.name} · Metroscope`, description, url });
 
   return {
@@ -55,7 +55,7 @@ export default async function TagPage({ params, searchParams }: PageProps) {
   return (
     <ArticleIndex
       title={`#${tag.name}`}
-      description={`${tag.articleCount} artikel dengan topik ini.`}
+      description={`${tag.articleCount} articles with this topic.`}
       results={results}
       taxonomy={taxonomy}
       basePath={base}

@@ -64,7 +64,7 @@ export function ProgramCard({
         </h3>
         <p className="mt-3 max-w-lg leading-relaxed font-light text-neutral-500">{description}</p>
         <span className="mt-5 inline-block text-sm font-medium text-neutral-900 underline-offset-4 group-hover:underline">
-          Lihat detail program →
+          View portfolio details →
         </span>
       </div>
     </Link>

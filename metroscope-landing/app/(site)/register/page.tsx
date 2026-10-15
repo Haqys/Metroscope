@@ -6,10 +6,10 @@ import { listPublicPrograms } from '@/lib/programs-api';
 import { absolute, social } from '@/lib/seo';
 
 const DESCRIPTION =
-  'Form pendaftaran & konsultasi gratis Metroscope, 4 langkah mudah, konfirmasi via email dalam 1×24 jam.';
+  'Metroscope free consultation & registration form, 4 easy steps, email confirmation within 24 hours.';
 const URL = absolute('/register');
 const SOCIAL = social({
-  title: 'Konsultasi Gratis · Metroscope',
+  title: 'Free Consultation · Metroscope',
   description: DESCRIPTION,
   url: URL,
 });
@@ -22,7 +22,7 @@ const SOCIAL = social({
  * duplicate of `/programs/[slug]`, which embeds the same form.
  */
 export const metadata: Metadata = {
-  title: 'Konsultasi Gratis',
+  title: 'Free Consultation',
   description: DESCRIPTION,
   alternates: { canonical: URL },
   openGraph: { ...SOCIAL.openGraph, type: 'website' },
@@ -47,10 +47,10 @@ export default async function RegisterPage() {
   return (
     <div className="container max-w-4xl pt-14 pb-28 lg:pt-16">
       <h1 className="font-serif text-3xl font-medium tracking-tight text-neutral-900 sm:text-4xl">
-        Form Pendaftaran / Konsultasi
+        Registration / Consultation Form
       </h1>
       <p className="mt-2 text-sm text-neutral-500">
-        Cukup 4 langkah mudah, tim kami bantu konfirmasi lewat email.
+        Just 4 easy steps, our team will confirm via email.
       </p>
 
       <div className="mt-12">

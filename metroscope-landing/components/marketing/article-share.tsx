@@ -32,7 +32,7 @@ export function ShareRow({ title, url }: { title: string; url: string }) {
 
   return (
     <div className="mt-10 flex flex-wrap items-center gap-3 border-t border-neutral-200 pt-8">
-      <span className="text-xs tracking-[0.2em] text-neutral-400 uppercase">Bagikan</span>
+      <span className="text-xs tracking-[0.2em] text-neutral-400 uppercase">Share</span>
       <a
         href={wa}
         target="_blank"
@@ -52,7 +52,7 @@ export function ShareRow({ title, url }: { title: string; url: string }) {
         ) : (
           <Link2 className="h-4 w-4" aria-hidden />
         )}
-        {copied ? 'Tersalin' : 'Salin tautan'}
+        {copied ? 'Copied' : 'Copy link'}
       </button>
     </div>
   );

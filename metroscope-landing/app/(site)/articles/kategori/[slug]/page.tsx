@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const url = absolute(`/articles/kategori/${slug}`);
   const description =
-    category.description ?? `Kumpulan artikel Metroscope dalam kategori ${category.name}.`;
+    category.description ?? `A collection of Metroscope articles in the category ${category.name}.`;
   const s = social({ title: `${category.name} · Metroscope`, description, url });
 
   return {

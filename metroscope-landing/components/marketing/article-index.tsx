@@ -25,14 +25,14 @@ function SearchForm({ action, q }: { action: string; q?: string }) {
   return (
     <form action={action} method="get" className="relative w-full max-w-sm">
       <label htmlFor="q" className="sr-only">
-        Cari artikel
+        Search articles
       </label>
       <input
         id="q"
         name="q"
         type="search"
         defaultValue={q ?? ''}
-        placeholder="Cari artikel…"
+        placeholder="Search articles…"
         className="focus:border-navy focus:ring-navy/20 w-full rounded-full border border-neutral-300 py-2.5 pr-4 pl-5 text-sm"
       />
     </form>
@@ -41,7 +41,7 @@ function SearchForm({ action, q }: { action: string; q?: string }) {
 
 function TaxonomyNav({ taxonomy, active }: { taxonomy: Taxonomy; active?: string }) {
   return (
-    <nav aria-label="Kategori artikel" className="mt-8 flex flex-wrap gap-2">
+    <nav aria-label="Article categories" className="mt-8 flex flex-wrap gap-2">
       <Link
         href="/articles"
         aria-current={active === undefined ? 'page' : undefined}
@@ -51,7 +51,7 @@ function TaxonomyNav({ taxonomy, active }: { taxonomy: Taxonomy; active?: string
             : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
         }`}
       >
-        Semua
+        All
       </Link>
       {taxonomy.categories.map((c) => (
         <Link
@@ -90,14 +90,14 @@ function Pager({ base, page, pageCount }: { base: string; page: number; pageCoun
   };
 
   return (
-    <nav aria-label="Halaman" className="mt-16 flex items-center justify-center gap-2">
+    <nav aria-label="Pages" className="mt-16 flex items-center justify-center gap-2">
       {page > 1 && (
         <Link
           href={href(page - 1)}
           rel="prev"
           className="rounded-full border border-neutral-300 px-5 py-2 text-sm font-medium text-neutral-700 hover:border-neutral-400"
         >
-          Sebelumnya
+          Previous
         </Link>
       )}
       {Array.from({ length: pageCount }, (_, i) => i + 1).map((n) => (
@@ -118,7 +118,7 @@ function Pager({ base, page, pageCount }: { base: string; page: number; pageCoun
           rel="next"
           className="rounded-full border border-neutral-300 px-5 py-2 text-sm font-medium text-neutral-700 hover:border-neutral-400"
         >
-          Berikutnya
+          Next
         </Link>
       )}
     </nav>
@@ -165,7 +165,7 @@ export function ArticleIndex({
 
       {taxonomy.tags.length > 0 && (
         <div className="mt-4 flex flex-wrap items-center gap-2">
-          <span className="text-xs tracking-wider text-neutral-400 uppercase">Topik</span>
+          <span className="text-xs tracking-wider text-neutral-400 uppercase">Topic</span>
           {taxonomy.tags.slice(0, 12).map((t) => (
             <Link
               key={t.slug}
@@ -180,9 +180,9 @@ export function ArticleIndex({
 
       {q && (
         <p className="mt-8 text-sm text-neutral-500">
-          {results.total} hasil untuk <strong className="text-neutral-800">“{q}”</strong> ·{' '}
+          {results.total} results for <strong className="text-neutral-800">“{q}”</strong> ·{' '}
           <Link href={searchBase} className="text-navy underline underline-offset-2">
-            hapus pencarian
+            clear search
           </Link>
         </p>
       )}

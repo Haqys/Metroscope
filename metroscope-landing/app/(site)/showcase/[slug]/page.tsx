@@ -14,7 +14,7 @@ const STORIES = [
     education: 'SMP Cahaya Bangsa',
     program: 'Science Castle Asia (SCA)',
     quote: '"I once thought my dreams would remain merely a dream and gradually fade away."',
-    imageUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop&q=60',
+    imageUrl: '/images/students/Aura.jpeg',
     content: `Long before I became acquainted with Metroscope, I harbored a singular, profound ambition: to become a scientist. I had a deep passion for exploring novel concepts, conducting various experiments, and driving innovation. However, due to intervening circumstances, I watched that enthusiasm slowly dissipate. I even suspected that my aspirations were nothing more than childhood idealisms destined never to materialize.
 
 I never anticipated that the small spark within me would ever be reignited. One day, the Metroscope team reached out and invited me to spearhead a group for Science Castle Asia. For someone who had nearly relinquished her dreams, this served as a monumental stepping stone. A wave of doubt briefly arose: was I being reckless in accepting this offer?
@@ -30,7 +30,7 @@ Throughout my journey in Science Castle Asia, I cultivated an array of new compe
     education: '— (Age: 15 years old)',
     program: 'Metro City Junior High School Star Ambassador',
     quote: '"Every experience I take becomes part of my journey to grow into a confident, impactful, and inspiring young individual."',
-    imageUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&auto=format&fit=crop&q=60',
+    imageUrl: '/images/students/Bulan.jpeg',
     content: `My name is Bulan Putri Ayu, and I am 15 years old. I am a student who found my true calling in education, public speaking, and the creative industry. From an early age, I discovered my confidence in speaking and performing in front of audiences. What initially began as a modest interest gradually evolved into a meaningful journey of discovering my lifelong passions.
 
 Throughout my personal growth, I have actively explored diverse disciplines, including being a Master of Ceremony (MC), modeling, music, and acting. Musically, I play several instruments, such as the violin and guitar, continually refining my artistic capabilities through various performances and competitions.
@@ -48,7 +48,7 @@ Parallel to these pursuits, I have actively engaged in modeling and runway perfo
     education: 'SMPN 1 Metro',
     program: 'Science Castle Asia (SCA)',
     quote: '"I know for a fact that the past me is looking at my present self with joy."',
-    imageUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=60',
+    imageUrl: '/images/students/Alex.jpeg',
     content: `My name is Oktavianus Alexa Pratama, a passionate student from Lampung currently attending SMPN 1 Kota Metro. "Initially, I was just a student who viewed school merely as an obligation and routine, without really knowing where to direct my dreams." However, beneath that surface, I harbored a profound interest in various environmental issues occurring around me. I had witnessed firsthand how environmental degradation impacts myself, others, and all living beings.
 
 My curiosity truly began to take shape when I was entrusted with the role of Environmental Management Ambassador at my school. From that point onward, I believed my role as a student should signify far more than simply being present in a classroom; I wanted to transform pressing environmental challenges into tangible innovations. Nevertheless, I was acutely aware of my limitations as a student at the time.
@@ -66,7 +66,7 @@ Furthermore, my attention was drawn to the abundance of agricultural waste, part
     education: 'Cahaya Rancamaya Islamic Boarding School',
     program: 'Science Castle Asia & I²ASPO',
     quote: '"Overall, I see myself as a lifelong learner, someone who embraces challenges, values growth, and believes that passion, when nurtured with consistency and courage, can lead to meaningful achievements."',
-    imageUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&auto=format&fit=crop&q=60',
+    imageUrl: '/images/students/Vien.jpeg',
     content: `My name is Vien Dhia Feyza AS, and I am a Grade 9 student at Cahaya Bangsa Junior High School, born on May 2, 2011. In my earlier years, I tended to be quite shy and somewhat pessimistic, particularly regarding the pursuit of my dreams. I used to confine my aspirations within safe and easily reachable limits simply because I was afraid of failing or aiming too high. However, as I matured, I came to realize that personal growth only occurs when we dare to step beyond our comfort zones and conquer our fears. Today, I genuinely relish learning novel concepts, exploring unfamiliar disciplines, and engaging in diverse activities that continually challenge me.
 
 Throughout this transformative journey, I learned that dreaming serves as the fundamental catalyst for progress. Many achievements admired today were once deemed unrealistic or impossible. Yet, I discovered that by believing in our capabilities and consistently nurturing our passions, growth becomes a natural outcome. Gradually, I learned how to ignite my inner drive and transform it into a sustaining motivation for continuous self-improvement.

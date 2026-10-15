@@ -139,6 +139,7 @@
   }
   body {
     @apply bg-background text-foreground antialiased;
+    font-family: var(--font-jakarta), 'Plus Jakarta Sans', system-ui, sans-serif;
   }
   ::selection {
     background: #7d0e03;

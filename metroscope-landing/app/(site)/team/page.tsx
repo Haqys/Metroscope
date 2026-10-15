@@ -23,6 +23,7 @@ const CORE_TEAM = [
   {
     name: "Balqis Pita Kusuma Wahyudi",
     role: "Chief Executive Officer",
+    image: "/images/team/Balqis.jpeg",
     bio: "An independent and visionary strategist distinguished by rigorous analytical capabilities, a strong dedication to empirical research, and a profound commitment to educational advancement.",
     linkedin: "#",
     github: "#"
@@ -30,6 +31,7 @@ const CORE_TEAM = [
   {
     name: "Aguini Providensia Tjandra",
     role: "Chief Operating Officer",
+    image: "/images/team/Aguini.jpeg",
     bio: "An adept leader specializing in operational optimization, systematic management frameworks, and the seamless execution of institutional workflows.",
     linkedin: "https://www.linkedin.com/in/aguini-providensia-tjandra-109826342",
     github: "#"
@@ -37,6 +39,7 @@ const CORE_TEAM = [
   {
     name: "I Made Aravinda Kumara",
     role: "Chief Marketing Officer",
+    image: "/images/team/Aravinda.jpeg",
     bio: "A digital business strategist combining creative design methodologies, strategic brand communication, and visual innovation to drive audience engagement.",
     linkedin: "https://www.linkedin.com/in/i-made-aravinda-kumara?utm_source=share_via&utm_content=profile&utm_medium=member_ios",
     github: "#"
@@ -44,6 +47,7 @@ const CORE_TEAM = [
   {
     name: "Marshelinda Rukmana",
     role: "Chief Financial Officer",
+    image: "/images/team/Marshel.jpeg",
     bio: "A meticulous and disciplined professional demonstrating advanced proficiency in financial administration, rigorous documentation management, and fiscal governance.",
     linkedin: "https://www.linkedin.com/in/marshelinda-rukmana?utm_source=share_via&utm_content=profile&utm_medium=member_android",
     github: "#"
@@ -51,6 +55,7 @@ const CORE_TEAM = [
   {
     name: "I Made Saskara Bawa",
     role: "Chief Technology Officer",
+    image: "/images/team/Saskara.jpeg",
     bio: "An informatics scholar integrating cutting-edge artificial intelligence, robust technological infrastructure, and systematic innovation to engineer advanced digital solutions.",
     linkedin: "https://www.linkedin.com/in/i-made-saskara-bawa-31a497378/",
     github: "#"

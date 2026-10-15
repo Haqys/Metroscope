@@ -12,7 +12,7 @@ export interface TeamMember {
 
 export function TeamCard({ member }: { member: TeamMember }) {
   return (
-    <article className="group relative flex h-full flex-col items-center overflow-hidden rounded-3xl bg-white p-6 shadow-sm ring-1 ring-neutral-200 transition-all hover:-translate-y-1 hover:shadow-md sm:p-8">
+    <article className="group relative flex h-full flex-col items-center overflow-hidden rounded-3xl bg-white p-6 shadow-sm ring-1 ring-neutral-200 transition-all hover:-translate-y-1 hover:bg-neutral-50 hover:shadow-md sm:p-8">
       <div className="relative mb-6 h-32 w-32 shrink-0 overflow-hidden rounded-full bg-neutral-100 ring-4 ring-neutral-50">
         {member.image ? (
           <Image
