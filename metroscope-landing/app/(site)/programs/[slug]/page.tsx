@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect, redirect } from 'next/navigation';
 
-import { RegistrationForm } from '@/components/forms/registration-form';
 import { JsonLd } from '@/components/marketing/json-ld';
 import { ProgramDetail } from '@/components/marketing/program-detail';
 import { Reveal } from '@/components/marketing/scroll-fx';
@@ -75,10 +74,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 /**
  * `Course` JSON-LD, doc 13 §7 lists it among the types this site must emit.
- *
- * `offers` carries the real price from the CMS, so a published price change
- * updates the structured data too. An `Offer` that disagrees with the page is
- * worse than none: it is the number a comparison engine quotes.
  */
 function courseJsonLd(program: PublicProgramDetail) {
   const { url, title, description, image } = seoFor(program);
@@ -93,19 +88,11 @@ function courseJsonLd(program: PublicProgramDetail) {
       image: image ? [image] : undefined,
       inLanguage: program.locale,
       provider: PUBLISHER,
-      offers: {
-        '@type': 'Offer',
-        price: program.priceMonthly,
-        priceCurrency: 'IDR',
-        category: 'Monthly',
-        availability: 'https://schema.org/InStock',
-        url,
-      },
     }
   );
 }
 
-/** Programme detail + inline registration form (wireframe: Ringkasan 2/8). */
+/** Programme article & portfolio case-study detail. */
 export default async function ProgramPage({ params }: PageProps) {
   const { slug } = await params;
   const program = await resolveOrLeave(slug);
@@ -116,34 +103,20 @@ export default async function ProgramPage({ params }: PageProps) {
         docs={[
           courseJsonLd(program),
           breadcrumbList([
-            { name: 'Beranda', path: '/' },
-            { name: 'Program', path: '/programs' },
+            { name: 'Home', path: '/' },
+            { name: 'Programmes', path: '/programs' },
             { name: program.name, path: `/programs/${program.slug}` },
           ]),
         ]}
       />
 
-      <div className="container grid gap-14 pt-14 pb-28 lg:grid-cols-12 lg:pt-20">
-        <div className="lg:col-span-7">
+      <main className="bg-white">
+        <div className="container max-w-4xl pt-10 pb-28 lg:pt-16 lg:pb-36">
           <Reveal>
             <ProgramDetail program={program} />
           </Reveal>
         </div>
-
-        <div className="lg:col-span-5">
-          <div className="lg:sticky lg:top-28">
-            <Reveal delay={150}>
-              {/*
-                The form picks the programme by SLUG, and the picker it renders
-                reads the same endpoint this page did, so it can only ever
-                offer programmes that exist. Under the fixture the two disagreed
-                by construction: the marketing slugs had no rows behind them.
-              */}
-              <RegistrationForm defaultProgramSlug={program.slug} />
-            </Reveal>
-          </div>
-        </div>
-      </div>
+      </main>
     </>
   );
 }

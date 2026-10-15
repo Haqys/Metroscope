@@ -6,7 +6,7 @@ import type {
   Taxonomy,
 } from '@/lib/articles-api';
 import type { PublicCompetition, PublicCompetitionDetail } from '@/lib/competitions-api';
-import type { PublicProgram, PublicProgramDetail } from '@/lib/programs-api';
+import type { PublicProgram, PublicProgramDetail, ProgramStory } from '@/lib/programs-api';
 import type { SitemapEntry } from '@/lib/seo-api';
 import type { FaqEntry, Mentor, MentorDetail, Testimonial } from '@/lib/surfaces-api';
 
@@ -63,12 +63,14 @@ export const MOCK_PROGRAMS: PublicProgram[] = [
     category: 'ACADEMIC',
     levels: ['SD', 'SMP', 'SMA'],
     summary:
-      'Pendampingan intensif OSN dan olimpiade sains lain, dari penguatan konsep sampai simulasi babak final.',
+      'Kerangka pendampingan intensif olimpiade sains dan matematika yang memprioritaskan pemahaman konsep mendasar, dekonstruksi soal non-rutin, dan pembentukan ketahanan mental bertanding.',
     description:
-      'Materi disusun per topik mengikuti silabus olimpiade, dengan latihan soal bertingkat dan pembahasan bersama mentor. Setiap siswa punya peta progress per topik sehingga orang tua tahu persis bagian mana yang sudah kuat dan mana yang masih perlu diulang.',
+      'Materi disusun per topik mengikuti silabus olimpiade, dengan latihan soal bertingkat dan pembahasan bersama mentor. Setiap siswa memiliki peta progress per topik sehingga orang tua dan siswa tahu persis bagian mana yang sudah kuat dan mana yang masih perlu diulang.',
     durationMonths: 6,
     cadence: '2× seminggu · 90 menit',
     priceMonthly: 850_000,
+    coverUrl: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=1200&auto=format&fit=crop&q=80',
+    coverAlt: 'Siswa Metroscope dalam sesi pendampingan sains dan matematika',
   },
   {
     ...PROGRAM_BASE,
@@ -78,12 +80,14 @@ export const MOCK_PROGRAMS: PublicProgram[] = [
     category: 'NON_ACADEMIC',
     levels: ['SMP', 'SMA'],
     summary:
-      'Latihan argumentasi, riset isu, dan penampilan di depan juri untuk lomba debat bahasa Indonesia dan Inggris.',
+      'Inkubator retorika, riset isu global, dan konstruksi argumentasi logis untuk melahirkan pemikir muda yang berani bersuara di panggung kompetisi nasional maupun internasional.',
     description:
       'Kelas berjalan dalam format mosi mingguan: siswa menyiapkan kasus, beradu argumen, lalu mendapat umpan balik terstruktur dari mentor. Fokusnya bukan menang-kalah, tetapi kemampuan menyusun alasan dan menyampaikannya dengan tenang.',
     durationMonths: 4,
     cadence: '1× seminggu · 120 menit',
     priceMonthly: 700_000,
+    coverUrl: 'https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=1200&auto=format&fit=crop&q=80',
+    coverAlt: 'Siswa Metroscope dalam sesi latihan debat dan public speaking',
   },
   {
     ...PROGRAM_BASE,
@@ -93,14 +97,105 @@ export const MOCK_PROGRAMS: PublicProgram[] = [
     category: 'CREATIVE',
     levels: ['SMP', 'SMA'],
     summary:
-      'Bimbingan dari pencarian ide, metode, penulisan, sampai presentasi untuk lomba KTI dan penelitian siswa.',
+      'Pendampingan komprehensif riset siswa mulai dari perumusan hipotesis orisinal, metodologi ilmiah terapan, hingga penulisan naskah standar jurnal dan persiapan sidang juri.',
     description:
-      'Siswa mengerjakan satu karya dari nol sepanjang program, dengan target yang diperiksa tiap pertemuan. Mentor membantu mempersempit topik, memilih metode yang realistis untuk jenjang sekolah, dan menyiapkan presentasi untuk dewan juri.',
+      'Siswa mengerjakan satu karya penelitian dari nol sepanjang program, dengan target yang dievaluasi tiap pertemuan. Mentor membantu mempersempit topik, memilih metode yang realistis untuk jenjang sekolah, dan menyiapkan presentasi untuk dewan juri.',
     durationMonths: 5,
     cadence: '1× seminggu · 90 menit',
     priceMonthly: 750_000,
+    coverUrl: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1200&auto=format&fit=crop&q=80',
+    coverAlt: 'Pendampingan riset karya tulis ilmiah Metroscope',
   },
 ];
+
+const PROGRAM_ARTICLES_MAP: Record<string, { body: string; stories: ProgramStory[] }> = {
+  'olimpiade-sains-matematika': {
+    body: `Sebagian besar siswa yang menghadapi Olimpiade Sains Nasional (OSN) atau kompetisi sains internasional memulai perjalanan mereka dari tumpukan bank soal tanpa fondasi konsep yang memadai. Ketika pembuat soal mengubah sedikit saja pola atau sudut pandang pertanyaan, siswa kerap kehilangan arah karena hanya mengandalkan hafalan pola jawaban.
+
+Di Metroscope, kami memandang persiapan olimpiade bukan sekadar "trik rumus cepat". Program ini dirancang sebagai inkubator nalar ilmiah: membiasakan siswa memahami mengapa suatu teorema bekerja, bagaimana sebuah prinsip fisika atau kimia diturunkan dari kondisi batas, serta bagaimana menyusun pembuktian matematika yang rigor, rapi, dan elegan.
+
+Kurikulum kami disusun secara terstruktur ke dalam tiga tahapan pembinaan berkesinambungan:
+
+Pertama, Penguatan Fondasi & Pemetaan Diagnostik. Siswa diajak membedah kembali silabus fundamental dari akarnya. Kami mengidentifikasi celah pemahaman (misconceptions) yang kerap terlewat di sekolah umum dan membangun kembali pemahaman intuitifnya secara mendalam.
+
+Kedua, Analisis Soal Non-Rutin & Multi-Solusi. Siswa ditantang memecahkan persoalan sulit menggunakan 2 hingga 3 pendekatan alternatif. Latihan ini menumbuhkan fleksibilitas kognitif dan intuisi analitis yang menjadi kunci utama saat menghadapi soal-soal kejutan di babak provinsi maupun nasional.
+
+Ketiga, Simulasi Babak Kompetisi & Manajemen Waktu. Menjelang kompetisi riil, siswa menjalani simulasi kondisi sebenarnya dengan batasan waktu ketat. Mentor membedah strategi seleksi soal, alokasi waktu per butir pertanyaan, serta menjaga ketenangan psikologis saat menghadapi kebuntuan.
+
+Setiap siswa memiliki profil kekuatan yang unik. Melalui sistem evaluasi berkala Metroscope, perkembangan setiap topik dicatat secara visual dalam peta kompetensi personal. Orang tua dan siswa dapat melihat dengan transparan modul mana yang telah dikuasai dan area mana yang membutuhkan perhatian ekstra.
+
+Tujuan akhir dari pendampingan ini melampaui raihan medali. Kami membangun ketahanan mental (grit), kejujuran akademik, dan rasa ingin tahu yang tak kunjung padam—bekal seumur hidup yang akan mengantar siswa unggul di jenjang pendidikan tinggi global.`,
+    stories: [
+      {
+        slug: 'menyiapkan-osn-dari-nol',
+        title: 'Menyiapkan OSN dari Nol: Urutan yang Masuk Akal',
+        excerpt: 'Banyak siswa mulai dari bank soal lalu berhenti di tengah jalan. Urutan yang lebih tahan lama dimulai dari konsep.',
+        publishedAt: at(-12),
+        readingMin: 6,
+        coverUrl: '/images/students/Alex.jpeg',
+        coverAlt: 'Siswa Metroscope',
+      },
+    ],
+  },
+  'debat-dan-public-speaking': {
+    body: `Debat kompetitif sering disalahartikan sebagai ajang berbicara cepat atau saling mendominasi secara agresif. Di Metroscope, kami mendefinisikan debat sebagai seni penalaran tingkat tinggi: kemampuan mendengar secara empatik, membedah struktur argumen lawan dalam hitungan detik, serta menyajikan sanggahan logis berbasis bukti yang runtut dan persuasif.
+
+Program ini dirancang untuk melahirkan pemikir muda yang berani bersuara dengan dasar data yang kuat, baik dalam format debat bahasa Indonesia maupun format internasional seperti World Schools Debating Championship (WSDC) dan Asian Parliamentary.
+
+Pembelajaran dibangun dengan pendekatan aktif melalui siklus latihan mosi mingguan:
+
+Riset Isu Kontemporer & Geopolitik: Siswa membedah isu-isu krusial dunia nyata, mulai dari transisi energi terbarukan, etika kecerdasan buatan, ekonomi sirkular, hingga kebijakan pendidikan global untuk memperkaya basis wawasan mereka.
+
+Konstruksi Argumen Terstandar AREL: Siswa dibiasakan menyusun setiap poin gagasan melalui kerangka Assertion (Klaim), Reasoning (Penalaran Logis), Evidence (Bukti Empiris), dan Linkback (Relevansi terhadap Mosi) agar argumen berdiri kokoh di bawah tekanan interupsi.
+
+Simulasi Kamar Debat & Adjudikasi Komprehensif: Setiap sesi latihan diakhiri dengan evaluasi mendalam dari mentor berpengalaman, memberikan umpan balik langsung mengenai poise panggung, modulasi vokal, dan kedalaman argumen.
+
+Banyak siswa berbakat menahan diri karena rasa cemas berbicara di hadapan publik (glossophobia). Lingkungan mentoring di Metroscope dirancang aman, inklusif, dan saling mendukung, mengubah ketakutan berbicara menjadi rasa percaya diri yang otentik.
+
+Kemampuan mengartikulasikan ide secara tenang di bawah tekanan adalah keterampilan kepemimpinan seumur hidup. Alumni dari program ini telah membuktikan kepiawaian mereka tidak hanya di podium turnamen debat, tetapi juga terpilih sebagai duta muda daerah dan pemimpin organisasi siswa.`,
+    stories: [
+      {
+        slug: 'latihan-debat-di-rumah',
+        title: 'Tiga Latihan Debat yang Bisa Dikerjakan di Rumah',
+        excerpt: 'Latihan-latihan pendek untuk membiasakan anak menyusun alasan dan berbicara runtut tanpa cemas.',
+        publishedAt: at(-45),
+        readingMin: 4,
+        coverUrl: '/images/students/Bulan.jpeg',
+        coverAlt: 'Bulan Putri Ayu',
+      },
+    ],
+  },
+  'karya-tulis-ilmiah': {
+    body: `Riset dan penelitian bukanlah domain eksklusif kalangan akademisi perguruan tinggi. Siswa sekolah menengah memiliki perspektif segar dan kepekaan tinggi terhadap persoalan di sekitar mereka—dari limbah organik lingkungan sekolah hingga inovasi teknologi ramah lingkungan.
+
+Program Karya Tulis Ilmiah (KTI) Metroscope hadir untuk menyalurkan kepekaan tersebut menjadi penelitian ilmiah yang terstruktur, metodologis, dan memiliki kontribusi orisinal yang diakui di ajang kompetisi nasional maupun pameran inovasi internasional.
+
+Siswa dibimbing melalui seluruh tahapan siklus penelitian secara komprehensif:
+
+Eksplorasi Ide & Uji Kebaruan (Novelty Check): Membantu siswa menyaring ide penelitian agar tidak terlalu luas, realistis diselesaikan dengan sarana yang tersedia, namun memiliki daya tawar orisinalitas tinggi yang memikat dewan juri.
+
+Metodologi Saintifik & Pengambilan Data Beretika: Menuntun perancangan desain eksperimen laboratorium, survei lapangan, atau pengujian prototipe teknik dengan memegang teguh etika riset ilmiah.
+
+Penulisan Naskah Standar Jurnal Ilmiah: Melatih siswa menyusun naskah akademik yang formal dan rapi: mulai dari perumusan latar belakang masalah, tinjauan pustaka yang relevan, metodologi terperinci, hingga visualisasi grafik data yang komunikatif.
+
+Coaching Sidang & Presentasi Poster: Mempersiapkan siswa menghadapi sesi tanya jawab dewan juri, melatih cara menjawab kritik ilmiah dengan argumen berbasis data tanpa kehilangan ketenangan.
+
+Setiap naskah ditelaah secara bertahap oleh mentor yang berpengalaman dalam publikasi ilmiah. Melalui pertemuan mingguan, siswa dipandu mengatasi kebuntuan olah data dan terus mempertajam kualitas analisis riset mereka.
+
+Karya-karya penelitian yang dibina dalam program ini telah berhasil menembus berbagai ajang bergengsi seperti Science Castle Asia, International Science and Invention Fair (ISIF), dan NYOI, membuktikan bahwa riset siswa Indonesia mampu bersaing tangguh di panggung dunia.`,
+    stories: [
+      {
+        slug: 'menulis-kti-pertama',
+        title: 'Menulis Karya Tulis Ilmiah Pertama',
+        excerpt: 'Kesalahan paling sering dalam karya tulis pertama adalah topik yang terlalu luas. Mempersempit sejak awal menghemat berminggu-minggu.',
+        publishedAt: at(-60),
+        readingMin: 7,
+        coverUrl: '/images/students/Aura.jpeg',
+        coverAlt: 'Aura Kirana',
+      },
+    ],
+  },
+};
 
 const PROGRAM_DETAIL_EXTRA = {
   locale: 'id',
@@ -113,11 +208,15 @@ const PROGRAM_DETAIL_EXTRA = {
   stories: [],
 } satisfies Omit<PublicProgramDetail, keyof PublicProgram | 'body'>;
 
-export const MOCK_PROGRAM_DETAILS: PublicProgramDetail[] = MOCK_PROGRAMS.map((p) => ({
-  ...p,
-  ...PROGRAM_DETAIL_EXTRA,
-  body: p.description,
-}));
+export const MOCK_PROGRAM_DETAILS: PublicProgramDetail[] = MOCK_PROGRAMS.map((p) => {
+  const custom = PROGRAM_ARTICLES_MAP[p.slug];
+  return {
+    ...p,
+    ...PROGRAM_DETAIL_EXTRA,
+    body: custom?.body ?? p.description,
+    stories: custom?.stories ?? [],
+  };
+});
 
 // ── mentors ──────────────────────────────────────────────────────────────
 
