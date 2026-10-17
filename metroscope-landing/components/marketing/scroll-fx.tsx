@@ -8,13 +8,17 @@
 
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 
-function useInView<T extends HTMLElement>(threshold = 0.15) {
+function useInView<T extends HTMLElement>(threshold = 0) {
   const ref = useRef<T>(null);
   const [inView, setInView] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    if (typeof IntersectionObserver === 'undefined') {
+      setInView(true);
+      return;
+    }
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -22,7 +26,7 @@ function useInView<T extends HTMLElement>(threshold = 0.15) {
           io.disconnect();
         }
       },
-      { threshold },
+      { threshold: 0, rootMargin: '0px 0px -32px 0px' },
     );
     io.observe(el);
     return () => io.disconnect();

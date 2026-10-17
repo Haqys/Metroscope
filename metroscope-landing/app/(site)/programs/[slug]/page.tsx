@@ -3,7 +3,6 @@ import { notFound, permanentRedirect, redirect } from 'next/navigation';
 
 import { JsonLd } from '@/components/marketing/json-ld';
 import { ProgramDetail } from '@/components/marketing/program-detail';
-import { Reveal } from '@/components/marketing/scroll-fx';
 import { resolveRedirect } from '@/lib/articles-api';
 import { getPublicProgram, type PublicProgramDetail } from '@/lib/programs-api';
 import { PUBLISHER, SITE, breadcrumbList, clamp, social } from '@/lib/seo';
@@ -112,9 +111,7 @@ export default async function ProgramPage({ params }: PageProps) {
 
       <main className="bg-white">
         <div className="container max-w-4xl pt-10 pb-28 lg:pt-16 lg:pb-36">
-          <Reveal>
-            <ProgramDetail program={program} />
-          </Reveal>
+          <ProgramDetail program={program} />
         </div>
       </main>
     </>
