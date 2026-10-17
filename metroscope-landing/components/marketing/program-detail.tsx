@@ -101,8 +101,6 @@ const SECTION_HEADINGS = new Set([
  * Editorial Article / Event Detail view of a Metroscope participation & delegation.
  */
 export function ProgramDetail({ program }: { program: PublicProgramDetail }) {
-  const competencies =
-    COMPETENCIES_BY_CATEGORY[program.category] ?? COMPETENCIES_BY_CATEGORY.CREATIVE;
   // Split body paragraphs
   const paragraphs = (program.body ?? '')
     .split(/\n\s*\n/)
