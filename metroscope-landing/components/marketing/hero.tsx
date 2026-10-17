@@ -29,12 +29,6 @@ export function Hero() {
         />
 
         <div className="relative container pt-40 pb-24 lg:pb-32">
-          <Reveal>
-            <p className="mb-8 text-xs font-medium tracking-[0.35em] text-white/80 uppercase">
-              Elementary · Junior · Senior High Mentoring
-            </p>
-          </Reveal>
-
           <h1 className="max-w-5xl font-sans text-[clamp(3.5rem,10vw,8.75rem)] leading-[0.95] font-medium tracking-tight text-white">
             <WordReveal text="Where Champions" startDelay={150} />
             <br />
