@@ -55,7 +55,7 @@ const schema = z.object({
    * production degrades to "no error reporting" rather than a boot failure.
    * A DSN is a write-only ingest key, not a credential.
    */
-  SENTRY_DSN: z.string().url().optional(),
+  SENTRY_DSN: z.preprocess((v) => (v === '' ? undefined : v), z.string().url().optional()),
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
 });
 

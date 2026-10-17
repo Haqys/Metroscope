@@ -58,6 +58,8 @@ export default async function ProgramsPage() {
                   category={program.category}
                   name={program.name}
                   description={program.summary ?? program.description ?? ''}
+                  dateVenue={program.dateVenue}
+                  ctaText={program.ctaText ?? 'Read Article →'}
                   imageUrl={program.coverUrl}
                   imageAlt={program.coverAlt}
                 />

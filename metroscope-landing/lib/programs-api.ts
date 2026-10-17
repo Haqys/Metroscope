@@ -28,13 +28,15 @@ export interface PublicProgram {
   id: string;
   slug: string;
   name: string;
-  category: 'ACADEMIC' | 'NON_ACADEMIC' | 'CREATIVE';
-  levels: string[];
+  category: 'ACADEMIC' | 'NON_ACADEMIC' | 'CREATIVE' | string;
+  levels?: string[];
   summary: string | null;
   description: string | null;
-  durationMonths: number;
-  cadence: string | null;
-  priceMonthly: number;
+  durationMonths?: number;
+  cadence?: string | null;
+  priceMonthly?: number;
+  dateVenue?: string | null;
+  ctaText?: string | null;
   publishedAt: string | null;
   updatedAt: string;
   coverUrl: string | null;
@@ -54,7 +56,35 @@ export interface ProgramStory {
   coverAlt: string | null;
 }
 
+export interface EventHighlight {
+  title: string;
+  subtitle?: string;
+  desc: string;
+  tag?: string;
+}
+
+export interface ItineraryPhase {
+  phase: string;
+  period: string;
+  title: string;
+  desc: string;
+}
+
+export interface GalleryItem {
+  url: string;
+  alt: string;
+  caption: string;
+}
+
 export interface PublicProgramDetail extends PublicProgram {
+  headline?: string | null;
+  articleType?: string | null;
+  venue?: string | null;
+  date?: string | null;
+  delegationStats?: { label: string; value: string }[];
+  researchHighlights?: EventHighlight[];
+  itineraryPhases?: ItineraryPhase[];
+  gallery?: GalleryItem[];
   body: string | null;
   locale: string;
   seoTitle: string | null;
@@ -125,14 +155,14 @@ export function getPublicProgram(slug: string): Promise<PublicProgramDetail | nu
  */
 export function categoryLabel(category: string): string {
   return (
-    { ACADEMIC: 'Akademik', NON_ACADEMIC: 'Non-Akademik', CREATIVE: 'Kreatif' }[category] ??
+    { ACADEMIC: 'Academic', NON_ACADEMIC: 'Non-Academic', CREATIVE: 'Creative' }[category] ??
     category
   );
 }
 
 /** Money is stored as an integer; this is the only place it becomes prose. */
 export function formatPrice(priceMonthly: number): string {
-  return `Rp ${new Intl.NumberFormat('id-ID').format(priceMonthly)} / bulan`;
+  return `IDR ${new Intl.NumberFormat('en-US').format(priceMonthly)} / month`;
 }
 
 /**
@@ -145,11 +175,21 @@ export function formatPrice(priceMonthly: number): string {
  * CMS. Ordering belongs to the reader's view of the data, not the storage.
  */
 const LEVEL_ORDER = ['SD', 'SMP', 'SMA'];
+const LEVEL_LABELS: Record<string, string> = {
+  SD: 'Elementary',
+  SMP: 'Junior High',
+  SMA: 'Senior High',
+};
 
-export function formatLevels(levels: string[]): string {
-  return [...levels].sort((a, b) => LEVEL_ORDER.indexOf(a) - LEVEL_ORDER.indexOf(b)).join(' · ');
+export function formatLevels(levels?: string[] | null): string {
+  if (!levels || levels.length === 0) return '-';
+  return [...levels]
+    .sort((a, b) => LEVEL_ORDER.indexOf(a) - LEVEL_ORDER.indexOf(b))
+    .map((lvl) => LEVEL_LABELS[lvl] ?? lvl)
+    .join(' · ');
 }
 
-export function formatDuration(months: number): string {
-  return `${months} bulan / batch`;
+export function formatDuration(months?: number | null): string {
+  if (!months) return '-';
+  return `${months} ${months === 1 ? 'month' : 'months'} / batch`;
 }

@@ -34,7 +34,7 @@ export function Footer() {
   return (
     <footer className="bg-maroon-ink text-white">
       <div className="container pt-20 pb-10">
-        <p className="font-serif text-[clamp(3.5rem,12vw,11rem)] leading-none font-medium tracking-tight text-white/95 select-none">
+        <p className="font-sans text-[clamp(3.5rem,12vw,11rem)] leading-none font-medium tracking-tight text-white/95 select-none">
           Metroscope<span className="text-white/40">.</span>
         </p>
 

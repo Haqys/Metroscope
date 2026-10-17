@@ -12,18 +12,18 @@ export function EmptyArticles({ q }: { q?: string }) {
   return (
     <div className="mt-16 rounded-3xl border border-dashed border-neutral-300 px-8 py-20 text-center">
       <p className="font-serif text-2xl font-medium text-neutral-800">
-        {q ? 'Tidak ada artikel yang cocok' : 'Belum ada artikel di sini'}
+        {q ? 'No matching articles found' : 'No articles published here yet'}
       </p>
       <p className="mx-auto mt-3 max-w-md text-neutral-500">
         {q
-          ? 'Coba kata kunci lain, atau jelajahi semua artikel.'
-          : 'Cerita siswa dan panduan lomba akan terbit di halaman ini.'}
+          ? 'Try another search term, or browse all articles.'
+          : 'Student stories and competition guides will appear on this page.'}
       </p>
       <Link
         href="/articles"
         className="bg-navy mt-8 inline-flex rounded-full px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
       >
-        Lihat semua artikel
+        View all articles
       </Link>
     </div>
   );

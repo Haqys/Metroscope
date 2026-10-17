@@ -214,7 +214,7 @@ export function headingId(node: ProseNode): string {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
     .slice(0, 60);
-  return slug || 'bagian';
+  return slug || 'section';
 }
 
 /** Every h2, in order, the table of contents (doc 13 §10.6). */

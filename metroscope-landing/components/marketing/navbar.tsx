@@ -54,7 +54,7 @@ export function Navbar() {
         <div className="container flex h-20 items-center justify-between gap-6">
           <Link
             href="/"
-            className="flex items-baseline gap-1 font-serif text-[1.75rem] font-semibold tracking-tight"
+            className="flex items-baseline gap-1 font-sans text-[1.75rem] font-semibold tracking-tight"
             aria-label="Metroscope, home"
           >
             <span className={solid ? 'text-neutral-900' : 'text-white'}>Metroscope</span>

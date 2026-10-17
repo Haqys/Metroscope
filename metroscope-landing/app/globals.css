@@ -136,6 +136,7 @@
   }
   html {
     scroll-behavior: smooth;
+    font-family: var(--font-jakarta), 'Plus Jakarta Sans', system-ui, sans-serif;
   }
   body {
     @apply bg-background text-foreground antialiased;
@@ -147,13 +148,13 @@
   }
 }
 
-/* ---------------------------------------------------------------------------
-   Portal surface: the student portal uses the block (sans) face everywhere, 
-   the display serif stays a marketing-only identity. Scoped override so
-   portal components can keep sharing markup with the rest of the app.
---------------------------------------------------------------------------- */
+.font-sans,
+.font-serif,
 .portal-surface .font-serif {
   font-family: var(--font-jakarta), 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+.portal-surface .font-serif {
   letter-spacing: -0.015em;
 }
 

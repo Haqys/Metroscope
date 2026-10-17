@@ -35,10 +35,10 @@ export function Hero() {
             </p>
           </Reveal>
 
-          <h1 className="max-w-5xl font-serif text-[clamp(3.5rem,10vw,8.75rem)] leading-[0.95] font-medium tracking-tight text-white">
+          <h1 className="max-w-5xl font-sans text-[clamp(3.5rem,10vw,8.75rem)] leading-[0.95] font-medium tracking-tight text-white">
             <WordReveal text="Where Champions" startDelay={150} />
             <br />
-            <WordReveal text="Are" startDelay={450} className="text-white italic" />{' '}
+            <WordReveal text="Are" startDelay={450} className="text-white" />{' '}
             <WordReveal text="Forged." startDelay={600} />
           </h1>
 

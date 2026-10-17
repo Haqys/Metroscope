@@ -160,7 +160,7 @@ export default async function HomePage() {
                 Metroscope
               </p>
             </Reveal>
-            <h2 className="mx-auto mt-8 max-w-4xl text-center font-serif text-[clamp(2rem,4.5vw,3.75rem)] leading-[1.2] font-medium tracking-tight text-neutral-900">
+            <h2 className="mx-auto mt-8 max-w-4xl text-center font-sans text-[clamp(2rem,4.5vw,3.75rem)] leading-[1.2] font-medium tracking-tight text-neutral-900">
               <WordReveal text="Every child has champion potential. Our job is to prepare the stage, curriculum per topic, experienced mentors, and guidance until the D-day." />
             </h2>
           </div>
@@ -175,7 +175,7 @@ export default async function HomePage() {
                   <p className="text-maroon text-xs font-medium tracking-[0.35em] uppercase">
                     Programmes
                   </p>
-                  <h2 className="mt-5 font-serif text-[clamp(2.5rem,5vw,4.5rem)] leading-[1.02] font-medium tracking-tight text-neutral-900">
+                  <h2 className="mt-5 font-sans text-[clamp(2.5rem,5vw,4.5rem)] leading-[1.02] font-medium tracking-tight text-neutral-900">
                     Choose Your Stage.
                   </h2>
                   <p className="mt-6 max-w-sm leading-relaxed font-light text-neutral-500">
@@ -200,6 +200,8 @@ export default async function HomePage() {
                     category={program.category}
                     name={program.name}
                     description={program.summary ?? program.description ?? ''}
+                    dateVenue={program.dateVenue}
+                    ctaText={program.ctaText ?? 'Read Article →'}
                     imageUrl={program.coverUrl}
                     imageAlt={program.coverAlt}
                   />
@@ -221,7 +223,7 @@ export default async function HomePage() {
             <div className="mt-14 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
               {STATS.map((stat, i) => (
                 <Reveal key={stat.label} delay={i * 120}>
-                  <p className="font-serif text-[clamp(3.5rem,6vw,5.5rem)] leading-none font-medium">
+                  <p className="font-sans text-[clamp(3.5rem,6vw,5.5rem)] leading-none font-medium">
                     <Counter to={stat.to} suffix={stat.suffix} decimals={stat.decimals ?? 0} />
                   </p>
                   <p className="mt-4 text-sm font-light tracking-[0.2em] text-white/60 uppercase">
@@ -240,10 +242,10 @@ export default async function HomePage() {
               {JOURNEY.map((item) => (
                 <div key={item.step} className="flex min-h-[60vh] items-center">
                   <Reveal className="border-l border-neutral-200 pl-10">
-                    <p className="text-maroon/30 font-serif text-6xl leading-none italic">
+                    <p className="text-maroon/30 font-sans text-6xl leading-none font-semibold">
                       {item.step}
                     </p>
-                    <h3 className="mt-6 font-serif text-4xl font-medium tracking-tight text-neutral-900 sm:text-5xl">
+                    <h3 className="mt-6 font-sans text-4xl font-medium tracking-tight text-neutral-900 sm:text-5xl">
                       {item.title}
                     </h3>
                     <p className="mt-5 max-w-md text-lg leading-relaxed font-light text-neutral-500">
@@ -283,7 +285,7 @@ export default async function HomePage() {
                 <p className="text-maroon text-xs font-medium tracking-[0.35em] uppercase">
                   Articles
                 </p>
-                <h2 className="mt-5 font-serif text-[clamp(2.5rem,5vw,4.5rem)] leading-[1.02] font-medium tracking-tight text-neutral-900">
+                <h2 className="mt-5 font-sans text-[clamp(2.5rem,5vw,4.5rem)] leading-[1.02] font-medium tracking-tight text-neutral-900">
                   Student Achievement Traces.
                 </h2>
               </div>
@@ -319,7 +321,7 @@ export default async function HomePage() {
               <p className="text-navy text-center text-xs font-medium tracking-[0.35em] uppercase">
                 Testimonials
               </p>
-              <h2 className="mx-auto mt-5 max-w-2xl text-center font-serif text-[clamp(2.5rem,5vw,4.5rem)] leading-[1.02] font-medium tracking-tight text-neutral-900">
+              <h2 className="mx-auto mt-5 max-w-2xl text-center font-sans text-[clamp(2.5rem,5vw,4.5rem)] leading-[1.02] font-medium tracking-tight text-neutral-900">
                 Words from Parents &amp; Students.
               </h2>
             </Reveal>
@@ -350,9 +352,9 @@ export default async function HomePage() {
         <section className="relative overflow-hidden py-36 lg:py-48">
           <BgWord word="Start" className="text-maroon" />
           <div className="relative container text-center">
-            <h2 className="mx-auto max-w-3xl font-serif text-[clamp(2.75rem,7vw,6rem)] leading-[1.02] font-medium tracking-tight text-neutral-900">
+            <h2 className="mx-auto max-w-3xl font-sans text-[clamp(2.75rem,7vw,6rem)] leading-[1.02] font-medium tracking-tight text-neutral-900">
               <WordReveal text="Initial" />{' '}
-              <WordReveal text="assessment." startDelay={250} className="text-maroon italic" />
+              <WordReveal text="assessment." startDelay={250} className="text-maroon" />
             </h2>
             <Reveal delay={400}>
               <p className="mx-auto mt-8 max-w-md text-lg leading-relaxed font-light text-neutral-500">

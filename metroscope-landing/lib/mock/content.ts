@@ -57,148 +57,368 @@ const PROGRAM_BASE = {
 export const MOCK_PROGRAMS: PublicProgram[] = [
   {
     ...PROGRAM_BASE,
-    id: 'sample-program-olimpiade',
-    slug: 'olimpiade-sains-matematika',
-    name: 'Olimpiade Sains & Matematika',
-    category: 'ACADEMIC',
-    levels: ['SD', 'SMP', 'SMA'],
+    id: 'event-science-castle-asia-2025',
+    slug: 'science-castle-asia-2025',
+    name: 'Science Castle Asia 2025',
+    category: 'Research & Innovation · International Competition',
+    dateVenue: 'October 18–20, 2025 | Multimedia University (MMU) Cyberjaya, Malaysia',
     summary:
-      'Kerangka pendampingan intensif olimpiade sains dan matematika yang memprioritaskan pemahaman konsep mendasar, dekonstruksi soal non-rutin, dan pembentukan ketahanan mental bertanding.',
+      'Eleven young researchers from five schools represented Metro at Science Castle Asia 2025, presenting IoT environmental monitoring and antibacterial medical research on an international stage.',
     description:
-      'Materi disusun per topik mengikuti silabus olimpiade, dengan latihan soal bertingkat dan pembahasan bersama mentor. Setiap siswa memiliki peta progress per topik sehingga orang tua dan siswa tahu persis bagian mana yang sudah kuat dan mana yang masih perlu diulang.',
-    durationMonths: 6,
-    cadence: '2× seminggu · 90 menit',
-    priceMonthly: 850_000,
-    coverUrl: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=1200&auto=format&fit=crop&q=80',
-    coverAlt: 'Siswa Metroscope dalam sesi pendampingan sains dan matematika',
+      'Eleven young researchers from five schools represented Metro at Science Castle Asia 2025, presenting IoT environmental monitoring and antibacterial medical research on an international stage.',
+    ctaText: 'Read Article →',
+    coverUrl: '/images/events/sca-2025-award.jpg',
+    coverAlt: 'Metroscope delegation receiving awards at Science Castle Asia 2025, MMU Cyberjaya',
   },
   {
     ...PROGRAM_BASE,
-    id: 'sample-program-debat',
-    slug: 'debat-dan-public-speaking',
-    name: 'Debat & Public Speaking',
-    category: 'NON_ACADEMIC',
-    levels: ['SMP', 'SMA'],
+    id: 'event-jisf-2026',
+    slug: 'jakarta-international-science-fair-2026',
+    name: 'Jakarta International Science Fair (JISF) 2026',
+    category: 'Research & Innovation · International Competition',
+    dateVenue: 'April 14–27, 2026 |  i3L University, Jakarta',
     summary:
-      'Inkubator retorika, riset isu global, dan konstruksi argumentasi logis untuk melahirkan pemikir muda yang berani bersuara di panggung kompetisi nasional maupun internasional.',
+      'Metroscope delegates presented pioneering functional food research on Papuan red fruit at JISF 2026, successfully navigating rigorous hybrid evaluation stages within a premier international academic forum.',
     description:
-      'Kelas berjalan dalam format mosi mingguan: siswa menyiapkan kasus, beradu argumen, lalu mendapat umpan balik terstruktur dari mentor. Fokusnya bukan menang-kalah, tetapi kemampuan menyusun alasan dan menyampaikannya dengan tenang.',
-    durationMonths: 4,
-    cadence: '1× seminggu · 120 menit',
-    priceMonthly: 700_000,
-    coverUrl: 'https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=1200&auto=format&fit=crop&q=80',
-    coverAlt: 'Siswa Metroscope dalam sesi latihan debat dan public speaking',
+      'Metroscope delegates presented pioneering functional food research on Papuan red fruit at JISF 2026, successfully navigating rigorous hybrid evaluation stages within a premier international academic forum.',
+    ctaText: 'Read Article →',
+    coverUrl: '/images/events/jisf-2026-smp-5.jpg',
+    coverAlt: 'Metroscope delegates presenting their Papuan red fruit research poster at JISF 2026, i3L University',
   },
   {
     ...PROGRAM_BASE,
-    id: 'sample-program-kti',
-    slug: 'karya-tulis-ilmiah',
-    name: 'Karya Tulis Ilmiah',
-    category: 'CREATIVE',
-    levels: ['SMP', 'SMA'],
+    id: 'event-i2aspo-2025',
+    slug: 'i2aspo-2025',
+    name: 'Indonesia International Applied Science Project Olympiad (i2ASPO) 2025',
+    category: 'Research & Innovation · International Competition',
+    dateVenue: 'December 9–21, 2025 | Universitas Gadjah Mada (UGM)',
     summary:
-      'Pendampingan komprehensif riset siswa mulai dari perumusan hipotesis orisinal, metodologi ilmiah terapan, hingga penulisan naskah standar jurnal dan persiapan sidang juri.',
+      'Metroscope delegates demonstrated applied environmental innovation at i2ASPO 2025, presenting an IoT-integrated tropospheric ozone absorption system within an international applied science forum.',
     description:
-      'Siswa mengerjakan satu karya penelitian dari nol sepanjang program, dengan target yang dievaluasi tiap pertemuan. Mentor membantu mempersempit topik, memilih metode yang realistis untuk jenjang sekolah, dan menyiapkan presentasi untuk dewan juri.',
-    durationMonths: 5,
-    cadence: '1× seminggu · 90 menit',
-    priceMonthly: 750_000,
-    coverUrl: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1200&auto=format&fit=crop&q=80',
-    coverAlt: 'Pendampingan riset karya tulis ilmiah Metroscope',
+      'Metroscope delegates demonstrated applied environmental innovation at i2ASPO 2025, presenting an IoT-integrated tropospheric ozone absorption system within an international applied science forum.',
+    ctaText: 'Read Article →',
+    coverUrl: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1200&auto=format&fit=crop&q=80',
+    coverAlt: 'Metroscope Researchers at i2ASPO 2025, Universitas Gadjah Mada',
   },
 ];
 
-const PROGRAM_ARTICLES_MAP: Record<string, { body: string; stories: ProgramStory[] }> = {
-  'olimpiade-sains-matematika': {
-    body: `Sebagian besar siswa yang menghadapi Olimpiade Sains Nasional (OSN) atau kompetisi sains internasional memulai perjalanan mereka dari tumpukan bank soal tanpa fondasi konsep yang memadai. Ketika pembuat soal mengubah sedikit saja pola atau sudut pandang pertanyaan, siswa kerap kehilangan arah karena hanya mengandalkan hafalan pola jawaban.
+interface ProgramArticleData {
+  headline: string;
+  articleType: string;
+  venue: string;
+  date: string;
+  delegationStats: { label: string; value: string }[];
+  researchHighlights: { title: string; subtitle?: string; desc: string; tag?: string }[];
+  itineraryPhases?: { phase: string; period: string; title: string; desc: string }[];
+  gallery?: { url: string; alt: string; caption: string }[];
+  body: string;
+  stories: ProgramStory[];
+}
 
-Di Metroscope, kami memandang persiapan olimpiade bukan sekadar "trik rumus cepat". Program ini dirancang sebagai inkubator nalar ilmiah: membiasakan siswa memahami mengapa suatu teorema bekerja, bagaimana sebuah prinsip fisika atau kimia diturunkan dari kondisi batas, serta bagaimana menyusun pembuktian matematika yang rigor, rapi, dan elegan.
+const PROGRAM_ARTICLES_MAP: Record<string, ProgramArticleData> = {
+  'science-castle-asia-2025': {
+    headline:
+      'Elevating Youth Research: Young Innovators Present Advanced IoT and Biomedical Solutions at Science Castle Asia 2025',
+    articleType: 'News & Research Feature Article',
+    venue: 'Multimedia University (MMU) Cyberjaya, Malaysia',
+    date: 'October 18–20, 2025',
+    delegationStats: [
+      { label: 'Student Delegation', value: '11 Young Researchers' },
+      { label: 'Team Formation', value: '2 Selected Research Teams' },
+      { label: 'School Origins', value: '5 Metro Secondary Schools' },
+      { label: 'Research Domain', value: 'Pollution IoT & MRSA Biomedicine' },
+    ],
+    researchHighlights: [
+      {
+        title: 'IoT-Based Environmental Monitoring',
+        subtitle: 'Real-Time Tropospheric Ozone Pollutant Monitoring',
+        desc: 'The first research team engineered an Internet of Things (IoT) monitoring system designed to measure and analyze tropospheric ozone pollutants. This system provides real-time data tracking to assist in local air quality assessment and environmental hazard mitigation.',
+        tag: 'Environmental Science & IoT',
+      },
+      {
+        title: 'Biomedical Research on Natural Antibacterial Agents',
+        subtitle: 'Efficacy Testing of Sungkai Leaf Extract Against MRSA Bacteria',
+        desc: 'The second research team conducted a phytochemical profiling study on Sungkai leaf (Peronema canescens) extracts to evaluate their antibacterial efficacy against Methicillin-Resistant Staphylococcus aureus (MRSA), highlighting the potential of indigenous flora in addressing antibiotic resistance.',
+        tag: 'Biomedical Science',
+      },
+    ],
+    itineraryPhases: [
+      {
+        phase: 'National Selection Phase',
+        period: 'May – July 2025',
+        title: 'Scientific Essay Submission & Committee Review',
+        desc: 'Submission of comprehensive research essays adhering to rigorous academic standards, followed by an intensive review process leading to finalist announcements on July 18, 2025.',
+      },
+      {
+        phase: 'Main Conference',
+        period: 'October 18–19, 2025',
+        title: 'Oral Defense & Interactive Poster Session at MMU Cyberjaya',
+        desc: 'Presentation of research findings through oral defense sessions and interactive posters before a panel of international scientists and adjudicators.',
+      },
+      {
+        phase: 'Educational Exploration',
+        period: 'October 20, 2025',
+        title: 'Educational Field Trip & Professional Networking',
+        desc: 'Hands-on scientific excursion outside the competition arena to enrich practical research insights and expand students’ global professional network.',
+      },
+    ],
+    gallery: [
+      {
+        url: '/images/events/sca-2025-award.jpg',
+        alt: 'Certificate Presentation & SCA 2025 Awards',
+        caption:
+          'Metroscope delegation presenting their award certificates and research posters at Science Castle Asia 2025, MMU Cyberjaya.',
+      },
+      {
+        url: '/images/events/sca-2025-judging.jpg',
+        alt: 'Oral Defense & Jury Q&A Session',
+        caption:
+          'Student delegates during an intensive Q&A and methodology defense before the international jury panel.',
+      },
+      {
+        url: '/images/events/sca-2025-delegation.jpg',
+        alt: 'Metroscope Research Delegation Contingent',
+        caption:
+          'Student delegation contingent representing 5 secondary schools from Metro throughout the conference series in Cyberjaya, Malaysia.',
+      },
+    ],
+    body: `Cyberjaya, Malaysia — The advancement of modern science and technology relies heavily on empowering young minds to transform critical thinking into tangible solutions. To cultivate this vision, Science Castle Asia 2025 served as an international platform for high school students to showcase competitive research and scientific breakthroughs. Hosted at Multimedia University (MMU) Cyberjaya, the conference brought together student researchers, educators, and industry experts from across the region to foster scientific literacy, academic rigor, and global competitiveness.
 
-Kurikulum kami disusun secara terstruktur ke dalam tiga tahapan pembinaan berkesinambungan:
+Fostering a Culture of Scientific Inquiry
 
-Pertama, Penguatan Fondasi & Pemetaan Diagnostik. Siswa diajak membedah kembali silabus fundamental dari akarnya. Kami mengidentifikasi celah pemahaman (misconceptions) yang kerap terlewat di sekolah umum dan membangun kembali pemahaman intuitifnya secara mendalam.
+Science Castle Asia 2025 was organized to nurture early-stage research capabilities, encouraging students to engage directly with complex global challenges in environmental science and healthcare. Beyond standard classroom learning, the initiative challenged participants to execute rigorous scientific methodologies, from formulation and laboratory experimentation to data analysis and peer defense.
 
-Kedua, Analisis Soal Non-Rutin & Multi-Solusi. Siswa ditantang memecahkan persoalan sulit menggunakan 2 hingga 3 pendekatan alternatif. Latihan ini menumbuhkan fleksibilitas kognitif dan intuisi analitis yang menjadi kunci utama saat menghadapi soal-soal kejutan di babak provinsi maupun nasional.
+By stepping onto an international stage, participants gained invaluable exposure to competitive research environments. The program aims to build student confidence, enhance cross-cultural collaboration, and demonstrate that secondary school students can produce meaningful research with real-world applications.
 
-Ketiga, Simulasi Babak Kompetisi & Manajemen Waktu. Menjelang kompetisi riil, siswa menjalani simulasi kondisi sebenarnya dengan batasan waktu ketat. Mentor membedah strategi seleksi soal, alokasi waktu per butir pertanyaan, serta menjaga ketenangan psikologis saat menghadapi kebuntuan.
+From National Selection to the International Stage
 
-Setiap siswa memiliki profil kekuatan yang unik. Melalui sistem evaluasi berkala Metroscope, perkembangan setiap topik dicatat secara visual dalam peta kompetensi personal. Orang tua dan siswa dapat melihat dengan transparan modul mana yang telah dikuasai dan area mana yang membutuhkan perhatian ekstra.
+The journey began with an open call for research submissions, where teams submitted comprehensive research essays adhering to strict academic guidelines. Following a thorough review process by the scientific committee, the shortlisted finalists were officially announced on July 18, 2025.
 
-Tujuan akhir dari pendampingan ini melampaui raihan medali. Kami membangun ketahanan mental (grit), kejujuran akademik, dan rasa ingin tahu yang tak kunjung padam—bekal seumur hidup yang akan mengantar siswa unggul di jenjang pendidikan tinggi global.`,
+The main conference took place on October 18–19, 2025, at MMU Cyberjaya, where finalists presented their findings through oral defenses and interactive poster sessions. To conclude the program, participants joined an educational field trip on October 20, 2025, offering hands-on learning experiences outside the competitive setting and expanding their professional networks.
+
+Key Contributions and Research Highlights
+
+The delegation featured 11 student researchers organized into 2 dedicated teams representing 5 secondary schools from Metro and its surrounding regions. Each team addressed critical challenges in environmental monitoring and medical science:
+
+IoT-Based Environmental Monitoring: The first research team engineered an Internet of Things (IoT) monitoring system designed to measure and analyze tropospheric ozone pollutants. This system provides real-time data tracking to assist in local air quality assessment and environmental hazard mitigation.
+
+Biomedical Research on Natural Antibacterial Agents: The second research team conducted a phytochemical profiling study on Sungkai leaf (Peronema canescens) extracts to evaluate their antibacterial efficacy against Methicillin-Resistant Staphylococcus aureus (MRSA), highlighting the potential of indigenous flora in addressing antibiotic resistance.
+
+Through these contributions, the participants demonstrated the impactful role of youth-led research in addressing pressing environmental and health issues on a global scale.`,
     stories: [
       {
-        slug: 'menyiapkan-osn-dari-nol',
-        title: 'Menyiapkan OSN dari Nol: Urutan yang Masuk Akal',
-        excerpt: 'Banyak siswa mulai dari bank soal lalu berhenti di tengah jalan. Urutan yang lebih tahan lama dimulai dari konsep.',
+        slug: 'oktavianus-alexa-pratama',
+        title: "Alexa's Story: Bringing Metro's Ozone Research to MMU Cyberjaya",
+        excerpt:
+          'Leading the environmental monitoring prototype engineering through to presenting before international scientists at Science Castle Asia.',
         publishedAt: at(-12),
-        readingMin: 6,
+        readingMin: 5,
         coverUrl: '/images/students/Alex.jpeg',
-        coverAlt: 'Siswa Metroscope',
+        coverAlt: 'Oktavianus Alexa Pratama',
       },
-    ],
-  },
-  'debat-dan-public-speaking': {
-    body: `Debat kompetitif sering disalahartikan sebagai ajang berbicara cepat atau saling mendominasi secara agresif. Di Metroscope, kami mendefinisikan debat sebagai seni penalaran tingkat tinggi: kemampuan mendengar secara empatik, membedah struktur argumen lawan dalam hitungan detik, serta menyajikan sanggahan logis berbasis bukti yang runtut dan persuasif.
-
-Program ini dirancang untuk melahirkan pemikir muda yang berani bersuara dengan dasar data yang kuat, baik dalam format debat bahasa Indonesia maupun format internasional seperti World Schools Debating Championship (WSDC) dan Asian Parliamentary.
-
-Pembelajaran dibangun dengan pendekatan aktif melalui siklus latihan mosi mingguan:
-
-Riset Isu Kontemporer & Geopolitik: Siswa membedah isu-isu krusial dunia nyata, mulai dari transisi energi terbarukan, etika kecerdasan buatan, ekonomi sirkular, hingga kebijakan pendidikan global untuk memperkaya basis wawasan mereka.
-
-Konstruksi Argumen Terstandar AREL: Siswa dibiasakan menyusun setiap poin gagasan melalui kerangka Assertion (Klaim), Reasoning (Penalaran Logis), Evidence (Bukti Empiris), dan Linkback (Relevansi terhadap Mosi) agar argumen berdiri kokoh di bawah tekanan interupsi.
-
-Simulasi Kamar Debat & Adjudikasi Komprehensif: Setiap sesi latihan diakhiri dengan evaluasi mendalam dari mentor berpengalaman, memberikan umpan balik langsung mengenai poise panggung, modulasi vokal, dan kedalaman argumen.
-
-Banyak siswa berbakat menahan diri karena rasa cemas berbicara di hadapan publik (glossophobia). Lingkungan mentoring di Metroscope dirancang aman, inklusif, dan saling mendukung, mengubah ketakutan berbicara menjadi rasa percaya diri yang otentik.
-
-Kemampuan mengartikulasikan ide secara tenang di bawah tekanan adalah keterampilan kepemimpinan seumur hidup. Alumni dari program ini telah membuktikan kepiawaian mereka tidak hanya di podium turnamen debat, tetapi juga terpilih sebagai duta muda daerah dan pemimpin organisasi siswa.`,
-    stories: [
       {
-        slug: 'latihan-debat-di-rumah',
-        title: 'Tiga Latihan Debat yang Bisa Dikerjakan di Rumah',
-        excerpt: 'Latihan-latihan pendek untuk membiasakan anak menyusun alasan dan berbicara runtut tanpa cemas.',
-        publishedAt: at(-45),
-        readingMin: 4,
-        coverUrl: '/images/students/Bulan.jpeg',
-        coverAlt: 'Bulan Putri Ayu',
-      },
-    ],
-  },
-  'karya-tulis-ilmiah': {
-    body: `Riset dan penelitian bukanlah domain eksklusif kalangan akademisi perguruan tinggi. Siswa sekolah menengah memiliki perspektif segar dan kepekaan tinggi terhadap persoalan di sekitar mereka—dari limbah organik lingkungan sekolah hingga inovasi teknologi ramah lingkungan.
-
-Program Karya Tulis Ilmiah (KTI) Metroscope hadir untuk menyalurkan kepekaan tersebut menjadi penelitian ilmiah yang terstruktur, metodologis, dan memiliki kontribusi orisinal yang diakui di ajang kompetisi nasional maupun pameran inovasi internasional.
-
-Siswa dibimbing melalui seluruh tahapan siklus penelitian secara komprehensif:
-
-Eksplorasi Ide & Uji Kebaruan (Novelty Check): Membantu siswa menyaring ide penelitian agar tidak terlalu luas, realistis diselesaikan dengan sarana yang tersedia, namun memiliki daya tawar orisinalitas tinggi yang memikat dewan juri.
-
-Metodologi Saintifik & Pengambilan Data Beretika: Menuntun perancangan desain eksperimen laboratorium, survei lapangan, atau pengujian prototipe teknik dengan memegang teguh etika riset ilmiah.
-
-Penulisan Naskah Standar Jurnal Ilmiah: Melatih siswa menyusun naskah akademik yang formal dan rapi: mulai dari perumusan latar belakang masalah, tinjauan pustaka yang relevan, metodologi terperinci, hingga visualisasi grafik data yang komunikatif.
-
-Coaching Sidang & Presentasi Poster: Mempersiapkan siswa menghadapi sesi tanya jawab dewan juri, melatih cara menjawab kritik ilmiah dengan argumen berbasis data tanpa kehilangan ketenangan.
-
-Setiap naskah ditelaah secara bertahap oleh mentor yang berpengalaman dalam publikasi ilmiah. Melalui pertemuan mingguan, siswa dipandu mengatasi kebuntuan olah data dan terus mempertajam kualitas analisis riset mereka.
-
-Karya-karya penelitian yang dibina dalam program ini telah berhasil menembus berbagai ajang bergengsi seperti Science Castle Asia, International Science and Invention Fair (ISIF), dan NYOI, membuktikan bahwa riset siswa Indonesia mampu bersaing tangguh di panggung dunia.`,
-    stories: [
-      {
-        slug: 'menulis-kti-pertama',
-        title: 'Menulis Karya Tulis Ilmiah Pertama',
-        excerpt: 'Kesalahan paling sering dalam karya tulis pertama adalah topik yang terlalu luas. Mempersempit sejak awal menghemat berminggu-minggu.',
-        publishedAt: at(-60),
-        readingMin: 7,
+        slug: 'aura-kirana',
+        title: 'Aura Kirana: From Laboratory Research to the International Podium',
+        excerpt:
+          'Navigating Sungkai leaf phytochemical research and leading cross-school research collaboration to address antibiotic resistance challenges.',
+        publishedAt: at(-20),
+        readingMin: 6,
         coverUrl: '/images/students/Aura.jpeg',
         coverAlt: 'Aura Kirana',
+      },
+    ],
+  },
+  'jakarta-international-science-fair-2026': {
+    headline:
+      'Advancing Global Science: Metroscope Researchers Showcase Papuan Red Fruit Innovation at JISF 2026',
+    articleType: 'Academic Educational Article',
+    venue: 'i3L University, Jakarta',
+    date: 'April 14–27, 2026',
+    delegationStats: [
+      { label: 'Research Delegation', value: '6 Student Researchers' },
+      { label: 'Institutional Collaboration', value: '3 Schools in Metro' },
+      { label: 'Competition Division', value: 'Life Sciences' },
+      { label: 'Symposium Modality', value: 'Hybrid (Online & On-Site)' },
+    ],
+    researchHighlights: [
+      {
+        title: 'Papuan Red Fruit Functional Mayonnaise',
+        subtitle:
+          'Papuan Red Fruit (Pandanus conoideus) Based Functional Mayonnaise for the Dietary Management of Hypercholesterolaemia and Dyslipidaemia',
+        desc: 'The research evaluated the formulation of a functional food matrix enriched with bioactive compounds derived from Papuan red fruit, offering a supplementary dietary intervention designed to assist in managing hypercholesterolemia and lipid metabolic disorders.',
+        tag: 'Life Sciences & Functional Food',
+      },
+    ],
+    itineraryPhases: [
+      {
+        phase: 'Virtual Phase',
+        period: 'April 14–17, 2026',
+        title: 'Inaugural Online & Virtual Zoom Judging',
+        desc: 'Beginning with an online opening ceremony and live remote evaluation sessions via Zoom, concluding with a virtual award ceremony on April 17, 2026.',
+      },
+      {
+        phase: 'On-Site Phase',
+        period: 'April 24–27, 2026',
+        title: 'Symposium & Oral Defense at i3L University Campus Jakarta',
+        desc: 'Physical opening ceremony at i3L (April 24), in-person oral defense sessions (April 25), interactive academic workshop (April 26), and closing grand award ceremony (April 27, 2026).',
+      },
+    ],
+    gallery: [
+      {
+        url: '/images/events/jisf-2026-smp-5.jpg',
+        alt: 'Papuan Red Fruit Research Booth',
+        caption: 'Junior high delegates beside their Papuan red fruit functional food research poster and product display.',
+      },
+      {
+        url: '/images/events/jisf-2026-sd-1.jpg',
+        alt: 'Elementary Delegates at the JISF Exhibition Hall',
+        caption: 'Elementary school delegates in costume among the project booths at the JISF 2026 exhibition.',
+      },
+      {
+        url: '/images/events/jisf-2026-sd-2.jpg',
+        alt: 'Seismic-Vibration IoT Project Display',
+        caption: 'Presenting a distributed seismic-vibration system powered by IoT for the early identification of illegal logging in protected forests.',
+      },
+      {
+        url: '/images/events/jisf-2026-sd-3.jpg',
+        alt: 'Research Poster & Forest Diorama',
+        caption: 'The project poster and forest diorama prepared for the oral defense and judging sessions.',
+      },
+      {
+        url: '/images/events/jisf-2026-sd-4.jpg',
+        alt: 'Yamko Rambe Yamko Performance',
+        caption: 'Students in traditional costume for the Yamko Rambe Yamko cultural performance at i3L University.',
+      },
+      {
+        url: '/images/events/jisf-2026-smp-1.jpg',
+        alt: 'Cultural Performers Backstage',
+        caption: 'Metroscope students representing Indonesia\'s cultural heritage on the international stage.',
+      },
+      {
+        url: '/images/events/jisf-2026-smp-2.jpg',
+        alt: 'Delegation Between Sessions',
+        caption: 'Delegates gathering between sessions during the four-day programme in Jakarta.',
+      },
+      {
+        url: '/images/events/jisf-2026-smp-3.jpg',
+        alt: 'Delegation Group Photo',
+        caption: 'The Metroscope delegation in cultural attire ahead of the performance.',
+      },
+      {
+        url: '/images/events/jisf-2026-smp-4.jpg',
+        alt: 'Delegation on the Move in Jakarta',
+        caption: 'Students and mentors heading to venues during the educational and cultural visits across Jakarta.',
+      },
+    ],
+    body: `Jakarta, Indonesia — Fostering global scientific literacy and cultivating empirical inquiry necessitate robust academic platforms that connect emerging student researchers with international evaluation benchmarks. The Jakarta International Science Fair (JISF) 2026 provided a distinguished forum for secondary and tertiary students to present original empirical investigations, defend methodological frameworks, and engage in cross-disciplinary scholarly discourse. Configured as a hybrid symposium, the conference facilitated remote scholarly defense via Zoom alongside physical presentations hosted at i3L University in Jakarta. This dual modality exposed participants to rigorous multi-tiered evaluation protocols, requiring delegates to articulate complex scientific findings before an international panel of academic reviewers.
+
+Empowering Young Scholars Through Global Academic Engagement
+
+Metroscope’s active delegation at JISF 2026 underscores an enduring institutional commitment to transcending conventional pedagogical boundaries. By participating in a competitive international arena, students refine vital research competencies, ranging from systematic hypothesis formulation and laboratory-based analytical testing to persuasive academic discourse. Beyond traditional competition metrics, the initiative prioritizes critical thinking and translational problem-solving. Defending empirical research before an international jury instills scholarly rigor, cultivates academic self-efficacy, and demonstrates the practical viability of student-led scientific investigations addressing contemporary challenges.
+
+An Integrated Hybrid Academic Itinerary
+
+The delegation navigated two distinct operational phases throughout the JISF 2026 proceedings. The virtual phase commenced on April 14, 2026, with the inaugural online ceremony and live remote evaluation sessions, culminating in the virtual award ceremony on April 17, 2026. Transitioning to the physical venue at i3L University, participants engaged in the on-site opening ceremony on April 24, 2026, followed by face-to-face oral defenses on April 25, an interactive academic workshop on April 26, and the formal concluding award ceremony on April 27, 2026. This multi-modal structure afforded delegates comprehensive exposure to both digital academic presentation standards and physical scholarly networking.
+
+Research Contributions and Scientific Focus
+
+The Metroscope delegation comprised six student researchers representing three collaborating institutions, SMP Negeri 1 Metro, Cahaya Bangsa School, and SMP Muhammadiyah Ahmad Dahlan Metro—unified under a single collaborative research team. Competing within the Life Sciences domain, the investigators addressed a prominent public health challenge through the utilization of indigenous bio-resources in their study entitled "Papuan Red Fruit (Pandanus conoideus) Based Functional Mayonnaise for the Dietary Management of Hypercholesterolaemia and Dyslipidaemia." The research evaluated the formulation of a functional food matrix enriched with bioactive compounds derived from Papuan red fruit, offering a supplementary dietary intervention designed to assist in managing hypercholesterolemia and lipid metabolic disorders.
+
+Event Documentation
+
+An interactive documentary gallery captures the key milestones of the Metroscope delegation throughout JISF 2026, highlighting virtual defense sessions, live oral presentations before the academic panel at i3L University, specialized research workshops, and the final conferral proceedings.
+
+Over four days (April 24–27, 2026), delegates took part in project exhibitions, judging sessions, the Opening Ceremony, Farewell Gathering and Awarding Ceremony. The programme also included educational and cultural visits to the National Museum, the Ministry of Women's Empowerment and Child Protection of the Republic of Indonesia, KidZania Jakarta, the Istiqlal Mosque and several iconic Jakarta landmarks. Metroscope students also had the honour of representing Indonesia's cultural heritage through a performance of Yamko Rambe Yamko on the international stage at i3L University.`,
+    stories: [
+      {
+        slug: 'aura-kirana',
+        title: 'Functional Food Formulation: From Ideation to Laboratory Validation',
+        excerpt:
+          'How a collaboration among three schools in Metro produced Papuan red fruit research that succeeded in JISF 2026 hybrid judging.',
+        publishedAt: at(-30),
+        readingMin: 5,
+        coverUrl: '/images/students/Aura.jpeg',
+        coverAlt: 'Aura Kirana',
+      },
+    ],
+  },
+  'i2aspo-2025': {
+    headline:
+      'Fostering Applied Innovation: Metroscope Researchers Present IoT-Integrated Environmental Solutions at i2ASPO 2025',
+    articleType: 'Academic Educational Article',
+    venue: 'Universitas Gadjah Mada (UGM)',
+    date: 'December 9–21, 2025',
+    delegationStats: [
+      { label: 'Innovator Delegation', value: '6 Student Researchers' },
+      { label: 'Collaborative Institutions', value: '3 Schools in Metro' },
+      { label: 'Competition Division', value: 'Applied Environmental Science' },
+      { label: 'Judging Format', value: '7-Min Presentation + 8-Min Jury Examination' },
+    ],
+    researchHighlights: [
+      {
+        title: 'IoT-Based Integrated Spectrophotometric Impinger (Ozonometric)',
+        subtitle:
+          'Neutral Buffered Potassium Iodide and Na₂S₂O₃ as Absorbers of Harmful Tropospheric Ozone Using Ozonometric',
+        desc: 'The team engineered an innovative environmental monitoring system combining chemical absorption methodology with Internet of Things (IoT) hardware to capture, measure, and analyze hazardous tropospheric ozone levels in real time.',
+        tag: 'Applied Environmental Science & IoT',
+      },
+    ],
+    itineraryPhases: [
+      {
+        phase: 'Virtual Phase',
+        period: 'December 9–12, 2025',
+        title: 'Inaugural Online & Remote Judging',
+        desc: 'Online opening ceremony, preliminary remote evaluations via Zoom, intensive assessment sessions on December 10, and virtual award ceremony on December 12, 2025.',
+      },
+      {
+        phase: 'On-Site Phase',
+        period: 'December 17–21, 2025',
+        title: 'Prototype Exhibition & Oral Defense at UGM Yogyakarta',
+        desc: 'Arrival in Yogyakarta (Dec 17), physical opening (Dec 18), live prototype exhibition & jury examination (Dec 19), academic activities (Dec 20), and grand award ceremony (Dec 21, 2025).',
+      },
+    ],
+    gallery: [
+      {
+        url: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80',
+        alt: 'Ozonometric Impinger Prototype',
+        caption: 'IoT-integrated spectrophotometric impinger prototype for tropospheric ozone absorption.',
+      },
+      {
+        url: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&auto=format&fit=crop&q=80',
+        alt: 'Science Exhibition at Universitas Gadjah Mada',
+        caption: 'Prototype exhibition and jury examination sessions at Grha Sabha Pramana UGM.',
+      },
+    ],
+    body: `Yogyakarta, Indonesia — Addressing contemporary ecological challenges requires robust applied research platforms capable of translating theoretical scientific inquiry into tangible technological solutions. The Indonesia International Applied Science Project Olympiad (i2ASPO) 2025 offered a prominent international stage for young researchers to showcase applied science innovations, defend practical product designs, and engage with global scientific evaluators. Conducted as a hybrid symposium, the Olympiad facilitated remote project defenses via Zoom alongside physical exhibition sessions hosted at Universitas Gadjah Mada (UGM) in Yogyakarta. This dual-modal framework evaluated participants on both their theoretical foundation and the functional efficacy of their physical research prototypes.
+
+Empowering Young Innovators Through Applied Science
+
+Metroscope’s delegation at i2ASPO 2025 reflects an ongoing institutional dedication to fostering hands-on research competencies and technological innovation among secondary school students. Participation in an applied scientific olympiad challenges emerging scholars to move beyond conventional empirical testing into prototype engineering, functional optimization, and product defense. Navigating strict defense protocols, comprising a concentrated seven-minute oral presentation followed by an eight-minute intensive examination by an international jury panel, instills essential skills in concise scientific communication, analytical defense, and technological translation.
+
+An Integrated Hybrid Competition Framework
+
+The delegation navigated two comprehensive phases during the i2ASPO 2025 itinerary. The virtual competition phase commenced on December 9, 2025, with the inaugural online ceremony and preliminary remote judging, continuing through dedicated evaluation sessions on December 10, and concluding with the virtual award ceremony on December 12, 2025. Transitioning to the physical venue at Universitas Gadjah Mada, on-site participants arrived on December 17, attending the physical opening ceremony on December 18 and engaging in live prototype exhibitions and oral defenses on December 19. Following interactive scholarly activities on December 20, the event culminated in the grand award conferral ceremony on December 21, 2025.
+
+Research Contributions and Scientific Focus
+
+The Metroscope delegation comprised six student researchers representing three collaborating institutions, SMP Negeri 1 Metro, SMP Cahaya Bangsa, and SMP Muhammadiyah Ahmad Dahlan Metro—unified under a single collaborative research team. Competing within the Applied Environmental Science division, the investigators addressed atmospheric pollution monitoring in their study entitled "Neutral Buffered Potassium Iodide and Na₂S₂O₃ as Absorbers of Harmful Tropospheric Ozone Using Ozonometric, an IoT-Based Integrated Spectrophotometric Impinger." The team engineered an innovative environmental monitoring system combining chemical absorption methodology with Internet of Things (IoT) hardware to capture, measure, and analyze hazardous tropospheric ozone levels in real time.`,
+    stories: [
+      {
+        slug: 'vien-dhia-feyza-as',
+        title: 'Vien Dhia Feyza: The Journey to Winning a Gold Medal at i2ASPO',
+        excerpt:
+          'In-depth research experience engineering the ozonometric instrument through to defending findings before the UGM jury.',
+        publishedAt: at(-15),
+        readingMin: 6,
+        coverUrl: '/images/students/Vien.jpeg',
+        coverAlt: 'Vien Dhia Feyza AS',
       },
     ],
   },
 };
 
 const PROGRAM_DETAIL_EXTRA = {
-  locale: 'id',
+  locale: 'en',
   seoTitle: null,
   seoDescription: null,
   seoCanonical: null,
@@ -213,6 +433,14 @@ export const MOCK_PROGRAM_DETAILS: PublicProgramDetail[] = MOCK_PROGRAMS.map((p)
   return {
     ...p,
     ...PROGRAM_DETAIL_EXTRA,
+    headline: custom?.headline ?? p.name,
+    articleType: custom?.articleType ?? 'News & Research Feature Article',
+    venue: custom?.venue,
+    date: custom?.date,
+    delegationStats: custom?.delegationStats,
+    researchHighlights: custom?.researchHighlights,
+    itineraryPhases: custom?.itineraryPhases,
+    gallery: custom?.gallery,
     body: custom?.body ?? p.description,
     stories: custom?.stories ?? [],
   };
@@ -412,9 +640,9 @@ const heading = (text: string): ProseNode => ({
   content: [{ type: 'text', text }],
 });
 
-const body = (intro: string, section: string, detail: string, close: string): ProseNode => ({
+const doc = (...nodes: ProseNode[]): ProseNode => ({
   type: 'doc',
-  content: [paragraph(intro), heading(section), paragraph(detail), paragraph(close)],
+  content: nodes,
 });
 
 interface MockArticleSeed {
@@ -427,87 +655,146 @@ interface MockArticleSeed {
   readingMin: number;
   ageDays: number;
   featured: boolean;
+  coverUrl?: string | null;
+  coverAlt?: string | null;
   body: ProseNode;
 }
 
 const ARTICLE_SEEDS: MockArticleSeed[] = [
   {
-    slug: 'menyiapkan-osn-dari-nol',
-    title: 'Preparing for OSN from Scratch: A Logical Sequence',
-    subtitle: 'Concepts first, questions later',
+    slug: 'science-castle-asia-2025',
+    title: 'Science Castle Asia 2025: Young Innovators Present Advanced IoT and Biomedical Solutions',
+    subtitle:
+      'Elevating Youth Research: High school delegates represent Metro on an international stage at Multimedia University Cyberjaya',
     excerpt:
-      'Many students start from question banks and stop halfway. A more durable sequence begins with concepts.',
-    category: { slug: 'persiapan-lomba', name: 'Competition Prep' },
+      'Eleven young researchers from five schools represented Metro at Science Castle Asia 2025, presenting IoT environmental monitoring and antibacterial medical research on an international stage.',
+    category: { slug: 'international-competition', name: 'International Competition' },
     tags: [
-      { slug: 'osn', name: 'OSN' },
-      { slug: 'sains', name: 'Science' },
+      { slug: 'international-competition', name: 'International Competition' },
+      { slug: 'iot', name: 'IoT' },
+      { slug: 'biomedical', name: 'Biomedical Science' },
+      { slug: 'environmental-science', name: 'Environmental Science' },
     ],
     readingMin: 6,
-    ageDays: -12,
+    ageDays: -14,
     featured: true,
-    body: body(
-      'Sample article for article page layout preview. The content has not yet been written by the Metroscope team.',
-      'Start with concepts',
-      'Practice questions are useful after the basic concepts are established. Students who directly do olympiad questions without a foundation usually memorize patterns, then stumble as soon as the questions are slightly twisted.',
-      'Replace this text with the real article before the site is published.',
+    coverUrl: '/images/events/sca-2025-award.jpg',
+    coverAlt: 'Metroscope delegation receiving awards at Science Castle Asia 2025, MMU Cyberjaya',
+    body: doc(
+      paragraph(
+        'Cyberjaya, Malaysia — The advancement of modern science and technology relies heavily on empowering young minds to transform critical thinking into tangible solutions. To cultivate this vision, Science Castle Asia 2025 served as an international platform for high school students to showcase competitive research and scientific breakthroughs. Hosted at Multimedia University (MMU) Cyberjaya, the conference brought together student researchers, educators, and industry experts from across the region to foster scientific literacy, academic rigor, and global competitiveness.',
+      ),
+      heading('Fostering a Culture of Scientific Inquiry'),
+      paragraph(
+        'Science Castle Asia 2025 was organized to nurture early-stage research capabilities, encouraging students to engage directly with complex global challenges in environmental science and healthcare. Beyond standard classroom learning, the initiative challenged participants to execute rigorous scientific methodologies, from formulation and laboratory experimentation to data analysis and peer defense.',
+      ),
+      paragraph(
+        'By stepping onto an international stage, participants gained invaluable exposure to competitive research environments. The program aims to build student confidence, enhance cross-cultural collaboration, and demonstrate that secondary school students can produce meaningful research with real-world applications.',
+      ),
+      heading('From National Selection to the International Stage'),
+      paragraph(
+        'The journey began with an open call for research submissions, where teams submitted comprehensive research essays adhering to strict academic guidelines. Following a thorough review process by the scientific committee, the shortlisted finalists were officially announced on July 18, 2025.',
+      ),
+      paragraph(
+        'The main conference took place on October 18–19, 2025, at MMU Cyberjaya, where finalists presented their findings through oral defenses and interactive poster sessions. To conclude the program, participants joined an educational field trip on October 20, 2025, offering hands-on learning experiences outside the competitive setting and expanding their professional networks.',
+      ),
+      heading('Key Contributions and Research Highlights'),
+      paragraph(
+        'The delegation featured 11 student researchers organized into 2 dedicated teams representing 5 secondary schools from Metro and its surrounding regions. Each team addressed critical challenges in environmental monitoring and medical science:',
+      ),
+      paragraph(
+        'IoT-Based Environmental Monitoring: The first research team engineered an Internet of Things (IoT) monitoring system designed to measure and analyze tropospheric ozone pollutants. This system provides real-time data tracking to assist in local air quality assessment and environmental hazard mitigation.',
+      ),
+      paragraph(
+        'Biomedical Research on Natural Antibacterial Agents: The second research team conducted a phytochemical profiling study on Sungkai leaf (Peronema canescens) extracts to evaluate their antibacterial efficacy against Methicillin-Resistant Staphylococcus aureus (MRSA), highlighting the potential of indigenous flora in addressing antibiotic resistance.',
+      ),
+      paragraph(
+        'Through these contributions, the participants demonstrated the impactful role of youth-led research in addressing pressing environmental and health issues on a global scale.',
+      ),
     ),
   },
   {
-    slug: 'memilih-lomba-yang-tepat',
-    title: 'Choosing the Right Competition for Your Child',
-    subtitle: 'Not as many as possible',
+    slug: 'jakarta-international-science-fair-2026',
+    title: 'Jakarta International Science Fair (JISF) 2026: Papuan Red Fruit Innovation & Cultural Delegation',
+    subtitle:
+      'Advancing Global Science: Metroscope researchers present functional food breakthroughs and cultural heritage at i3L University',
     excerpt:
-      'Participating in many competitions does not always increase skills. Some considerations before registering.',
-    category: { slug: 'panduan-orang-tua', name: 'Parent Guide' },
+      'Metroscope delegates presented pioneering functional food research on Papuan red fruit at JISF 2026, successfully navigating rigorous hybrid evaluation stages within a premier international academic forum.',
+    category: { slug: 'life-sciences', name: 'Life Sciences' },
     tags: [
-      { slug: 'orang-tua', name: 'Parents' },
-      { slug: 'strategi', name: 'Strategy' },
+      { slug: 'life-sciences', name: 'Life Sciences' },
+      { slug: 'functional-food', name: 'Functional Food' },
+      { slug: 'international-competition', name: 'International Competition' },
+      { slug: 'jisf', name: 'JISF' },
     ],
-    readingMin: 5,
-    ageDays: -26,
+    readingMin: 6,
+    ageDays: -7,
     featured: false,
-    body: body(
-      'Sample article for preview. This text only fills the page layout.',
-      'Quality over quantity',
-      'One well-prepared competition provides a more useful experience than five competitions participated in without preparation.',
-      'Replace this text with the real article before the site is published.',
+    coverUrl: '/images/events/jisf-2026-smp-5.jpg',
+    coverAlt: 'Metroscope delegates presenting their Papuan red fruit research poster at JISF 2026, i3L University',
+    body: doc(
+      paragraph(
+        'Jakarta, Indonesia — Fostering global scientific literacy and cultivating empirical inquiry necessitate robust academic platforms that connect emerging student researchers with international evaluation benchmarks. The Jakarta International Science Fair (JISF) 2026 provided a distinguished forum for secondary and tertiary students to present original empirical investigations, defend methodological frameworks, and engage in cross-disciplinary scholarly discourse. Configured as a hybrid symposium, the conference facilitated remote scholarly defense via Zoom alongside physical presentations hosted at i3L University in Jakarta. This dual modality exposed participants to rigorous multi-tiered evaluation protocols, requiring delegates to articulate complex scientific findings before an international panel of academic reviewers.',
+      ),
+      heading('Empowering Young Scholars Through Global Academic Engagement'),
+      paragraph(
+        'Metroscope’s active delegation at JISF 2026 underscores an enduring institutional commitment to transcending conventional pedagogical boundaries. By participating in a competitive international arena, students refine vital research competencies, ranging from systematic hypothesis formulation and laboratory-based analytical testing to persuasive academic discourse. Beyond traditional competition metrics, the initiative prioritizes critical thinking and translational problem-solving. Defending empirical research before an international jury instills scholarly rigor, cultivates academic self-efficacy, and demonstrates the practical viability of student-led scientific investigations addressing contemporary challenges.',
+      ),
+      heading('An Integrated Hybrid Academic Itinerary'),
+      paragraph(
+        'The delegation navigated two distinct operational phases throughout the JISF 2026 proceedings. The virtual phase commenced on April 14, 2026, with the inaugural online ceremony and live remote evaluation sessions, culminating in the virtual award ceremony on April 17, 2026. Transitioning to the physical venue at i3L University, participants engaged in the on-site opening ceremony on April 24, 2026, followed by face-to-face oral defenses on April 25, an interactive academic workshop on April 26, and the formal concluding award ceremony on April 27, 2026. This multi-modal structure afforded delegates comprehensive exposure to both digital academic presentation standards and physical scholarly networking.',
+      ),
+      heading('Research Contributions and Scientific Focus'),
+      paragraph(
+        'The Metroscope delegation comprised six student researchers representing three collaborating institutions, SMP Negeri 1 Metro, Cahaya Bangsa School, and SMP Muhammadiyah Ahmad Dahlan Metro—unified under a single collaborative research team. Competing within the Life Sciences domain, the investigators addressed a prominent public health challenge through the utilization of indigenous bio-resources in their study entitled "Papuan Red Fruit (Pandanus conoideus) Based Functional Mayonnaise for the Dietary Management of Hypercholesterolaemia and Dyslipidaemia." The research evaluated the formulation of a functional food matrix enriched with bioactive compounds derived from Papuan red fruit, offering a supplementary dietary intervention designed to assist in managing hypercholesterolemia and lipid metabolic disorders.',
+      ),
+      heading('Event Documentation & Cultural Delegation'),
+      paragraph(
+        'An interactive documentary gallery captures the key milestones of the Metroscope delegation throughout JISF 2026, highlighting virtual defense sessions, live oral presentations before the academic panel at i3L University, specialized research workshops, and the final conferral proceedings.',
+      ),
+      paragraph(
+        'Over four days (from 24–27 April 2026), participants engaged in scientific competitions, educational visits, cultural exploration, and international networking opportunities across Jakarta. The programme included project exhibitions, judging sessions, educational visits, cultural exploration, and networking opportunities with participants from diverse backgrounds. Students also attended the Opening Ceremony, Farewell Gathering, and Awarding Ceremony.',
+      ),
+      paragraph(
+        'The four-day programme also included educational and cultural visits to the National Museum, the Ministry of Women\'s Empowerment and Child Protection of the Republic of Indonesia (MoWECP), KidZania Jakarta, the Istiqlal Mosque, and several iconic landmarks across Jakarta. Metroscope students also had the honour of representing Indonesia\'s cultural heritage through a performance of Yamko Rambe Yamko, on the international stage at i3L University.',
+      ),
     ),
   },
   {
-    slug: 'latihan-debat-di-rumah',
-    title: 'Three Debate Exercises to Do at Home',
-    subtitle: 'No opponents, no judges',
-    excerpt: 'Short exercises to get kids used to arranging reasons and speaking coherently.',
-    category: { slug: 'persiapan-lomba', name: 'Competition Prep' },
+    slug: 'i2aspo-2025',
+    title: 'i2ASPO 2025: Metroscope Researchers Present IoT-Integrated Environmental Solutions',
+    subtitle:
+      'Fostering Applied Innovation: Student innovators showcase tropospheric ozone absorption technology at Universitas Gadjah Mada',
+    excerpt:
+      'Metroscope delegates demonstrated applied environmental innovation at i2ASPO 2025, presenting an IoT-integrated tropospheric ozone absorption system within an international applied science forum.',
+    category: { slug: 'applied-science', name: 'Applied Science' },
     tags: [
-      { slug: 'debat', name: 'Debate' },
-      { slug: 'public-speaking', name: 'Public Speaking' },
+      { slug: 'applied-science', name: 'Applied Science' },
+      { slug: 'environmental-science', name: 'Environmental Science' },
+      { slug: 'iot', name: 'IoT' },
+      { slug: 'i2aspo', name: 'i2ASPO' },
     ],
-    readingMin: 4,
-    ageDays: -45,
+    readingMin: 6,
+    ageDays: -21,
     featured: false,
-    body: body(
-      'Sample article for layout preview.',
-      'The first exercise',
-      'Ask the child to explain one opinion in two minutes, then earnestly explain the opposite opinion. The goal is to train in arranging reasons, not to win the debate.',
-      'Replace this text with the real article before the site is published.',
-    ),
-  },
-  {
-    slug: 'menulis-kti-pertama',
-    title: 'Writing the First Scientific Paper',
-    subtitle: 'Narrowing down the topic first',
-    excerpt: 'The most frequent mistake in the first paper is a topic that is too broad.',
-    category: { slug: 'panduan-orang-tua', name: 'Parent Guide' },
-    tags: [{ slug: 'kti', name: 'Scientific Paper' }],
-    readingMin: 7,
-    ageDays: -60,
-    featured: false,
-    body: body(
-      'Sample article for article page layout preview.',
-      'Narrow it down first',
-      'A topic that is too broad makes the research unfinishable in the available time. Narrowing down the question at the beginning saves weeks later.',
-      'Replace this text with the real article before the site is published.',
+    coverUrl: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1200&auto=format&fit=crop&q=80',
+    coverAlt: 'Metroscope Researchers at i2ASPO 2025, Universitas Gadjah Mada',
+    body: doc(
+      paragraph(
+        'Yogyakarta, Indonesia — Addressing contemporary ecological challenges requires robust applied research platforms capable of translating theoretical scientific inquiry into tangible technological solutions. The Indonesia International Applied Science Project Olympiad (i2ASPO) 2025 offered a prominent international stage for young researchers to showcase applied science innovations, defend practical product designs, and engage with global scientific evaluators. Conducted as a hybrid symposium, the Olympiad facilitated remote project defenses via Zoom alongside physical exhibition sessions hosted at Universitas Gadjah Mada (UGM) in Yogyakarta. This dual-modal framework evaluated participants on both their theoretical foundation and the functional efficacy of their physical research prototypes.',
+      ),
+      heading('Empowering Young Innovators Through Applied Science'),
+      paragraph(
+        'Metroscope’s delegation at i2ASPO 2025 reflects an ongoing institutional dedication to fostering hands-on research competencies and technological innovation among secondary school students. Participation in an applied scientific olympiad challenges emerging scholars to move beyond conventional empirical testing into prototype engineering, functional optimization, and product defense. Navigating strict defense protocols, comprising a concentrated seven-minute oral presentation followed by an eight-minute intensive examination by an international jury panel, instills essential skills in concise scientific communication, analytical defense, and technological translation.',
+      ),
+      heading('An Integrated Hybrid Competition Framework'),
+      paragraph(
+        'The delegation navigated two comprehensive phases during the i2ASPO 2025 itinerary. The virtual competition phase commenced on December 9, 2025, with the inaugural online ceremony and preliminary remote judging, continuing through dedicated evaluation sessions on December 10, and concluding with the virtual award ceremony on December 12, 2025. Transitioning to the physical venue at Universitas Gadjah Mada, on-site participants arrived on December 17, attending the physical opening ceremony on December 18 and engaging in live prototype exhibitions and oral defenses on December 19. Following interactive scholarly activities on December 20, the event culminated in the grand award conferral ceremony on December 21, 2025.',
+      ),
+      heading('Research Contributions and Scientific Focus'),
+      paragraph(
+        'The Metroscope delegation comprised six student researchers representing three collaborating institutions, SMP Negeri 1 Metro, SMP Cahaya Bangsa, and SMP Muhammadiyah Ahmad Dahlan Metro—unified under a single collaborative research team. Competing within the Applied Environmental Science division, the investigators addressed atmospheric pollution monitoring in their study entitled "Neutral Buffered Potassium Iodide and Na₂S₂O₃ as Absorbers of Harmful Tropospheric Ozone Using Ozonometric, an IoT-Based Integrated Spectrophotometric Impinger." The team engineered an innovative environmental monitoring system combining chemical absorption methodology with Internet of Things (IoT) hardware to capture, measure, and analyze hazardous tropospheric ozone levels in real time.',
+      ),
     ),
   },
 ];
@@ -518,16 +805,16 @@ const toCard = (s: MockArticleSeed): ArticleCard => ({
   title: s.title,
   subtitle: s.subtitle,
   excerpt: s.excerpt,
-  locale: 'id',
+  locale: 'en',
   featured: s.featured,
   readingMin: s.readingMin,
   publishedAt: at(s.ageDays),
   updatedAt: at(s.ageDays),
   categorySlug: s.category.slug,
   categoryName: s.category.name,
-  authorName: 'Metroscope Team',
-  coverUrl: null,
-  coverAlt: null,
+  authorName: 'Metroscope Academic Board',
+  coverUrl: s.coverUrl ?? null,
+  coverAlt: s.coverAlt ?? null,
   coverWidth: null,
   coverHeight: null,
   tags: s.tags,
@@ -586,16 +873,22 @@ export function mockArticlePage(query: {
 export const MOCK_TAXONOMY: Taxonomy = {
   categories: [
     {
-      slug: 'persiapan-lomba',
-      name: 'Competition Prep',
-      description: 'How to prepare before competition day.',
-      articleCount: MOCK_ARTICLE_CARDS.filter((a) => a.categorySlug === 'persiapan-lomba').length,
+      slug: 'international-competition',
+      name: 'International Competition',
+      description: 'Global scientific symposiums, delegations, and international competition showcases.',
+      articleCount: MOCK_ARTICLE_CARDS.filter((a) => a.categorySlug === 'international-competition').length,
     },
     {
-      slug: 'panduan-orang-tua',
-      name: 'Parent Guide',
-      description: 'Things parents need to know.',
-      articleCount: MOCK_ARTICLE_CARDS.filter((a) => a.categorySlug === 'panduan-orang-tua').length,
+      slug: 'life-sciences',
+      name: 'Life Sciences',
+      description: 'Biomedical research, functional food formulations, and health innovations.',
+      articleCount: MOCK_ARTICLE_CARDS.filter((a) => a.categorySlug === 'life-sciences').length,
+    },
+    {
+      slug: 'applied-science',
+      name: 'Applied Science',
+      description: 'Applied engineering, IoT environmental monitoring, and sustainable technology.',
+      articleCount: MOCK_ARTICLE_CARDS.filter((a) => a.categorySlug === 'applied-science').length,
     },
   ],
   tags: Array.from(

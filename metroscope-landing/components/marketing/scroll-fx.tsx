@@ -185,7 +185,7 @@ export function BgWord({
     >
       <Parallax speed={0.12}>
         <span
-          className="font-serif text-[24vw] leading-none font-semibold tracking-tight whitespace-nowrap uppercase opacity-[0.05] blur-[1px]"
+          className="font-sans text-[24vw] leading-none font-semibold tracking-tight whitespace-nowrap uppercase opacity-[0.05] blur-[1px]"
           style={style}
         >
           {word}

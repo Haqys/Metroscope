@@ -63,7 +63,7 @@ export function ArticleCard({
             {[article.authorName, articleDate(article.publishedAt)].filter(Boolean).join(' · ')}
           </p>
           <h3
-            className={`group-hover:text-maroon mt-2 font-serif leading-snug font-medium tracking-tight text-neutral-900 transition-colors ${
+            className={`group-hover:text-maroon mt-2 font-sans leading-snug font-medium tracking-tight text-neutral-900 transition-colors ${
               featured ? 'text-3xl sm:text-4xl' : 'text-2xl'
             }`}
           >
