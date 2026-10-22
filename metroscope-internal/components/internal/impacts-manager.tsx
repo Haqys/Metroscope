@@ -27,7 +27,7 @@ export interface ImpactRecord {
   status: 'PUBLISHED' | 'DRAFT';
 }
 
-const INITIAL_IMPACTS: ImpactRecord[] = [
+const SAMPLE_IMPACTS: ImpactRecord[] = [
   {
     id: 'impact-jisf-2026-junior-high',
     title: 'Jakarta International Science Fair (JISF) 2026 Delegation',
@@ -109,7 +109,7 @@ function ImpactCardImage({ src, alt }: { src: string; alt: string }) {
 }
 
 export function ImpactsManager() {
-  const [items, setItems] = useState<ImpactRecord[]>(INITIAL_IMPACTS);
+  const [items, setItems] = useState<ImpactRecord[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'synced'>('idle');
@@ -282,87 +282,118 @@ export function ImpactsManager() {
         </div>
       </div>
 
-      {/* Grid of Impact Records */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {items.map((item) => (
-          <div
-            key={item.id}
-            className="flex flex-col justify-between overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition-all hover:border-neutral-300 hover:shadow-md"
-          >
-            <div>
-              {/* Image Preview */}
-              <div className="relative aspect-[16/9] w-full bg-neutral-100 overflow-hidden">
-                <ImpactCardImage src={item.coverUrl} alt={item.title} />
-                <div className="absolute top-3 left-3 flex items-center gap-2">
-                  <span className="rounded-full bg-black/75 px-2.5 py-0.5 text-[11px] font-medium text-white backdrop-blur-sm">
-                    {item.year}
-                  </span>
-                  <span className="rounded-full bg-white/90 px-2.5 py-0.5 text-[11px] font-semibold text-neutral-800 backdrop-blur-sm">
-                    {item.categoryLabel}
-                  </span>
-                </div>
-                <div className="absolute top-3 right-3">
-                  <span
-                    className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider ${
-                      item.status === 'PUBLISHED'
-                        ? 'bg-emerald-100 text-emerald-800'
-                        : 'bg-amber-100 text-amber-800'
-                    }`}
-                  >
-                    {item.status === 'PUBLISHED' ? 'Terbit' : 'Draf'}
-                  </span>
-                </div>
-              </div>
-
-              {/* Content Body */}
-              <div className="p-5">
-                <div className="flex items-center gap-1.5 text-xs text-neutral-500">
-                  <MapPin className="h-3.5 w-3.5 text-maroon" />
-                  <span>{item.location || 'Nasional / Global'}</span>
-                </div>
-
-                <h4 className="mt-2 text-base font-semibold text-neutral-900 leading-snug line-clamp-2">
-                  {item.title}
-                </h4>
-
-                <div className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-900 border border-amber-200/60">
-                  <Award className="h-3.5 w-3.5 text-amber-600" />
-                  <span className="truncate">{item.metric}</span>
-                </div>
-
-                <p className="mt-3 text-xs leading-relaxed text-neutral-600 line-clamp-3 font-light">
-                  {item.summary}
-                </p>
-              </div>
-            </div>
-
-            {/* Card Actions */}
-            <div className="flex items-center justify-between border-t border-neutral-100 px-5 py-3 bg-neutral-50/50">
-              <span className="text-[11px] font-mono text-neutral-400">
-                {item.keyTakeaways.length} poin pencapaian
-              </span>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => openEditModal(item)}
-                  title="Sunting"
-                  className="rounded-lg p-1.5 text-neutral-500 hover:bg-white hover:text-neutral-900 transition-colors"
-                >
-                  <Edit2 className="h-3.5 w-3.5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleDelete(item.id)}
-                  title="Hapus"
-                  className="rounded-lg p-1.5 text-rose-500 hover:bg-white hover:text-rose-700 transition-colors"
-                >
-                  <Trash2 className="h-3.5 w-3.5" />
-                </button>
-              </div>
-            </div>
+      {/* Grid of Impact Records or Empty State */}
+      {items.length === 0 ? (
+        <div className="rounded-3xl border border-dashed border-neutral-300 bg-white p-12 sm:p-16 text-center">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-maroon-light text-maroon mb-4">
+            <Sparkles className="h-7 w-7" />
           </div>
-        ))}
-      </div>
+          <h3 className="text-base font-bold text-neutral-900">
+            Daftar Cerita Dampak Masih Kosong
+          </h3>
+          <p className="mt-1.5 text-xs text-neutral-500 max-w-sm mx-auto leading-relaxed">
+            Belum ada catatan delegasi atau prestasi yang diterbitkan. Anda dapat menambahkan cerita baru atau memuat draf contoh.
+          </p>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+            <button
+              type="button"
+              onClick={openCreateModal}
+              className="inline-flex items-center gap-1.5 rounded-full bg-maroon px-5 py-2.5 text-xs font-semibold text-white shadow-sm hover:bg-maroon-dark transition-colors"
+            >
+              <Plus className="h-4 w-4" />
+              Tambah Cerita Baru
+            </button>
+            <button
+              type="button"
+              onClick={() => setItems(SAMPLE_IMPACTS)}
+              className="inline-flex items-center gap-1.5 rounded-full border border-neutral-200 bg-neutral-50 px-4 py-2.5 text-xs font-semibold text-neutral-700 hover:bg-neutral-100 transition-colors"
+            >
+              Muat Data Contoh (JISF &amp; SCA)
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {items.map((item) => (
+            <div
+              key={item.id}
+              className="flex flex-col justify-between overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition-all hover:border-neutral-300 hover:shadow-md"
+            >
+              <div>
+                {/* Image Preview */}
+                <div className="relative aspect-[16/9] w-full bg-neutral-100 overflow-hidden">
+                  <ImpactCardImage src={item.coverUrl} alt={item.title} />
+                  <div className="absolute top-3 left-3 flex items-center gap-2">
+                    <span className="rounded-full bg-black/75 px-2.5 py-0.5 text-[11px] font-medium text-white backdrop-blur-sm">
+                      {item.year}
+                    </span>
+                    <span className="rounded-full bg-white/90 px-2.5 py-0.5 text-[11px] font-semibold text-neutral-800 backdrop-blur-sm">
+                      {item.categoryLabel}
+                    </span>
+                  </div>
+                  <div className="absolute top-3 right-3">
+                    <span
+                      className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider ${
+                        item.status === 'PUBLISHED'
+                          ? 'bg-emerald-100 text-emerald-800'
+                          : 'bg-amber-100 text-amber-800'
+                      }`}
+                    >
+                      {item.status === 'PUBLISHED' ? 'Terbit' : 'Draf'}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Content Body */}
+                <div className="p-5">
+                  <div className="flex items-center gap-1.5 text-xs text-neutral-500">
+                    <MapPin className="h-3.5 w-3.5 text-maroon" />
+                    <span>{item.location || 'Nasional / Global'}</span>
+                  </div>
+
+                  <h4 className="mt-2 text-base font-semibold text-neutral-900 leading-snug line-clamp-2">
+                    {item.title}
+                  </h4>
+
+                  <div className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-900 border border-amber-200/60">
+                    <Award className="h-3.5 w-3.5 text-amber-600" />
+                    <span className="truncate">{item.metric}</span>
+                  </div>
+
+                  <p className="mt-3 text-xs leading-relaxed text-neutral-600 line-clamp-3 font-light">
+                    {item.summary}
+                  </p>
+                </div>
+              </div>
+
+              {/* Card Actions */}
+              <div className="flex items-center justify-between border-t border-neutral-100 px-5 py-3 bg-neutral-50/50">
+                <span className="text-[11px] font-mono text-neutral-400">
+                  {item.keyTakeaways.length} poin pencapaian
+                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => openEditModal(item)}
+                    title="Sunting"
+                    className="rounded-lg p-1.5 text-neutral-500 hover:bg-white hover:text-neutral-900 transition-colors"
+                  >
+                    <Edit2 className="h-3.5 w-3.5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(item.id)}
+                    title="Hapus"
+                    className="rounded-lg p-1.5 text-rose-500 hover:bg-white hover:text-rose-700 transition-colors"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Editor Modal */}
       {isModalOpen && (

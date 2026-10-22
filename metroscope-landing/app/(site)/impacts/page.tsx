@@ -99,120 +99,134 @@ export default async function ImpactsPage() {
           </span>
         </div>
 
-        <div className="mt-12 space-y-16 lg:space-y-24">
-          {items.map((story, idx) => (
-            <article
-              key={story.id}
-              className="grid gap-10 lg:grid-cols-12 items-start rounded-3xl border border-neutral-200/80 bg-white p-6 sm:p-10 shadow-sm transition-all hover:border-maroon/20 hover:shadow-md"
-            >
-              {/* Media / Cover Showcase (Left) */}
-              <div className="lg:col-span-6 space-y-4">
-                <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-neutral-100">
-                  <Image
-                    src={story.coverUrl}
-                    alt={story.coverAlt}
-                    fill
-                    sizes="(min-width: 1024px) 50vw, 100vw"
-                    className="object-cover"
-                    priority={idx === 0}
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-neutral-900/85 px-3 py-1 text-xs font-medium text-white backdrop-blur-md">
-                      <Globe className="h-3.5 w-3.5 text-amber-400" />
-                      {story.categoryLabel}
-                    </span>
+        {items.length > 0 ? (
+          <div className="mt-12 space-y-16 lg:space-y-24">
+            {items.map((story, idx) => (
+              <article
+                key={story.id}
+                className="grid gap-10 lg:grid-cols-12 items-start rounded-3xl border border-neutral-200/80 bg-white p-6 sm:p-10 shadow-sm transition-all hover:border-maroon/20 hover:shadow-md"
+              >
+                {/* Media / Cover Showcase (Left) */}
+                <div className="lg:col-span-6 space-y-4">
+                  <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-neutral-100">
+                    <Image
+                      src={story.coverUrl}
+                      alt={story.coverAlt}
+                      fill
+                      sizes="(min-width: 1024px) 50vw, 100vw"
+                      className="object-cover"
+                      priority={idx === 0}
+                    />
+                    <div className="absolute top-4 left-4">
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-neutral-900/85 px-3 py-1 text-xs font-medium text-white backdrop-blur-md">
+                        <Globe className="h-3.5 w-3.5 text-amber-400" />
+                        {story.categoryLabel}
+                      </span>
+                    </div>
                   </div>
+
+                  {/* Sub-gallery thumbnails */}
+                  {story.gallery && story.gallery.length > 1 && (
+                    <div className="grid grid-cols-3 gap-3">
+                      {story.gallery.slice(0, 3).map((photo, pIdx) => (
+                        <div
+                          key={pIdx}
+                          className="relative aspect-[4/3] overflow-hidden rounded-xl bg-neutral-100 border border-neutral-100"
+                        >
+                          <Image
+                            src={photo.url}
+                            alt={photo.alt}
+                            fill
+                            sizes="(min-width: 1024px) 15vw, 30vw"
+                            className="object-cover"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
-                {/* Sub-gallery thumbnails */}
-                {story.gallery && story.gallery.length > 1 && (
-                  <div className="grid grid-cols-3 gap-3">
-                    {story.gallery.slice(0, 3).map((photo, pIdx) => (
-                      <div
-                        key={pIdx}
-                        className="relative aspect-[4/3] overflow-hidden rounded-xl bg-neutral-100 border border-neutral-100"
-                      >
-                        <Image
-                          src={photo.url}
-                          alt={photo.alt}
-                          fill
-                          sizes="(min-width: 1024px) 15vw, 30vw"
-                          className="object-cover"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+                {/* Story Narrative (Right) */}
+                <div className="lg:col-span-6 flex flex-col justify-between h-full">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-500 pb-3 border-b border-neutral-100">
+                      <span className="flex items-center gap-1.5 font-medium text-neutral-800">
+                        <Calendar className="h-3.5 w-3.5 text-maroon" />
+                        {story.year}
+                      </span>
+                      {story.location && (
+                        <>
+                          <span>•</span>
+                          <span className="flex items-center gap-1.5">
+                            <MapPin className="h-3.5 w-3.5 text-maroon" />
+                            {story.location}
+                          </span>
+                        </>
+                      )}
+                    </div>
 
-              {/* Story Narrative (Right) */}
-              <div className="lg:col-span-6 flex flex-col justify-between h-full">
-                <div>
-                  <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-500 pb-3 border-b border-neutral-100">
-                    <span className="flex items-center gap-1.5 font-medium text-neutral-800">
-                      <Calendar className="h-3.5 w-3.5 text-maroon" />
-                      {story.year}
-                    </span>
-                    {story.location && (
-                      <>
-                        <span>•</span>
-                        <span className="flex items-center gap-1.5">
-                          <MapPin className="h-3.5 w-3.5 text-maroon" />
-                          {story.location}
-                        </span>
-                      </>
+                    <h3 className="mt-4 font-serif text-2xl sm:text-3xl font-medium tracking-tight text-neutral-900 leading-snug">
+                      {story.title}
+                    </h3>
+
+                    {story.subtitle && (
+                      <p className="mt-2 text-sm text-maroon font-medium italic">
+                        {story.subtitle}
+                      </p>
+                    )}
+
+                    {/* Highlight Metric Pill */}
+                    <div className="mt-5 inline-flex items-center gap-2 rounded-2xl bg-amber-500/10 border border-amber-500/20 px-4 py-2 text-sm font-semibold text-amber-900">
+                      <Award className="h-4 w-4 text-amber-600" />
+                      <span>{story.metric}</span>
+                    </div>
+
+                    <p className="mt-5 text-base sm:text-lg leading-relaxed font-light text-neutral-600">
+                      {story.summary}
+                    </p>
+
+                    {/* Key Takeaways */}
+                    {story.keyTakeaways && story.keyTakeaways.length > 0 && (
+                      <ul className="mt-6 space-y-2.5 text-sm font-light text-neutral-700">
+                        {story.keyTakeaways.map((takeaway, tIdx) => (
+                          <li key={tIdx} className="flex items-start gap-2.5">
+                            <CheckCircle2 className="h-4 w-4 text-maroon shrink-0 mt-0.5" />
+                            <span>{takeaway}</span>
+                          </li>
+                        ))}
+                      </ul>
                     )}
                   </div>
 
-                  <h3 className="mt-4 font-serif text-2xl sm:text-3xl font-medium tracking-tight text-neutral-900 leading-snug">
-                    {story.title}
-                  </h3>
-
-                  {story.subtitle && (
-                    <p className="mt-2 text-sm text-maroon font-medium italic">
-                      {story.subtitle}
-                    </p>
-                  )}
-
-                  {/* Highlight Metric Pill */}
-                  <div className="mt-5 inline-flex items-center gap-2 rounded-2xl bg-amber-500/10 border border-amber-500/20 px-4 py-2 text-sm font-semibold text-amber-900">
-                    <Award className="h-4 w-4 text-amber-600" />
-                    <span>{story.metric}</span>
+                  {/* Footer Link to Program or Article */}
+                  <div className="mt-8 pt-6 border-t border-neutral-100 flex items-center gap-4">
+                    {story.programSlug && (
+                      <Link
+                        href={`/programs/${story.programSlug}`}
+                        className="inline-flex items-center text-sm font-semibold text-maroon hover:text-maroon-dark transition-colors"
+                      >
+                        Read Full Delegation Story
+                        <ArrowRight className="ml-1.5 h-4 w-4" />
+                      </Link>
+                    )}
                   </div>
-
-                  <p className="mt-5 text-base sm:text-lg leading-relaxed font-light text-neutral-600">
-                    {story.summary}
-                  </p>
-
-                  {/* Key Takeaways */}
-                  {story.keyTakeaways && story.keyTakeaways.length > 0 && (
-                    <ul className="mt-6 space-y-2.5 text-sm font-light text-neutral-700">
-                      {story.keyTakeaways.map((takeaway, tIdx) => (
-                        <li key={tIdx} className="flex items-start gap-2.5">
-                          <CheckCircle2 className="h-4 w-4 text-maroon shrink-0 mt-0.5" />
-                          <span>{takeaway}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
                 </div>
-
-                {/* Footer Link to Program or Article */}
-                <div className="mt-8 pt-6 border-t border-neutral-100 flex items-center gap-4">
-                  {story.programSlug && (
-                    <Link
-                      href={`/programs/${story.programSlug}`}
-                      className="inline-flex items-center text-sm font-semibold text-maroon hover:text-maroon-dark transition-colors"
-                    >
-                      Read Full Delegation Story
-                      <ArrowRight className="ml-1.5 h-4 w-4" />
-                    </Link>
-                  )}
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className="mt-12 rounded-3xl border border-dashed border-neutral-200/80 bg-neutral-50/50 p-12 sm:p-16 text-center">
+            <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-maroon/10 text-maroon mb-4">
+              <Sparkles className="h-6 w-6" />
+            </span>
+            <h3 className="font-serif text-2xl font-medium text-neutral-900">
+              Dokumentasi &amp; Arsip Cerita Sedang Dipersiapkan
+            </h3>
+            <p className="mt-2 text-sm text-neutral-500 max-w-md mx-auto leading-relaxed font-light">
+              Kisah delegasi kompetisi sains dan publikasi riset terapan siswa Metroscope akan segera hadir di sini.
+            </p>
+          </div>
+        )}
       </section>
 
       {/* Collaboration Callout */}
