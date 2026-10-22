@@ -20,6 +20,7 @@ import {
   Wallet,
   Tags,
   Trophy,
+  Sparkles,
 } from 'lucide-react';
 
 /**
@@ -225,6 +226,14 @@ export const PAGES: PageDef[] = [
     icon: Newspaper,
     inNav: true,
     description: 'Tulis, review, dan terbitkan artikel',
+  },
+  {
+    href: '/site/impacts',
+    label: 'Dampak & Prestasi',
+    group: 'Konten',
+    icon: Sparkles,
+    inNav: true,
+    description: 'Kelola cerita delegasi, riset, dan dampak yang tampil di situs',
   },
   {
     href: '/site/taxonomy',

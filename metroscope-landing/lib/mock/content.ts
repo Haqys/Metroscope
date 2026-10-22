@@ -5,6 +5,7 @@ import type {
   PublicArticle,
   Taxonomy,
 } from '@/lib/articles-api';
+import type { ImpactsData } from '@/lib/impacts-api';
 import type { PublicCompetition, PublicCompetitionDetail } from '@/lib/competitions-api';
 import type { PublicProgram, PublicProgramDetail, ProgramStory } from '@/lib/programs-api';
 import type { SitemapEntry } from '@/lib/seo-api';
@@ -1036,3 +1037,123 @@ export const MOCK_COMPETITION_DETAILS: PublicCompetitionDetail[] = MOCK_COMPETIT
  * the sitemap adds itself are harmless and stay.
  */
 export const MOCK_SITEMAP_ENTRIES: SitemapEntry[] = [];
+
+// ── impacts & achievements ──────────────────────────────────────────────────
+
+export const MOCK_IMPACTS: ImpactsData = {
+  stats: [
+    {
+      value: 128,
+      suffix: '+',
+      label: 'Delegates & Scholars',
+      sublabel: 'Trained across Olympiad & Science Fair divisions',
+    },
+    {
+      value: 40,
+      suffix: '+',
+      label: 'International & National Podiums',
+      sublabel: 'Gold, silver, bronze, and special jury commendations',
+    },
+    {
+      value: 100,
+      suffix: '%',
+      label: 'Oral Defense Pass Rate',
+      sublabel: 'Successful research defenses before international juries',
+    },
+    {
+      value: 12,
+      suffix: '',
+      label: 'Flagship Research Papers',
+      sublabel: 'Presented at international scientific conferences',
+    },
+  ],
+  items: [
+    {
+      id: 'impact-jisf-2026-junior-high',
+      slug: 'jisf-2026-junior-high-delegation',
+      title: 'Jakarta International Science Fair (JISF) 2026 Delegation',
+      subtitle: 'Junior High Delegation Secures Prestigious Accolades in Applied Engineering',
+      category: 'GLOBAL_DELEGATION',
+      categoryLabel: 'Global Delegation',
+      year: '2026',
+      location: 'Jakarta, Indonesia',
+      metric: 'Gold Medal & Special Commendation',
+      metricLabel: 'Competition Result',
+      summary:
+        'Junior High delegates from Metroscope presented cutting-edge applied science research, defending an IoT-based atmospheric air quality monitoring prototype before a global jury panel.',
+      keyTakeaways: [
+        'Designed real-time IoT hardware sensor array for tropospheric pollutant detection',
+        'Defended quantitative findings in English during rigorous 15-minute jury oral defense',
+        'Competed against leading middle school delegations from across the Asia-Pacific region',
+      ],
+      coverUrl: '/images/events/jisf-2026-smp-1.jpg',
+      coverAlt: 'Metroscope Junior High delegation at JISF 2026',
+      gallery: [
+        { url: '/images/events/jisf-2026-smp-1.jpg', alt: 'Delegates presenting before the jury' },
+        { url: '/images/events/jisf-2026-smp-2.jpg', alt: 'Live prototype testing session' },
+        { url: '/images/events/jisf-2026-smp-3.jpg', alt: 'Medal ceremony celebration' },
+      ],
+      articleSlug: 'research-excellence-jisf-2026',
+      programSlug: 'event-jisf-2026-junior-high',
+      publishedAt: at(-30),
+    },
+    {
+      id: 'impact-sca-2025-cyberjaya',
+      slug: 'science-castle-asia-2025-malaysia',
+      title: 'Science Castle Asia (SCA) 2025 — Cyberjaya, Malaysia',
+      subtitle: 'International Academic Symposium & Sustainable Innovation Presentation',
+      category: 'GLOBAL_DELEGATION',
+      categoryLabel: 'International Symposium',
+      year: '2025',
+      location: 'Cyberjaya, Malaysia',
+      metric: 'Outstanding International Presenter Award',
+      metricLabel: 'Academic Recognition',
+      summary:
+        'Representing young Indonesian researchers on the global academic stage, Metroscope delegates defended sustainable circular economy solutions and biomedical botanical extracts before corporate and university evaluators.',
+      keyTakeaways: [
+        'Evaluated by international researchers from Japanese and Malaysian universities',
+        'Published conference abstract in official symposium proceeding index',
+        'Strengthened cross-border peer networks with fellow young innovators',
+      ],
+      coverUrl: '/images/events/sca-2025-award.jpg',
+      coverAlt: 'Science Castle Asia delegation presentation and award',
+      gallery: [
+        { url: '/images/events/sca-2025-award.jpg', alt: 'Award acceptance on main stage' },
+        { url: '/images/events/sca-2025-delegation.jpg', alt: 'Delegation group photo in Cyberjaya' },
+        { url: '/images/events/sca-2025-judging.jpg', alt: 'Symposium poster defense session' },
+      ],
+      articleSlug: 'science-castle-asia-2025-coverage',
+      programSlug: 'event-science-castle-asia-2025',
+      publishedAt: at(-120),
+    },
+    {
+      id: 'impact-jisf-2026-elementary',
+      slug: 'jisf-2026-elementary-young-inventors',
+      title: 'Elementary Scientific Inquiry at JISF 2026',
+      subtitle: 'Early-Age Research Literacy Leads to Exceptional Podium Recognition',
+      category: 'RESEARCH_INNOVATION',
+      categoryLabel: 'Applied Science',
+      year: '2026',
+      location: 'Jakarta, Indonesia',
+      metric: 'Silver Award in Life Sciences',
+      metricLabel: 'Division Outcome',
+      summary:
+        'Young primary school researchers showcased biological antibacterial properties of native agricultural extracts, proving that rigorous scientific methodology starts well before high school.',
+      keyTakeaways: [
+        'Formulated hypothesis, control groups, and measurable laboratory trials',
+        'Synthesized research poster adhering to international symposium standards',
+        'Demonstrated public speaking poise and scientific rigor at elementary level',
+      ],
+      coverUrl: '/images/events/jisf-2026-sd-1.jpg',
+      coverAlt: 'Elementary student researchers at JISF 2026',
+      gallery: [
+        { url: '/images/events/jisf-2026-sd-1.jpg', alt: 'Elementary delegation at display booth' },
+        { url: '/images/events/jisf-2026-sd-2.jpg', alt: 'Data chart explanation to evaluators' },
+        { url: '/images/events/jisf-2026-sd-3.jpg', alt: 'Certificate and medal award moment' },
+      ],
+      articleSlug: 'jisf-2026-elementary-breakthrough',
+      programSlug: 'event-jisf-2026-elementary',
+      publishedAt: at(-45),
+    },
+  ],
+};
