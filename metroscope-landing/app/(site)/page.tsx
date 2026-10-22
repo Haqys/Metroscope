@@ -79,8 +79,9 @@ const JOURNEY = [
   },
   {
     step: '04',
-    title: 'Assessment & Level Up',
-    body: 'Every month, mentors provide structured assessments. Points, badges, and levels keep the learning momentum alive.',
+    // Original: title: 'Assessment & Level Up', body: 'Every month, mentors provide structured assessments. Points, badges, and levels keep the learning momentum alive.'
+    title: 'Progress Tracking & Level Up',
+    body: 'Every month, mentors provide structured feedback and evaluation. Points, badges, and milestones keep the learning momentum alive.',
   },
 ];
 

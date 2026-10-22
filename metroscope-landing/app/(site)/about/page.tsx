@@ -14,6 +14,9 @@ import {
 import { Reveal } from '@/components/marketing/scroll-fx';
 import { absolute, social } from '@/lib/seo';
 
+// Toggle for assessment CTA. Set to true to re-enable in the future
+const SHOW_ASSESSMENT_CTA = false;
+
 const DESCRIPTION =
   'Metroscope is a strategic mentoring ecosystem and integrated selection preparation for junior high school students in Metro, Lampung.';
 const URL = absolute('/about');
@@ -199,7 +202,7 @@ export default function AboutPage() {
                 <ShieldCheck className="text-maroon h-10 w-10 mb-6" />
                 <h3 className="font-serif text-3xl font-medium text-neutral-900">For Parents</h3>
                 <p className="mt-4 leading-relaxed font-light text-neutral-500 text-lg">
-                  Credibility, program transparency, and real results. You will always have full access to your child&apos;s academic progress, assessment reports, and ongoing curriculum.
+                  Credibility, program transparency, and real results. You will always have full access to your child&apos;s academic progress, evaluation reports, and ongoing curriculum.
                 </p>
               </div>
             </Reveal>
@@ -231,17 +234,20 @@ export default function AboutPage() {
             </Reveal>
           ))}
         </div>
-        <Reveal delay={300}>
-          <div className="mt-20">
-            <h2 className="font-serif text-3xl font-medium text-neutral-900 mb-6">Take your first step</h2>
-            <Link
-              href="/register"
-              className="bg-maroon hover:bg-maroon-dark inline-block rounded-full px-10 py-4 text-sm font-medium tracking-wide text-white transition-all duration-300 hover:scale-105 shadow-lg"
-            >
-              Free Consultation & Assessment
-            </Link>
-          </div>
-        </Reveal>
+        {/* Assessment CTA (set SHOW_ASSESSMENT_CTA = true to re-enable) */}
+        {SHOW_ASSESSMENT_CTA && (
+          <Reveal delay={300}>
+            <div className="mt-20">
+              <h2 className="font-serif text-3xl font-medium text-neutral-900 mb-6">Take your first step</h2>
+              <Link
+                href="/register"
+                className="bg-maroon hover:bg-maroon-dark inline-block rounded-full px-10 py-4 text-sm font-medium tracking-wide text-white transition-all duration-300 hover:scale-105 shadow-lg"
+              >
+                Free Consultation & Assessment
+              </Link>
+            </div>
+          </Reveal>
+        )}
       </section>
     </main>
   );

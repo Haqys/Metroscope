@@ -11,11 +11,15 @@ export const metadata: Metadata = {
   alternates: { canonical: absolute('/roadmap') },
 };
 
+// Toggle for assessment CTA. Set to true to re-enable in the future
+const SHOW_ASSESSMENT_CTA = false;
+
 const ROADMAP = [
   {
     step: 'Grade 7',
     title: 'Discovery & Mapping',
-    body: 'Starting from IQ tests, psychological assessments, to mapping interests and talents to create a personalized learning map for students during junior high.',
+    // Original: 'Starting from IQ tests, psychological assessments, to mapping interests and talents to create a personalized learning map for students during junior high.'
+    body: 'Diagnostic profiling, interest discovery, and talent mapping to create a personalized learning map for students during junior high.',
   },
   {
     step: 'Grade 8',
@@ -98,31 +102,33 @@ export default function RoadmapPage() {
         </div>
       </section>
 
-      {/* Bottom CTA */}
-      <section className="container pb-32">
-        <Reveal>
-          <div className="bg-navy relative overflow-hidden rounded-3xl px-6 py-20 text-center sm:px-12 lg:py-24">
-            <div className="relative z-10">
-              <h2 className="font-serif text-3xl font-medium tracking-tight text-white sm:text-5xl">
-                Ready to map your potential?
-              </h2>
-              <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed font-light text-white/70">
-                Take the first step with a free IQ test and aptitude assessment with our team.
-              </p>
-              <div className="mt-10">
-                <Link
-                  href="/register"
-                  className="bg-maroon hover:bg-maroon-dark inline-block rounded-full px-10 py-4 text-sm font-medium tracking-wide text-white shadow-lg transition-transform hover:scale-105"
-                >
-                  Register for Assessment Now
-                </Link>
+      {/* Bottom CTA (set SHOW_ASSESSMENT_CTA = true to re-enable) */}
+      {SHOW_ASSESSMENT_CTA && (
+        <section className="container pb-32">
+          <Reveal>
+            <div className="bg-navy relative overflow-hidden rounded-3xl px-6 py-20 text-center sm:px-12 lg:py-24">
+              <div className="relative z-10">
+                <h2 className="font-serif text-3xl font-medium tracking-tight text-white sm:text-5xl">
+                  Ready to map your potential?
+                </h2>
+                <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed font-light text-white/70">
+                  Take the first step with a free IQ test and aptitude assessment with our team.
+                </p>
+                <div className="mt-10">
+                  <Link
+                    href="/register"
+                    className="bg-maroon hover:bg-maroon-dark inline-block rounded-full px-10 py-4 text-sm font-medium tracking-wide text-white shadow-lg transition-transform hover:scale-105"
+                  >
+                    Register for Assessment Now
+                  </Link>
+                </div>
               </div>
+              {/* Subtle background glow */}
+              <div className="bg-maroon/20 absolute -top-24 -right-24 h-96 w-96 rounded-full blur-[100px]" />
             </div>
-            {/* Subtle background glow */}
-            <div className="bg-maroon/20 absolute -top-24 -right-24 h-96 w-96 rounded-full blur-[100px]" />
-          </div>
-        </Reveal>
-      </section>
+          </Reveal>
+        </section>
+      )}
     </main>
   );
 }
