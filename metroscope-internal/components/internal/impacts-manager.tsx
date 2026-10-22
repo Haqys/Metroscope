@@ -140,7 +140,7 @@ function SafeImage({
 }
 
 export function ImpactsManager() {
-  const STORAGE_KEY = 'metroscope_cms_impacts_v2';
+  const STORAGE_KEY = 'metroscope_cms_impacts_v3';
 
   const [items, setItems] = useState<ImpactRecord[]>(() => {
     if (typeof window !== 'undefined') {
@@ -188,7 +188,7 @@ export function ImpactsManager() {
 
   // Cache to localStorage
   useEffect(() => {
-    if (typeof window !== 'undefined' && items.length > 0) {
+    if (typeof window !== 'undefined') {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
       } catch {}
@@ -204,12 +204,10 @@ export function ImpactsManager() {
         if (res.ok) {
           const data = await res.json();
           if (data?.items && Array.isArray(data.items) && !cancelled) {
-            if (data.items.length > 0) {
-              setItems(data.items);
-              try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(data.items));
-              } catch {}
-            }
+            setItems(data.items);
+            try {
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(data.items));
+            } catch {}
           }
         }
       } catch {}
@@ -488,7 +486,13 @@ export function ImpactsManager() {
 
   const handleDelete = async (id: string) => {
     if (confirm('Hapus cerita dampak ini dari sistem dan situs klien?')) {
-      setItems((prev) => prev.filter((i) => i.id !== id));
+      const nextItems = items.filter((i) => i.id !== id);
+      setItems(nextItems);
+      if (typeof window !== 'undefined') {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(nextItems));
+        } catch {}
+      }
       try {
         await fetch(`/api/bff/site/impacts/${id}`, { method: 'DELETE' });
       } catch {}

@@ -21,6 +21,9 @@ const DESCRIPTION =
 const URL = absolute('/impacts');
 const SOCIAL = social({ title: 'Our Impacts · Metroscope', description: DESCRIPTION, url: URL });
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: 'Our Impacts',
   description: DESCRIPTION,

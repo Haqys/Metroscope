@@ -137,7 +137,7 @@ export async function listImpacts(): Promise<ImpactsData> {
         .eq('status', 'PUBLISHED')
         .order('created_at', { ascending: false });
 
-      if (!error && data && data.length > 0) {
+      if (!error && Array.isArray(data)) {
         return {
           stats: MOCK_IMPACTS.stats,
           items: (data as SupabaseImpactRow[]).map(toImpactStory),
