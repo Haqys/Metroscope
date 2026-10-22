@@ -125,26 +125,70 @@ export interface ArticleQuery {
   perPage?: number;
 }
 
-export function listArticles(query: ArticleQuery = {}): Promise<ArticleListPage> {
-  if (STANDALONE) return Promise.resolve(mockArticlePage(query));
+async function fetchFromInternalCms<T>(path: string): Promise<T | null> {
+  const internalUrl = process.env.INTERNAL_URL || 'http://localhost:3002';
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 1200);
+    const res = await fetch(`${internalUrl}/api/published-articles${path}`, {
+      signal: controller.signal,
+      cache: 'no-store',
+    });
+    clearTimeout(timer);
+    if (!res.ok) return null;
+    const body = await res.json();
+    return (body?.data ?? null) as T;
+  } catch {
+    return null;
+  }
+}
+
+export async function listArticles(query: ArticleQuery = {}): Promise<ArticleListPage> {
+  if (STANDALONE) {
+    const remote = await fetchFromInternalCms<{
+      items: ArticleCard[];
+      fullArticles: PublicArticle[];
+      total: number;
+    }>('');
+    if (remote && remote.items && remote.items.length > 0) {
+      let filtered = remote.items;
+      if (query.category) filtered = filtered.filter((a) => a.categorySlug === query.category);
+      if (query.tag) filtered = filtered.filter((a) => a.tags.some((t) => t.slug === query.tag));
+      if (query.featured) filtered = filtered.filter((a) => a.featured);
+      if (query.q) {
+        const needle = query.q.toLowerCase();
+        filtered = filtered.filter(
+          (a) =>
+            a.title.toLowerCase().includes(needle) ||
+            (a.excerpt ?? '').toLowerCase().includes(needle),
+        );
+      }
+      const perPage = query.perPage ?? 9;
+      const page = query.page ?? 1;
+      return {
+        items: filtered.slice((page - 1) * perPage, page * perPage),
+        total: filtered.length,
+        page,
+        perPage,
+        pageCount: Math.max(1, Math.ceil(filtered.length / perPage)),
+      };
+    }
+    return mockArticlePage(query);
+  }
 
   const qs = new URLSearchParams();
   for (const [k, v] of Object.entries(query)) {
     if (v !== undefined && v !== '') qs.set(k, String(v));
   }
-  /**
-   * Every listing carries the plain `articles` tag, whatever it filters by.
-   *
-   * Publishing one article changes the index, its category hub, each of its tag
-   * hubs and any search that would have matched it. Tagging a listing by its
-   * own filter would leave every other listing stale until its own five minutes
-   * elapsed, visible to an editor as "it worked on one page but not the next".
-   */
   return get<ArticleListPage>(`/articles${qs.size ? `?${qs}` : ''}`, ['articles'], EMPTY_PAGE);
 }
 
-export function getArticle(slug: string): Promise<PublicArticle | null> {
-  if (STANDALONE) return Promise.resolve(MOCK_ARTICLES.find((a) => a.slug === slug) ?? null);
+export async function getArticle(slug: string): Promise<PublicArticle | null> {
+  if (STANDALONE) {
+    const remote = await fetchFromInternalCms<PublicArticle>(`?slug=${encodeURIComponent(slug)}`);
+    if (remote) return remote;
+    return MOCK_ARTICLES.find((a) => a.slug === slug) ?? null;
+  }
   return get<PublicArticle | null>(`/articles/${slug}`, ['articles', `article:${slug}`], null);
 }
 

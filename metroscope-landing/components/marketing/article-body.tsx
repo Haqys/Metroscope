@@ -167,7 +167,7 @@ function renderNode(node: ProseNode, key: string): React.ReactNode {
 
     case 'image': {
       const src = typeof node.attrs?.src === 'string' ? node.attrs.src : '';
-      if (!/^https?:\/\//i.test(src) && !src.startsWith('/')) return null;
+      if (!/^https?:\/\//i.test(src) && !src.startsWith('/') && !src.startsWith('data:')) return null;
       const alt = typeof node.attrs?.alt === 'string' ? node.attrs.alt : '';
       return (
         <figure key={key} className="mt-8">

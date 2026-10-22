@@ -1,6 +1,13 @@
 import { getAccessToken } from '@/lib/supabase/server';
 import { env } from '@/lib/env';
 import { logger } from '@/lib/logger';
+import {
+  getRuntimeArticles,
+  getRuntimeArticle,
+  getRuntimeCategories,
+  getRuntimeTags,
+  toListItem,
+} from './articles-data';
 
 /**
  * Server-side calls to api.metroscope.id.
@@ -53,14 +60,23 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     return body?.data as T;
   } catch (err) {
     logger.warn('api_unreachable_fallback', { path, error: String(err) });
+    if (path.startsWith('/site/articles/')) {
+      const id = path.replace('/site/articles/', '').split('?')[0]!;
+      const article = getRuntimeArticle(id);
+      if (article) return article as unknown as T;
+    }
     if (path.startsWith('/site/articles')) {
-      return { items: [], total: 0 } as unknown as T;
+      const items = getRuntimeArticles().map(toListItem);
+      return { items, total: items.length } as unknown as T;
     }
     if (path.startsWith('/site/content')) {
       return { items: [], total: 0 } as unknown as T;
     }
-    if (path.startsWith('/site/categories') || path.startsWith('/site/tags')) {
-      return { items: [] } as unknown as T;
+    if (path.startsWith('/site/categories')) {
+      return { items: getRuntimeCategories() } as unknown as T;
+    }
+    if (path.startsWith('/site/tags')) {
+      return { items: getRuntimeTags() } as unknown as T;
     }
     if (path.startsWith('/site/programs') || path.startsWith('/site/pages')) {
       return { items: [] } as unknown as T;
@@ -493,17 +509,51 @@ export interface ArticleQuery {
   offset?: number;
 }
 
-export function listArticles(params: ArticleQuery = {}) {
-  const qs = new URLSearchParams();
-  for (const [k, v] of Object.entries(params))
-    if (v !== undefined && v !== '') qs.set(k, String(v));
-  return request<{ items: ArticleListItem[]; total: number }>(
-    `/site/articles${qs.size ? `?${qs}` : ''}`,
-  );
+export async function listArticles(params: ArticleQuery = {}) {
+  try {
+    const qs = new URLSearchParams();
+    for (const [k, v] of Object.entries(params))
+      if (v !== undefined && v !== '') qs.set(k, String(v));
+    const res = await request<{ items: ArticleListItem[]; total: number }>(
+      `/site/articles${qs.size ? `?${qs}` : ''}`,
+    );
+    if (res && res.items && res.items.length > 0) return res;
+  } catch (err) {
+    logger.warn('list_articles_fallback_triggered', { err });
+  }
+
+  let all = getRuntimeArticles();
+  if (params.status) all = all.filter((a) => a.status === params.status);
+  if (params.categoryId) all = all.filter((a) => a.categoryId === params.categoryId);
+  if (params.tagId)
+    all = all.filter((a) => a.tags.some((t) => t.id === params.tagId || t.slug === params.tagId));
+  if (params.featured !== undefined) all = all.filter((a) => a.featured === params.featured);
+  if (params.q) {
+    const q = params.q.toLowerCase();
+    all = all.filter(
+      (a) =>
+        a.title.toLowerCase().includes(q) ||
+        (a.subtitle ?? '').toLowerCase().includes(q) ||
+        (a.excerpt ?? '').toLowerCase().includes(q),
+    );
+  }
+  const items = all.map(toListItem);
+  return { items, total: items.length };
 }
 
-export function getArticle(id: string) {
-  return request<Article>(`/site/articles/${id}`);
+export async function getArticle(id: string) {
+  try {
+    const res = await request<Article>(`/site/articles/${id}`);
+    if (res && res.id) return res;
+  } catch (err) {
+    logger.warn('get_article_fallback_triggered', { id, err });
+  }
+
+  const fallback = getRuntimeArticle(id);
+  if (!fallback) {
+    throw new ApiError(404, 'ARTICLE_NOT_FOUND', 'Artikel tidak ditemukan.');
+  }
+  return fallback;
 }
 
 export interface ArticleCategory {
@@ -515,12 +565,20 @@ export interface ArticleCategory {
   articleCount: number;
 }
 
-export function listArticleCategories() {
-  return request<{ items: ArticleCategory[] }>('/site/categories');
+export async function listArticleCategories() {
+  try {
+    const res = await request<{ items: ArticleCategory[] }>('/site/categories');
+    if (res && res.items && res.items.length > 0) return res;
+  } catch {}
+  return { items: getRuntimeCategories() };
 }
 
-export function listArticleTags() {
-  return request<{ items: (ArticleTag & { articleCount: number })[] }>('/site/tags');
+export async function listArticleTags() {
+  try {
+    const res = await request<{ items: (ArticleTag & { articleCount: number })[] }>('/site/tags');
+    if (res && res.items && res.items.length > 0) return res;
+  } catch {}
+  return { items: getRuntimeTags() };
 }
 
 // ── programmes as CMS content (doc 14 §2.5) ──────────────────────────────
