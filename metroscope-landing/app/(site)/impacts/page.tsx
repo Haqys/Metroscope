@@ -111,8 +111,9 @@ export default async function ImpactsPage() {
                   <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-neutral-100">
                     <Image
                       src={story.coverUrl}
-                      alt={story.coverAlt}
+                      alt={story.coverAlt || story.title}
                       fill
+                      unoptimized={story.coverUrl.startsWith('data:') || story.coverUrl.startsWith('http')}
                       sizes="(min-width: 1024px) 50vw, 100vw"
                       className="object-cover"
                       priority={idx === 0}
@@ -135,8 +136,9 @@ export default async function ImpactsPage() {
                         >
                           <Image
                             src={photo.url}
-                            alt={photo.alt}
+                            alt={photo.alt || 'Dokumentasi'}
                             fill
+                            unoptimized={photo.url.startsWith('data:') || photo.url.startsWith('http')}
                             sizes="(min-width: 1024px) 15vw, 30vw"
                             className="object-cover"
                           />

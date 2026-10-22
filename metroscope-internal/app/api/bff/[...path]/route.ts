@@ -15,6 +15,12 @@ import {
   deleteArticleFromSupabase,
   updateArticleStatusInSupabase,
 } from '@/lib/supabase-articles';
+import {
+  fetchImpactsFromSupabase,
+  saveImpactToSupabase,
+  deleteImpactFromSupabase,
+  updateImpactStatusInSupabase,
+} from '@/lib/supabase-impacts';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -93,6 +99,33 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
         await deleteArticleFromSupabase(path[2]);
         deleteRuntimeArticle(path[2]);
         return NextResponse.json({ data: { success: true } });
+      }
+    }
+
+    // Handle Impacts actions in standalone/direct Supabase mode
+    if (path[0] === 'site' && path[1] === 'impacts') {
+      if (req.method === 'GET') {
+        const items = await fetchImpactsFromSupabase();
+        return NextResponse.json({ items, total: items.length });
+      }
+
+      if (req.method === 'POST') {
+        const payload = bodyText ? JSON.parse(bodyText) : {};
+        const success = await saveImpactToSupabase(payload);
+        return NextResponse.json({ success, data: payload });
+      }
+
+      if (req.method === 'DELETE' && path[2]) {
+        const success = await deleteImpactFromSupabase(path[2]);
+        return NextResponse.json({ success });
+      }
+
+      if (req.method === 'PATCH' && path[2]) {
+        const payload = bodyText ? JSON.parse(bodyText) : {};
+        if (payload.status) {
+          await updateImpactStatusInSupabase(path[2], payload.status);
+        }
+        return NextResponse.json({ success: true });
       }
     }
 
