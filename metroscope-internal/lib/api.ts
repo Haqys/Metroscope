@@ -52,20 +52,18 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
     return body?.data as T;
   } catch (err) {
-    if (process.env.NODE_ENV !== 'production') {
-      logger.warn('api_unreachable_dev_fallback', { path, error: String(err) });
-      if (path.startsWith('/site/articles')) {
-        return { items: [], total: 0 } as unknown as T;
-      }
-      if (path.startsWith('/site/content')) {
-        return { items: [], total: 0 } as unknown as T;
-      }
-      if (path.startsWith('/site/categories') || path.startsWith('/site/tags')) {
-        return { items: [] } as unknown as T;
-      }
-      if (path.startsWith('/site/programs') || path.startsWith('/site/pages')) {
-        return { items: [] } as unknown as T;
-      }
+    logger.warn('api_unreachable_fallback', { path, error: String(err) });
+    if (path.startsWith('/site/articles')) {
+      return { items: [], total: 0 } as unknown as T;
+    }
+    if (path.startsWith('/site/content')) {
+      return { items: [], total: 0 } as unknown as T;
+    }
+    if (path.startsWith('/site/categories') || path.startsWith('/site/tags')) {
+      return { items: [] } as unknown as T;
+    }
+    if (path.startsWith('/site/programs') || path.startsWith('/site/pages')) {
+      return { items: [] } as unknown as T;
     }
     throw err;
   }

@@ -26,6 +26,7 @@ export interface Session extends SessionUser {
 export const getSession = cache(async (): Promise<Session | null> => {
   const isDevAuthBypass =
     process.env.DEV_BYPASS_AUTH === 'true' ||
+    process.env.NEXT_PUBLIC_STANDALONE === 'true' ||
     (process.env.NODE_ENV !== 'production' &&
       (!process.env.NEXT_PUBLIC_SUPABASE_URL ||
         process.env.NEXT_PUBLIC_SUPABASE_URL.includes('your-project')));
