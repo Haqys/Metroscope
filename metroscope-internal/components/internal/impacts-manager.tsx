@@ -25,7 +25,14 @@ import {
   Search,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type { ImpactRecord, ImpactBlock } from '@/lib/supabase-impacts';
+import {
+  type ImpactRecord,
+  type ImpactBlock,
+  saveImpactToSupabase,
+  deleteImpactFromSupabase,
+  updateImpactStatusInSupabase,
+  fetchImpactsFromSupabase,
+} from '@/lib/supabase-impacts';
 
 export type { ImpactRecord, ImpactBlock };
 
@@ -195,10 +202,11 @@ export function ImpactsManager() {
     }
   }, [items]);
 
-  // Fetch fresh from Supabase via BFF on mount
+  // Fetch fresh from Supabase via BFF / direct client on mount
   useEffect(() => {
     let cancelled = false;
     async function loadFreshImpacts() {
+      // 1. Try BFF proxy
       try {
         const res = await fetch('/api/bff/site/impacts');
         if (res.ok) {
@@ -208,7 +216,19 @@ export function ImpactsManager() {
             try {
               localStorage.setItem(STORAGE_KEY, JSON.stringify(data.items));
             } catch {}
+            return;
           }
+        }
+      } catch {}
+
+      // 2. Direct Supabase client fallback
+      try {
+        const direct = await fetchImpactsFromSupabase();
+        if (!cancelled && direct) {
+          setItems(direct);
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(direct));
+          } catch {}
         }
       } catch {}
     }
@@ -454,7 +474,14 @@ export function ImpactsManager() {
       setItems((prev) => [impactItem, ...prev]);
     }
 
-    // Persist to Supabase via BFF proxy
+    // 1. Direct Supabase client write (guarantees immediate update)
+    try {
+      await saveImpactToSupabase(impactItem);
+    } catch (e) {
+      console.error('Direct Supabase write failed:', e);
+    }
+
+    // 2. Persist to Supabase via BFF proxy
     try {
       const res = await fetch('/api/bff/site/impacts', {
         method: 'POST',
@@ -494,6 +521,9 @@ export function ImpactsManager() {
         } catch {}
       }
       try {
+        await deleteImpactFromSupabase(id);
+      } catch {}
+      try {
         await fetch(`/api/bff/site/impacts/${id}`, { method: 'DELETE' });
       } catch {}
       showToast('Cerita dampak telah dihapus dari Supabase & sistem.');
@@ -508,6 +538,10 @@ export function ImpactsManager() {
     setItems((prev) =>
       prev.map((i) => (i.id === id ? { ...i, status: nextStatus } : i)),
     );
+
+    try {
+      await updateImpactStatusInSupabase(id, nextStatus);
+    } catch {}
 
     try {
       await fetch('/api/bff/site/impacts', {
@@ -527,12 +561,26 @@ export function ImpactsManager() {
   const triggerLiveSync = async () => {
     setSyncStatus('syncing');
     try {
-      const res = await fetch('/api/bff/site/impacts');
-      if (res.ok) {
-        const fresh = await res.json();
-        if (fresh?.items && Array.isArray(fresh.items)) {
-          setItems(fresh.items);
+      let freshItems: ImpactRecord[] | null = null;
+      try {
+        const res = await fetch('/api/bff/site/impacts');
+        if (res.ok) {
+          const fresh = await res.json();
+          if (fresh?.items && Array.isArray(fresh.items)) {
+            freshItems = fresh.items;
+          }
         }
+      } catch {}
+
+      if (!freshItems) {
+        freshItems = await fetchImpactsFromSupabase();
+      }
+
+      if (freshItems) {
+        setItems(freshItems);
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(freshItems));
+        } catch {}
       }
       setSyncStatus('synced');
       setTimeout(() => setSyncStatus('idle'), 2500);
@@ -666,7 +714,15 @@ export function ImpactsManager() {
             </button>
             <button
               type="button"
-              onClick={() => setItems(SAMPLE_IMPACTS)}
+              onClick={async () => {
+                setItems(SAMPLE_IMPACTS);
+                for (const sample of SAMPLE_IMPACTS) {
+                  try {
+                    await saveImpactToSupabase(sample);
+                  } catch {}
+                }
+                showToast('Data contoh berhasil dimuat dan disinkronkan ke Web Klien!');
+              }}
               className="inline-flex items-center gap-1.5 rounded-full border border-neutral-200 bg-neutral-50 px-4 py-2.5 text-xs font-semibold text-neutral-700 hover:bg-neutral-100 transition-colors"
             >
               Muat Data Contoh (JISF &amp; SCA)

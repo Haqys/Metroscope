@@ -47,6 +47,33 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
   const token = await getAccessToken();
   const bodyText = req.method === 'GET' || req.method === 'HEAD' ? undefined : await req.text();
 
+  // Direct Supabase handling for site/impacts
+  if (path[0] === 'site' && path[1] === 'impacts') {
+    if (req.method === 'GET') {
+      const items = await fetchImpactsFromSupabase();
+      return NextResponse.json({ items, total: items.length });
+    }
+
+    if (req.method === 'POST') {
+      const payload = bodyText ? JSON.parse(bodyText) : {};
+      const success = await saveImpactToSupabase(payload);
+      return NextResponse.json({ success, data: payload });
+    }
+
+    if (req.method === 'DELETE' && path[2]) {
+      const success = await deleteImpactFromSupabase(path[2]);
+      return NextResponse.json({ success });
+    }
+
+    if (req.method === 'PATCH' && path[2]) {
+      const payload = bodyText ? JSON.parse(bodyText) : {};
+      if (payload.status) {
+        await updateImpactStatusInSupabase(path[2], payload.status);
+      }
+      return NextResponse.json({ success: true });
+    }
+  }
+
   try {
     const res = await fetch(`${env.API_URL}/v1/${path.join('/')}${req.nextUrl.search}`, {
       method: req.method,
