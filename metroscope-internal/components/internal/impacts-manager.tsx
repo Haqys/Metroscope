@@ -1452,7 +1452,7 @@ export function ImpactsManager() {
                   <div className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm flex items-center justify-between">
                     <div className="flex items-center gap-2 text-xs font-semibold text-neutral-700">
                       <span className="flex h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                      Pratinjau Langsung: Tampilan Kartu di metroscope.id/impacts
+                      Pratinjau Langsung: Tampilan Kartu di Web Klien (/impacts)
                     </div>
                     <span className="text-xs text-neutral-400">Responsif &amp; Terformat</span>
                   </div>
