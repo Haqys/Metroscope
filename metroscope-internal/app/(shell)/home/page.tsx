@@ -1,103 +1,70 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import {
+  ArrowRight,
+  ExternalLink,
+  GraduationCap,
+  LayoutDashboard,
+  Newspaper,
+  Sparkles,
+} from 'lucide-react';
 
-import { PageHeader } from '@/components/portal/page-header';
-import { requireSession } from '@/lib/session';
-import { nameOf } from '@/lib/user-display';
+export const metadata: Metadata = { title: 'Pusat Konten Web Klien' };
 
-export const metadata: Metadata = { title: 'Beranda' };
-
-/**
- * Beranda. One landing page for every internal role.
- *
- * Replaces "each role gets its own dashboard", which forced a Head+Mentor to
- * switch apps to see their own morning (doc 13 §8.2). Widgets are unlocked by
- * the page grants the account holds, so a custom role invented by the Head gets
- * a sensible home with no code change.
- *
- * ⚠️ Widget bodies show real counts once `/v1/inbox/counts` and the reports
- * endpoints land (doc 14 Phase 1.3 / Phase 4).
- */
-interface Widget {
-  /** Page grant that unlocks this widget. */
-  requires: string;
+interface ContentCard {
   title: string;
-  hint: string;
+  badge: string;
   href: string;
+  publicHref: string;
+  description: string;
+  icon: typeof Sparkles;
+  actionText: string;
 }
 
-const WIDGETS: Widget[] = [
+const CONTENT_CARDS: ContentCard[] = [
   {
-    requires: '/site/impacts',
-    title: 'Dampak & Prestasi (Impacts)',
-    hint: 'Kelola cerita delegasi, foto, dan penghargaan podium',
+    title: 'Dampak & Prestasi (Our Impacts)',
+    badge: 'metroscope.id/impacts',
     href: '/site/impacts',
+    publicHref: 'https://metroscope.id/impacts',
+    description:
+      'Kelola cerita delegasi internasional (JISF 2026, Science Castle Asia 2025), foto panggung podium, dan ringkasan inovasi riset siswa.',
+    icon: Sparkles,
+    actionText: 'Kelola Cerita Dampak',
   },
   {
-    requires: '/site/articles',
-    title: 'Artikel & Panduan Edukasi',
-    hint: 'Tulis draf dan publikasikan artikel ke website',
+    title: 'Artikel & Wawasan (Insights & Articles)',
+    badge: 'metroscope.id/articles',
     href: '/site/articles',
+    publicHref: 'https://metroscope.id/articles',
+    description:
+      'Tulis dan publikasikan panduan olimpiade, tips bimbingan, studi kasus medali, serta artikel edukasi sains terapan.',
+    icon: Newspaper,
+    actionText: 'Tulis & Review Artikel',
   },
   {
-    requires: '/site',
-    title: 'Pusat Konten & CMS',
-    hint: 'Draf, review, dan antrean status publikasi',
+    title: 'Program Edukasi (Programmes)',
+    badge: 'metroscope.id/programs',
+    href: '/site/programs',
+    publicHref: 'https://metroscope.id/programs',
+    description:
+      'Perbarui deskripsi kurikulum, tingkatan jenjang (SD, SMP, SMA), dan spesifikasi program les yang ditampilkan di web klien.',
+    icon: GraduationCap,
+    actionText: 'Kelola Halaman Program',
+  },
+  {
+    title: 'Antrean Penerbitan & Status (CMS Hub)',
+    badge: 'Workflow Publikasi',
     href: '/site',
-  },
-  {
-    requires: '/leads',
-    title: 'Pendaftar menunggu',
-    hint: 'Antrean lead yang belum diputuskan',
-    href: '/leads',
-  },
-  {
-    requires: '/finance/verifications',
-    title: 'Bukti transfer',
-    hint: 'Menunggu verifikasi Keuangan',
-    href: '/finance/verifications',
-  },
-  {
-    requires: '/content-approval',
-    title: 'Konten menunggu review',
-    hint: 'Perlu keputusan Ketua',
-    href: '/content-approval',
-  },
-  {
-    requires: '/assessments',
-    title: 'Siswa belum dinilai',
-    hint: 'Cakupan assessment bulan ini',
-    href: '/assessments',
-  },
-  { requires: '/tasks', title: 'Tugas saya', hint: 'Yang di-assign ke kamu', href: '/tasks' },
-  {
-    requires: '/schedule',
-    title: 'Jadwal hari ini',
-    hint: 'Sesi yang berjalan hari ini',
-    href: '/schedule',
-  },
-  {
-    requires: '/finance',
-    title: 'Ringkasan keuangan',
-    hint: 'Kas masuk, piutang, penagihan',
-    href: '/finance',
-  },
-  { requires: '/students', title: 'Siswa aktif', hint: 'Database siswa', href: '/students' },
-  {
-    requires: '/team',
-    title: 'Kinerja tim',
-    hint: 'Penyelesaian tugas & ketersediaan',
-    href: '/team',
+    publicHref: 'https://metroscope.id',
+    description:
+      'Pantau seluruh status konten: Draf yang sedang ditulis, menunggu persetujuan review, terjadwal, dan yang sudah terbit live.',
+    icon: LayoutDashboard,
+    actionText: 'Lihat Semua Antrean',
   },
 ];
 
-export default async function HomePage() {
-  const session = await requireSession();
-  // Page grants come straight from the API now, no local role table to drift.
-  const granted = new Set(session.pages);
-  const widgets = WIDGETS.filter((w) => granted.has(w.requires));
-
+export default function HomePage() {
   const today = new Date().toLocaleDateString('id-ID', {
     weekday: 'long',
     day: 'numeric',
@@ -106,27 +73,106 @@ export default async function HomePage() {
   });
 
   return (
-    <div className="mx-auto max-w-6xl">
-      <PageHeader title={`Halo, ${nameOf(session)}`} subtitle={today} />
+    <div className="mx-auto max-w-6xl space-y-8">
+      {/* Editorial Header matching Metroscope Landing style */}
+      <div className="rounded-3xl border border-neutral-200/80 bg-white p-7 shadow-xs sm:p-10">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-maroon/20 bg-maroon-light px-3 py-1 text-xs font-semibold text-maroon">
+              <span className="h-1.5 w-1.5 rounded-full bg-maroon animate-pulse" />
+              <span>Studio Konten Web Klien</span>
+            </div>
+            <h1 className="mt-3 font-sans text-2xl font-bold tracking-tight text-neutral-900 sm:text-3xl">
+              Halo, Tim Metroscope<span className="text-maroon">.</span>
+            </h1>
+            <p className="mt-1.5 text-sm text-neutral-500">
+              Pusat pengelolaan dan publikasi konten untuk website utama klien (
+              <span className="font-semibold text-neutral-700">metroscope.id</span>). Hari ini {today}.
+            </p>
+          </div>
 
-      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {widgets.map((w) => (
-          <Link
-            key={w.href}
-            href={w.href}
-            className="group rounded-2xl border border-neutral-200/70 bg-white p-5 transition-shadow hover:shadow-md"
+          <a
+            href="https://metroscope.id"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex shrink-0 items-center gap-2 rounded-full bg-neutral-900 px-5 py-2.5 text-xs font-semibold text-white shadow-sm transition-all hover:bg-neutral-800"
           >
-            <p className="text-sm font-semibold text-neutral-900">{w.title}</p>
-            <p className="mt-1 text-xs text-neutral-500">{w.hint}</p>
-            <span className="text-navy mt-4 inline-flex items-center gap-1 text-xs font-medium">
-              Buka
-              <ArrowRight
-                className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5"
-                aria-hidden
-              />
-            </span>
-          </Link>
-        ))}
+            <span>Pratinjau Web Utama</span>
+            <ExternalLink className="h-3.5 w-3.5 text-white/70" />
+          </a>
+        </div>
+      </div>
+
+      {/* Grid of Main Content Management Cards */}
+      <div>
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-base font-bold text-neutral-900">Modul Konten Klien</h2>
+          <span className="text-xs text-neutral-400">Pilih modul yang ingin diperbarui</span>
+        </div>
+
+        <div className="grid gap-5 sm:grid-cols-2">
+          {CONTENT_CARDS.map((card) => {
+            const Icon = card.icon;
+            return (
+              <div
+                key={card.title}
+                className="group flex flex-col justify-between rounded-2xl border border-neutral-200/80 bg-white p-6 shadow-xs transition-all duration-200 hover:border-neutral-300 hover:shadow-md"
+              >
+                <div>
+                  <div className="flex items-center justify-between">
+                    <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-maroon-light text-maroon transition-transform duration-200 group-hover:scale-105">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <span className="rounded-full border border-neutral-200/70 bg-neutral-50 px-2.5 py-1 text-[11px] font-medium text-neutral-600">
+                      {card.badge}
+                    </span>
+                  </div>
+
+                  <h3 className="mt-4 text-lg font-bold text-neutral-900 group-hover:text-maroon transition-colors">
+                    {card.title}
+                  </h3>
+                  <p className="mt-1.5 text-xs leading-relaxed text-neutral-500">
+                    {card.description}
+                  </p>
+                </div>
+
+                <div className="mt-6 flex items-center justify-between border-t border-neutral-100 pt-4">
+                  <Link
+                    href={card.href}
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-maroon hover:underline"
+                  >
+                    <span>{card.actionText}</span>
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                  </Link>
+
+                  <a
+                    href={card.publicHref}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1 text-[11px] font-medium text-neutral-400 hover:text-neutral-700"
+                    title="Buka halaman publik di web klien"
+                  >
+                    <span>Cek Publik</span>
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Quick live status footer banner */}
+      <div className="rounded-2xl border border-neutral-200/70 bg-neutral-50/70 p-5 text-xs text-neutral-600">
+        <p className="font-semibold text-neutral-800">
+          💡 Tips Pengelolaan Konten:
+        </p>
+        <p className="mt-1 text-neutral-500 leading-relaxed">
+          Semua konten yang diterbitkan di sini langsung terhubung ke website utama Metroscope.
+          Anda dapat menambahkan foto delegasi internasional baru di menu{' '}
+          <strong className="text-neutral-700">Dampak & Prestasi</strong> atau menulis draf artikel di menu{' '}
+          <strong className="text-neutral-700">Artikel & Wawasan</strong>.
+        </p>
       </div>
     </div>
   );

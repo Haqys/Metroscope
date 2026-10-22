@@ -251,7 +251,7 @@ export function ImpactsManager() {
           <button
             type="button"
             onClick={openCreateModal}
-            className="bg-navy shadow-navy/20 hover:bg-navy-dark inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-semibold text-white shadow-sm transition-colors"
+            className="inline-flex items-center gap-1.5 rounded-full bg-maroon px-5 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-maroon-dark"
           >
             <Plus className="h-4 w-4" />
             Tambah Cerita Dampak
@@ -509,7 +509,7 @@ export function ImpactsManager() {
               <button
                 type="button"
                 onClick={() => handleSave('PUBLISHED')}
-                className="bg-navy hover:bg-navy-dark rounded-xl px-5 py-2 text-xs font-semibold text-white shadow-sm"
+                className="rounded-full bg-maroon px-5 py-2 text-xs font-semibold text-white shadow-sm hover:bg-maroon-dark transition-colors"
               >
                 Terbitkan ke Situs Klien
               </button>
