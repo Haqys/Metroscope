@@ -29,7 +29,7 @@ import {
 
 import type { ArticleCategory, ArticleListItem, ArticleTag, ProseNode } from '@/lib/api';
 import { cn } from '@/lib/utils';
-import { INITIAL_ARTICLES } from '@/lib/articles-data';
+import { INITIAL_ARTICLES } from '@/lib/article-fixtures';
 
 const EVENT_PHOTO_PRESETS = [
   { url: '/images/events/sca-2025-award.jpg', label: 'Science Castle Asia Award 2025' },
