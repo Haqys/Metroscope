@@ -226,14 +226,23 @@ export default async function ArticlePage({ params }: PageProps) {
         {article.coverUrl && (
           <Reveal>
             <div className="relative mx-auto mt-10 aspect-[16/9] max-w-4xl overflow-hidden rounded-3xl bg-neutral-100">
-              <Image
-                src={article.coverUrl}
-                alt={article.coverAlt ?? ''}
-                fill
-                sizes="(min-width: 1024px) 56rem, 100vw"
-                className="object-cover"
-                priority
-              />
+              {article.coverUrl.startsWith('data:') || article.coverUrl.startsWith('blob:') ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={article.coverUrl}
+                  alt={article.coverAlt ?? ''}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <Image
+                  src={article.coverUrl}
+                  alt={article.coverAlt ?? ''}
+                  fill
+                  sizes="(min-width: 1024px) 56rem, 100vw"
+                  className="object-cover"
+                  priority
+                />
+              )}
             </div>
           </Reveal>
         )}

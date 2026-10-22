@@ -8,6 +8,7 @@ import {
   getRuntimeTags,
   toListItem,
 } from './articles-data';
+import { fetchArticlesFromSupabase } from './supabase-articles';
 
 /**
  * Server-side calls to api.metroscope.id.
@@ -524,7 +525,18 @@ export async function listArticles(params: ArticleQuery = {}) {
     logger.warn('list_articles_fallback_triggered', { err });
   }
 
-  let all = getRuntimeArticles();
+  let all: ArticleListItem[] = [];
+  try {
+    const supabaseArticles = await fetchArticlesFromSupabase();
+    if (supabaseArticles && supabaseArticles.length > 0) {
+      all = supabaseArticles;
+    }
+  } catch {}
+
+  if (all.length === 0) {
+    all = getRuntimeArticles().map(toListItem);
+  }
+
   if (params.status) all = all.filter((a) => a.status === params.status);
   if (params.categoryId) all = all.filter((a) => a.categoryId === params.categoryId);
   if (params.tagId)
@@ -539,8 +551,7 @@ export async function listArticles(params: ArticleQuery = {}) {
         (a.excerpt ?? '').toLowerCase().includes(q),
     );
   }
-  const items = all.map(toListItem);
-  return { items, total: items.length };
+  return { items: all, total: all.length };
 }
 
 export async function getArticle(id: string) {

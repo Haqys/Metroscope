@@ -140,6 +140,29 @@ export function ArticleList({
     }
   }, [articles]);
 
+  // Fetch fresh articles from Supabase / BFF on mount to guarantee real-time sync
+  useEffect(() => {
+    let cancelled = false;
+    async function loadFreshArticles() {
+      try {
+        const res = await fetch('/api/bff/site/articles');
+        if (res.ok) {
+          const body = await res.json();
+          if (body?.items && Array.isArray(body.items) && body.items.length > 0 && !cancelled) {
+            setArticles(body.items);
+            try {
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(body.items));
+            } catch {}
+          }
+        }
+      } catch {}
+    }
+    loadFreshArticles();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const showToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 4000);
@@ -447,11 +470,20 @@ function parseProseToBlocks(doc?: ProseNode): ArticleBlock[] {
     }
 
     try {
-      await fetch('/api/bff/site/articles', {
+      const res = await fetch('/api/bff/site/articles', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(articleData),
       });
+      if (res.ok) {
+        const freshRes = await fetch('/api/bff/site/articles');
+        if (freshRes.ok) {
+          const freshData = await freshRes.json();
+          if (freshData?.items && Array.isArray(freshData.items)) {
+            setArticles(freshData.items);
+          }
+        }
+      }
     } catch {}
 
     setIsStudioOpen(false);
@@ -468,7 +500,7 @@ function parseProseToBlocks(doc?: ProseNode): ArticleBlock[] {
       try {
         await fetch(`/api/bff/site/articles/${id}`, { method: 'DELETE' });
       } catch {}
-      showToast('Artikel telah dihapus.');
+      showToast('Artikel telah dihapus dari Supabase & sistem.');
     }
   };
 
@@ -495,18 +527,32 @@ function parseProseToBlocks(doc?: ProseNode): ArticleBlock[] {
         body: JSON.stringify({ ...target, status: next }),
       });
     } catch {}
-    showToast(`Status artikel diubah menjadi: ${STATUS_CONFIG[next]?.label}`);
+    showToast(
+      next === 'PUBLISHED'
+        ? '🎉 Artikel berhasil diterbitkan langsung ke Web Klien!'
+        : 'Artikel ditarik kembali ke Draf.',
+    );
   };
 
   const triggerLiveSync = async () => {
     setSyncStatus('syncing');
     try {
-      await new Promise((r) => setTimeout(r, 600));
+      const res = await fetch('/api/bff/site/articles');
+      if (res.ok) {
+        const body = await res.json();
+        if (body?.items && Array.isArray(body.items)) {
+          setArticles(body.items);
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(body.items));
+          } catch {}
+        }
+      }
       setSyncStatus('synced');
-      showToast('Semua artikel telah disinkronkan dengan situs klien utama!');
+      showToast('Semua artikel telah disinkronkan dengan Supabase & Web Klien!');
       setTimeout(() => setSyncStatus('idle'), 2500);
     } catch {
       setSyncStatus('idle');
+      showToast('Gagal sinkronisasi data artikel.');
     }
   };
 

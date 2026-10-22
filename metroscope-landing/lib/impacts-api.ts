@@ -2,6 +2,7 @@ import { apiUrl } from '@/lib/env';
 import { logger } from '@/lib/logger';
 import { STANDALONE } from '@/lib/standalone';
 import { MOCK_IMPACTS } from '@/lib/mock/content';
+import { getPublicSupabaseClient } from './supabase-articles';
 
 export interface ImpactStory {
   id: string;
@@ -63,6 +64,22 @@ async function get<T>(path: string, tags: string[], fallback: T): Promise<T> {
 }
 
 export async function listImpacts(): Promise<ImpactsData> {
+  const supabase = getPublicSupabaseClient();
+  if (supabase) {
+    try {
+      const { data, error } = await supabase
+        .from('impacts')
+        .select('*')
+        .eq('status', 'PUBLISHED');
+      if (!error && data && data.length > 0) {
+        return {
+          stats: MOCK_IMPACTS.stats,
+          items: data as any,
+        };
+      }
+    } catch {}
+  }
+
   if (STANDALONE) {
     return Promise.resolve(MOCK_IMPACTS);
   }

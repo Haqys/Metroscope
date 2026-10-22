@@ -3,6 +3,12 @@ import { logger } from '@/lib/logger';
 import { STANDALONE } from '@/lib/standalone';
 import { MOCK_ARTICLES, MOCK_ARTICLE_CARDS, MOCK_TAXONOMY, mockArticlePage } from '@/lib/mock/content';
 import customArticles from '@/lib/mock/custom-articles.json';
+import {
+  getPublicSupabaseClient,
+  toArticleCard,
+  toPublicArticle,
+  type SupabaseRow,
+} from '@/lib/supabase-articles';
 
 /**
  * ═══════════════════════════════════════════════════════════════════════════
@@ -212,6 +218,54 @@ async function fetchFromInternalCms<T>(path: string): Promise<T | null> {
 }
 
 export async function listArticles(query: ArticleQuery = {}): Promise<ArticleListPage> {
+  const supabase = getPublicSupabaseClient();
+  let supabaseItems: ArticleCard[] | null = null;
+
+  if (supabase) {
+    try {
+      let req = supabase
+        .from('articles')
+        .select('*')
+        .eq('status', 'PUBLISHED')
+        .order('published_at', { ascending: false });
+
+      if (query.category) req = req.eq('category_slug', query.category);
+      if (query.featured) req = req.eq('featured', true);
+
+      const { data, error } = await req;
+      if (!error && data && data.length > 0) {
+        let mapped = data.map((d) => toArticleCard(d as SupabaseRow));
+        if (query.tag) {
+          mapped = mapped.filter((a) => a.tags.some((t) => t.slug === query.tag));
+        }
+        if (query.q) {
+          const needle = query.q.toLowerCase();
+          mapped = mapped.filter(
+            (a) =>
+              a.title.toLowerCase().includes(needle) ||
+              (a.excerpt ?? '').toLowerCase().includes(needle) ||
+              (a.subtitle ?? '').toLowerCase().includes(needle),
+          );
+        }
+        supabaseItems = mapped;
+      }
+    } catch (err) {
+      logger.warn('public_articles_supabase_fetch_failed', { err });
+    }
+  }
+
+  if (supabaseItems !== null && supabaseItems.length > 0) {
+    const perPage = query.perPage ?? 9;
+    const page = query.page ?? 1;
+    return {
+      items: supabaseItems.slice((page - 1) * perPage, page * perPage),
+      total: supabaseItems.length,
+      page,
+      perPage,
+      pageCount: Math.max(1, Math.ceil(supabaseItems.length / perPage)),
+    };
+  }
+
   if (STANDALONE) {
     const remote = await fetchFromInternalCms<{
       items: ArticleCard[];
@@ -262,6 +316,24 @@ export async function listArticles(query: ArticleQuery = {}): Promise<ArticleLis
 }
 
 export async function getArticle(slug: string): Promise<PublicArticle | null> {
+  const supabase = getPublicSupabaseClient();
+  if (supabase) {
+    try {
+      const { data, error } = await supabase
+        .from('articles')
+        .select('*')
+        .eq('slug', slug)
+        .eq('status', 'PUBLISHED')
+        .maybeSingle();
+
+      if (!error && data) {
+        return toPublicArticle(data as SupabaseRow);
+      }
+    } catch (err) {
+      logger.warn('public_article_supabase_fetch_failed', { slug, err });
+    }
+  }
+
   if (STANDALONE) {
     const remote = await fetchFromInternalCms<PublicArticle>(`?slug=${encodeURIComponent(slug)}`);
     if (remote) return remote;
@@ -275,7 +347,60 @@ export async function getArticle(slug: string): Promise<PublicArticle | null> {
   return get<PublicArticle | null>(`/articles/${slug}`, ['articles', `article:${slug}`], null);
 }
 
-export function getTaxonomy(): Promise<Taxonomy> {
+export async function getTaxonomy(): Promise<Taxonomy> {
+  const supabase = getPublicSupabaseClient();
+  if (supabase) {
+    try {
+      const { data, error } = await supabase
+        .from('articles')
+        .select('category_slug, category_name, tags')
+        .eq('status', 'PUBLISHED');
+
+      if (!error && data && data.length > 0) {
+        const catMap = new Map<
+          string,
+          { slug: string; name: string; description: string | null; articleCount: number }
+        >();
+        const tagMap = new Map<string, { slug: string; name: string; articleCount: number }>();
+
+        for (const cat of MOCK_TAXONOMY.categories) {
+          catMap.set(cat.slug, { ...cat, articleCount: 0 });
+        }
+
+        for (const row of data) {
+          if (row.category_slug && row.category_name) {
+            const existing = catMap.get(row.category_slug) || {
+              slug: row.category_slug,
+              name: row.category_name,
+              description: null,
+              articleCount: 0,
+            };
+            existing.articleCount += 1;
+            catMap.set(row.category_slug, existing);
+          }
+          if (Array.isArray(row.tags)) {
+            for (const t of row.tags) {
+              if (t.slug && t.name) {
+                const existing = tagMap.get(t.slug) || {
+                  slug: t.slug,
+                  name: t.name,
+                  articleCount: 0,
+                };
+                existing.articleCount += 1;
+                tagMap.set(t.slug, existing);
+              }
+            }
+          }
+        }
+
+        return {
+          categories: Array.from(catMap.values()),
+          tags: Array.from(tagMap.values()),
+        };
+      }
+    } catch {}
+  }
+
   if (STANDALONE) return Promise.resolve(MOCK_TAXONOMY);
   return get<Taxonomy>('/taxonomy', ['articles'], { categories: [], tags: [] });
 }

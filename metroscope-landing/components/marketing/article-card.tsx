@@ -39,15 +39,24 @@ export function ArticleCard({
           }`}
         >
           {article.coverUrl ? (
-            <Image
-              src={article.coverUrl}
-              alt={article.coverAlt ?? ''}
-              fill
-              sizes={
-                featured ? '(min-width: 1024px) 66vw, 100vw' : '(min-width: 1024px) 33vw, 100vw'
-              }
-              className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-            />
+            article.coverUrl.startsWith('data:') || article.coverUrl.startsWith('blob:') ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={article.coverUrl}
+                alt={article.coverAlt ?? ''}
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              />
+            ) : (
+              <Image
+                src={article.coverUrl}
+                alt={article.coverAlt ?? ''}
+                fill
+                sizes={
+                  featured ? '(min-width: 1024px) 66vw, 100vw' : '(min-width: 1024px) 33vw, 100vw'
+                }
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              />
+            )
           ) : (
             <div className="from-navy/10 to-maroon/10 absolute inset-0 bg-gradient-to-br" />
           )}

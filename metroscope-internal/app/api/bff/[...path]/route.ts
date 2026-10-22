@@ -6,7 +6,15 @@ import {
   saveRuntimeArticle,
   deleteRuntimeArticle,
   getRuntimeArticle,
+  getRuntimeArticles,
+  toListItem,
 } from '@/lib/articles-data';
+import {
+  fetchArticlesFromSupabase,
+  saveArticleToSupabase,
+  deleteArticleFromSupabase,
+  updateArticleStatusInSupabase,
+} from '@/lib/supabase-articles';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -61,8 +69,18 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
 
     // Handle Article actions in standalone mode
     if (path[0] === 'site' && path[1] === 'articles') {
+      if (req.method === 'GET') {
+        const supabaseItems = await fetchArticlesFromSupabase();
+        if (supabaseItems && supabaseItems.length > 0) {
+          return NextResponse.json({ items: supabaseItems, total: supabaseItems.length });
+        }
+        const items = getRuntimeArticles().map(toListItem);
+        return NextResponse.json({ items, total: items.length });
+      }
+
       if (req.method === 'POST') {
         const payload = bodyText ? JSON.parse(bodyText) : {};
+        await saveArticleToSupabase(payload);
         const created = saveRuntimeArticle({
           ...payload,
           title: payload.title || 'Artikel Baru',
@@ -72,6 +90,7 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
       }
 
       if (req.method === 'DELETE' && path[2]) {
+        await deleteArticleFromSupabase(path[2]);
         deleteRuntimeArticle(path[2]);
         return NextResponse.json({ data: { success: true } });
       }
@@ -81,6 +100,11 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
       const id = path[3];
       if (req.method === 'PATCH') {
         const payload = bodyText ? JSON.parse(bodyText) : {};
+        if (payload.status) {
+          await updateArticleStatusInSupabase(id, payload.status);
+        } else {
+          await saveArticleToSupabase({ id, ...payload });
+        }
         const updated = saveRuntimeArticle({ id, ...payload });
         return NextResponse.json({ data: updated });
       }
