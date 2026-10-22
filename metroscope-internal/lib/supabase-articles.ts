@@ -1,5 +1,5 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
-import type { ArticleListItem, ProseNode } from './api';
+import type { ArticleListItem, ArticleTag, ContentStatus, ProseNode } from './api';
 
 let cachedClient: SupabaseClient | null = null;
 
@@ -43,7 +43,7 @@ export interface SupabaseArticleRow {
   cover_alt: string | null;
   tags: { name: string; slug: string }[] | null;
   body: ProseNode | null;
-  blocks: any[] | null;
+  blocks: unknown[] | null;
   created_at?: string;
 }
 
@@ -57,13 +57,21 @@ export function rowToArticleItem(row: SupabaseArticleRow): ArticleListItem {
           .replace(/^-+|-+$/g, '')
       : 'general');
 
+  const mappedTags: ArticleTag[] = Array.isArray(row.tags)
+    ? row.tags.map((t) => ({
+        id: `tag-${t.slug}`,
+        name: t.name,
+        slug: t.slug,
+      }))
+    : [];
+
   return {
     id: row.id,
     title: row.title,
     subtitle: row.subtitle,
     slug: row.slug,
     locale: row.locale || 'id',
-    status: row.status as any,
+    status: (row.status as ContentStatus) || 'PUBLISHED',
     version: 1,
     excerpt: row.excerpt,
     body: (row.body as ProseNode) || { type: 'doc', content: [] },
@@ -85,12 +93,34 @@ export function rowToArticleItem(row: SupabaseArticleRow): ArticleListItem {
     competitionTargetId: null,
     studentId: null,
     consentSource: 'METROSCOPE_CONSENT_REGISTRY',
-    tags: Array.isArray(row.tags) ? (row.tags as any) : [],
+    tags: mappedTags,
     blocks: Array.isArray(row.blocks) ? row.blocks : [],
-  } as ArticleListItem;
+  };
 }
 
-export function articleItemToRow(item: any): Partial<SupabaseArticleRow> {
+export interface RawArticleInput {
+  id?: string;
+  slug?: string;
+  title: string;
+  subtitle?: string | null;
+  excerpt?: string | null;
+  locale?: string;
+  status?: string;
+  featured?: boolean;
+  readingMin?: number;
+  publishedAt?: string | null;
+  categoryName?: string;
+  categorySlug?: string;
+  authorName?: string;
+  coverUrl?: string | null;
+  coverAlt?: string | null;
+  tags?: unknown[];
+  body?: ProseNode;
+  rawBody?: ProseNode;
+  blocks?: unknown[];
+}
+
+export function articleItemToRow(item: RawArticleInput): Partial<SupabaseArticleRow> {
   const categoryName = item.categoryName || 'General';
   const categorySlug =
     item.categorySlug ||
@@ -109,6 +139,21 @@ export function articleItemToRow(item: any): Partial<SupabaseArticleRow> {
     `art-${Date.now()}`;
 
   const isPublished = item.status === 'PUBLISHED';
+
+  const mappedTags: { name: string; slug: string }[] = Array.isArray(item.tags)
+    ? item.tags.map((t) => {
+        if (typeof t === 'string') {
+          return { name: t, slug: t.toLowerCase().replace(/[^a-z0-9]+/g, '-') };
+        }
+        if (t && typeof t === 'object' && 'name' in t) {
+          const obj = t as { name?: string; slug?: string };
+          const name = obj.name || '';
+          const tagSlug = obj.slug || name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+          return { name, slug: tagSlug };
+        }
+        return { name: String(t), slug: String(t).toLowerCase().replace(/[^a-z0-9]+/g, '-') };
+      })
+    : [];
 
   return {
     id: item.id || `art-${Date.now()}`,
@@ -129,13 +174,7 @@ export function articleItemToRow(item: any): Partial<SupabaseArticleRow> {
     author_name: item.authorName || 'Metroscope Academic Board',
     cover_url: item.coverUrl || null,
     cover_alt: item.coverAlt || item.title,
-    tags: Array.isArray(item.tags)
-      ? item.tags.map((t: any) =>
-          typeof t === 'string'
-            ? { name: t, slug: t.toLowerCase().replace(/[^a-z0-9]+/g, '-') }
-            : { name: t.name || '', slug: t.slug || '' },
-        )
-      : [],
+    tags: mappedTags,
     body: item.rawBody || item.body || { type: 'doc', content: [] },
     blocks: Array.isArray(item.blocks) ? item.blocks : [],
   };
@@ -164,7 +203,7 @@ export async function fetchArticlesFromSupabase(): Promise<ArticleListItem[] | n
   }
 }
 
-export async function saveArticleToSupabase(item: any): Promise<boolean> {
+export async function saveArticleToSupabase(item: RawArticleInput): Promise<boolean> {
   const supabase = getSupabase();
   if (!supabase) return false;
 
@@ -214,7 +253,7 @@ export async function updateArticleStatusInSupabase(
   if (!supabase) return false;
 
   try {
-    const patch: Record<string, any> = {
+    const patch: Record<string, unknown> = {
       status,
       updated_at: new Date().toISOString(),
     };

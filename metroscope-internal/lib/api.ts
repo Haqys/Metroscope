@@ -486,6 +486,7 @@ export interface ArticleListItem {
   /** The recorded parental consent. Required before an article naming a child publishes. */
   consentSource: string | null;
   tags: ArticleTag[];
+  blocks?: unknown[];
 }
 
 export interface Article extends ArticleListItem {

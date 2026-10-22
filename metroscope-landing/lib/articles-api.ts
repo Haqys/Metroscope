@@ -1,7 +1,7 @@
 import { apiUrl } from '@/lib/env';
 import { logger } from '@/lib/logger';
 import { STANDALONE } from '@/lib/standalone';
-import { MOCK_ARTICLES, MOCK_ARTICLE_CARDS, MOCK_TAXONOMY, mockArticlePage } from '@/lib/mock/content';
+import { MOCK_ARTICLES, MOCK_ARTICLE_CARDS, MOCK_TAXONOMY } from '@/lib/mock/content';
 import customArticles from '@/lib/mock/custom-articles.json';
 import {
   getPublicSupabaseClient,

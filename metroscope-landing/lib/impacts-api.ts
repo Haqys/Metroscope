@@ -74,7 +74,7 @@ export async function listImpacts(): Promise<ImpactsData> {
       if (!error && data && data.length > 0) {
         return {
           stats: MOCK_IMPACTS.stats,
-          items: data as any,
+          items: data as unknown as ImpactStory[],
         };
       }
     } catch {}
