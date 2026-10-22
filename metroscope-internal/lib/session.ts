@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import type { SessionUser } from '@/lib/types';
 import { getAccessToken } from '@/lib/supabase/server';
 import { env } from '@/lib/env';
+import { PAGES } from '@/lib/pages';
 
 /**
  * Single source for "who is signed in".
@@ -23,6 +24,31 @@ export interface Session extends SessionUser {
 }
 
 export const getSession = cache(async (): Promise<Session | null> => {
+  const isDevAuthBypass =
+    process.env.DEV_BYPASS_AUTH === 'true' ||
+    (process.env.NODE_ENV !== 'production' &&
+      (!process.env.NEXT_PUBLIC_SUPABASE_URL ||
+        process.env.NEXT_PUBLIC_SUPABASE_URL.includes('your-project')));
+
+  if (isDevAuthBypass) {
+    return {
+      id: 'dev-admin-id',
+      email: 'team@metroscope.id',
+      phone: '+6281234567890',
+      roles: ['HEAD', 'EDITOR'],
+      roleDetails: [
+        { code: 'HEAD', name: 'Head Administrator', home: '/overview', tone: null },
+        { code: 'EDITOR', name: 'Content Editor', home: '/site/impacts', tone: null },
+      ],
+      primaryRole: 'HEAD',
+      fullName: 'Metroscope Team (Dev Mode)',
+      displayName: 'Metroscope Admin',
+      photoUrl: null,
+      actions: ['*'],
+      pages: PAGES.map((p) => p.href),
+    };
+  }
+
   const token = await getAccessToken();
   if (!token) return null;
 

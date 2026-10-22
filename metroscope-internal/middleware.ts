@@ -37,6 +37,19 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
+  // Allow seamless local dev inspection when Supabase is unconfigured or in dev mode
+  const isDevAuthBypass =
+    process.env.DEV_BYPASS_AUTH === 'true' ||
+    (process.env.NODE_ENV !== 'production' &&
+      (!process.env.NEXT_PUBLIC_SUPABASE_URL ||
+        process.env.NEXT_PUBLIC_SUPABASE_URL.includes('your-project')));
+
+  if (isDevAuthBypass) {
+    const res = NextResponse.next({ request: req });
+    res.headers.set('x-request-id', req.headers.get('x-request-id') ?? crypto.randomUUID());
+    return res;
+  }
+
   let res = NextResponse.next({ request: req });
 
   const supabase = createServerClient(

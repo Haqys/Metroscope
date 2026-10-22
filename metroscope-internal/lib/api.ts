@@ -27,29 +27,48 @@ export class ApiError extends Error {
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const token = await getAccessToken();
 
-  const res = await fetch(`${env.API_URL}/v1${path}`, {
-    ...init,
-    headers: {
-      'content-type': 'application/json',
-      ...(token ? { authorization: `Bearer ${token}` } : {}),
-      ...(init?.headers ?? {}),
-    },
-    // Never cache an authorised response: it is scoped to one caller's grants.
-    cache: 'no-store',
-  });
+  try {
+    const res = await fetch(`${env.API_URL}/v1${path}`, {
+      ...init,
+      headers: {
+        'content-type': 'application/json',
+        ...(token ? { authorization: `Bearer ${token}` } : {}),
+        ...(init?.headers ?? {}),
+      },
+      // Never cache an authorised response: it is scoped to one caller's grants.
+      cache: 'no-store',
+    });
 
-  const body = (await res.json().catch(() => null)) as {
-    data?: T;
-    error?: { code: string; message: string };
-  } | null;
+    const body = (await res.json().catch(() => null)) as {
+      data?: T;
+      error?: { code: string; message: string };
+    } | null;
 
-  if (!res.ok) {
-    const code = body?.error?.code ?? 'REQUEST_FAILED';
-    logger.warn('api_request_failed', { path, status: res.status, code });
-    throw new ApiError(res.status, code, body?.error?.message ?? 'Permintaan gagal.');
+    if (!res.ok) {
+      const code = body?.error?.code ?? 'REQUEST_FAILED';
+      logger.warn('api_request_failed', { path, status: res.status, code });
+      throw new ApiError(res.status, code, body?.error?.message ?? 'Permintaan gagal.');
+    }
+
+    return body?.data as T;
+  } catch (err) {
+    if (process.env.NODE_ENV !== 'production') {
+      logger.warn('api_unreachable_dev_fallback', { path, error: String(err) });
+      if (path.startsWith('/site/articles')) {
+        return { items: [], total: 0 } as unknown as T;
+      }
+      if (path.startsWith('/site/content')) {
+        return { items: [], total: 0 } as unknown as T;
+      }
+      if (path.startsWith('/site/categories') || path.startsWith('/site/tags')) {
+        return { items: [] } as unknown as T;
+      }
+      if (path.startsWith('/site/programs') || path.startsWith('/site/pages')) {
+        return { items: [] } as unknown as T;
+      }
+    }
+    throw err;
   }
-
-  return body?.data as T;
 }
 
 // ── leads ────────────────────────────────────────────────────────────────
