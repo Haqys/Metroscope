@@ -55,10 +55,10 @@ export function RegistrationForm({ defaultProgramSlug }: { defaultProgramSlug?: 
       className="rounded-3xl border border-neutral-200/70 bg-white p-8 shadow-[0_1px_3px_rgba(16,24,40,0.05)] shadow-sm"
     >
       <h2 className="font-serif text-2xl font-medium text-neutral-900">
-        Mulai Pendaftaran / Konsultasi
+        Mulai Pendaftaran Program
       </h2>
       <p className="mt-1.5 text-sm font-light text-neutral-500">
-        Konsultasi pertama gratis, tanpa komitmen.
+        Pendaftaran online terpadu, konfirmasi via email dalam 24 jam.
       </p>
 
       <div className="mt-7 space-y-5">

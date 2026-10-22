@@ -198,13 +198,13 @@ export default async function MentorPage({ params }: PageProps) {
           <div className="from-navy to-maroon mt-12 rounded-3xl bg-gradient-to-br px-8 py-10 text-center text-white">
             <h2 className="font-serif text-2xl font-medium">Ingin dibimbing mentor ini?</h2>
             <p className="mx-auto mt-2 max-w-md font-light text-white/80">
-              Mulai dari konsultasi gratis. Kami cocokkan mentor dengan minat anak Anda.
+              Pelajari kurikulum dan program bimbingan bersama mentor kami.
             </p>
             <Link
-              href="/register"
+              href="/programs"
               className="text-navy mt-6 inline-flex rounded-full bg-white px-6 py-3 text-sm font-semibold transition-opacity hover:opacity-90"
             >
-              Konsultasi Gratis
+              Lihat Program Bimbingan
             </Link>
           </div>
         </div>

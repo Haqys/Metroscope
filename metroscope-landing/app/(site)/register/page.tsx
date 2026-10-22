@@ -6,23 +6,16 @@ import { listPublicPrograms } from '@/lib/programs-api';
 import { absolute, social } from '@/lib/seo';
 
 const DESCRIPTION =
-  'Metroscope free consultation & registration form, 4 easy steps, email confirmation within 24 hours.';
+  'Metroscope program registration form, 4 easy steps, email confirmation within 24 hours.';
 const URL = absolute('/register');
 const SOCIAL = social({
-  title: 'Free Consultation · Metroscope',
+  title: 'Program Registration · Metroscope',
   description: DESCRIPTION,
   url: URL,
 });
 
-/**
- * Indexable, and canonical to itself.
- *
- * It is the target of every CTA on the site and the page people are sent
- * directly, so it must be shareable and it must not be mistaken for a
- * duplicate of `/programs/[slug]`, which embeds the same form.
- */
 export const metadata: Metadata = {
-  title: 'Free Consultation',
+  title: 'Program Registration',
   description: DESCRIPTION,
   alternates: { canonical: URL },
   openGraph: { ...SOCIAL.openGraph, type: 'website' },
@@ -31,23 +24,13 @@ export const metadata: Metadata = {
 
 export const dynamic = 'force-dynamic';
 
-/**
- * Registration wizard (wireframe: Input Form 1/3), target of every
- * "Konsultasi Gratis" CTA.
- *
- * Programmes are fetched server-side from `/v1/public/programs`, the same
- * endpoint the marketing pages read since §2.5. That matters: the picker must
- * submit a real `programId`, and while a fixture drove the marketing pages the
- * two could not agree, because the fixture's slugs (`science-olympiad`, …) had
- * no counterpart in the database at all.
- */
 export default async function RegisterPage() {
   const programs = await listPublicPrograms();
 
   return (
     <div className="container max-w-4xl pt-14 pb-28 lg:pt-16">
       <h1 className="font-serif text-3xl font-medium tracking-tight text-neutral-900 sm:text-4xl">
-        Registration / Consultation Form
+        Program Registration Form
       </h1>
       <p className="mt-2 text-sm text-neutral-500">
         Just 4 easy steps, our team will confirm via email.

@@ -24,7 +24,7 @@ const SHOW_CLOSING_CTA = false;
 
 const TITLE = 'Metroscope. Olympiad & Competition Mentoring';
 const DESCRIPTION =
-  'Competition mentoring for elementary to high school students: olympiads, debates, and scientific papers. Specialist mentors, tracked progress, free initial consultation.';
+  'Competition mentoring for elementary to high school students: olympiads, debates, and scientific papers. Specialist mentors, tracked progress, personal mentoring.';
 
 /** Character-for-character the `<loc>` the sitemap publishes, see `absolute`. */
 const URL = absolute('/');
@@ -64,8 +64,9 @@ const STATS = [
 const JOURNEY = [
   {
     step: '01',
-    title: 'Free Consultation',
-    body: 'Talk with our team to determine the right program & schedule. No commitment, confirmation via email within 24 hours.',
+    // Original: title: 'Free Consultation', body: 'Talk with our team to determine the right program & schedule. No commitment, confirmation via email within 24 hours.'
+    title: 'Curriculum & Program Planning',
+    body: 'Connect with our academic team to map the right curriculum, targets, and competition trajectory for your child.',
   },
   {
     step: '02',

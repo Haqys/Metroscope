@@ -80,7 +80,7 @@ export function Footer() {
 
         <div className="mt-14 flex flex-col gap-2 text-xs text-white/40 sm:flex-row sm:justify-between">
           <p>© {new Date().getFullYear()} Metroscope. Olympiad &amp; competition mentoring.</p>
-          <p>Consultation confirmation via email within 24 hours.</p>
+          <p>Academic excellence &amp; student innovation.</p>
         </div>
       </div>
     </footer>

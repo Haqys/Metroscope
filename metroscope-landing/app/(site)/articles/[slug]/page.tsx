@@ -309,16 +309,16 @@ export default async function ArticlePage({ params }: PageProps) {
 
         <section className="from-navy to-maroon mx-auto mt-24 max-w-5xl rounded-3xl bg-gradient-to-br px-8 py-14 text-center text-white">
           <h2 className="font-serif text-3xl font-medium tracking-tight">
-            Want your child to have a story like this?
+            Want your child to achieve milestones like this?
           </h2>
           <p className="mx-auto mt-3 max-w-xl font-light text-white/80">
-            Start with a free consultation. We map out interests, levels, and competitions that make the most sense for your child.
+            Explore our strategic mentoring programmes and competition tracks designed for young scholars.
           </p>
           <Link
-            href="/register"
+            href="/programs"
             className="text-navy mt-8 inline-flex rounded-full bg-white px-7 py-3.5 text-sm font-semibold transition-opacity hover:opacity-90"
           >
-            Free Consultation
+            Explore Programmes
           </Link>
         </section>
       </article>

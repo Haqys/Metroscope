@@ -85,10 +85,10 @@ export default async function CompetitionsPage() {
             sebaliknya.
           </p>
           <Link
-            href="/register"
+            href="/programs"
             className="bg-maroon mt-6 inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
           >
-            Konsultasi Gratis
+            Lihat Program Bimbingan
           </Link>
         </div>
       </Reveal>

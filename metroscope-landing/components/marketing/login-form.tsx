@@ -252,7 +252,7 @@ export function LoginForm() {
       <p className="mt-6 border-t border-neutral-100 pt-5 text-center text-xs text-neutral-400">
         Belum punya akun?{' '}
         <Link href="/register" className="text-maroon font-medium hover:underline">
-          Konsultasi gratis
+          Daftar program
         </Link>{' '}
         , akun dibuatkan tim kami setelah pendaftaran dikonfirmasi.
       </p>

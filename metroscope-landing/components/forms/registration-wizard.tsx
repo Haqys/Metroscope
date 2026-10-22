@@ -70,7 +70,7 @@ const CONSULT_FORMAT_LABEL: Record<FormValues['consultFormat'], string> = {
 const REG_TYPES = [
   {
     value: 'CONSULTATION' as const,
-    title: 'Konsultasi Gratis',
+    title: 'Konsultasi Program',
     body: 'Sesi 1-on-1 (Zoom / Google Meet / Offline), minimal 45 menit, untuk menentukan program & jadwal yang pas.',
   },
   {
@@ -274,7 +274,7 @@ export function RegistrationWizard({ programs }: { programs: PublicProgram[] }) 
     const consultFormatLabel = CONSULT_FORMAT_LABEL[submitted.consultFormat];
     const mailSubject = encodeURIComponent(
       wasConsult
-        ? `Halo Admin Metroscope! Saya sudah mengirim pendaftaran konsultasi gratis 1-on-1 (${consultFormatLabel}, min 45 menit) atas nama ${submitted.childName} (${submittedProgram}, ${submitted.slotDay} ${submitted.slotTime}). Mohon info konfirmasinya ya 🙏`
+        ? `Halo Admin Metroscope! Saya sudah mengirim pendaftaran konsultasi 1-on-1 (${consultFormatLabel}, min 45 menit) atas nama ${submitted.childName} (${submittedProgram}, ${submitted.slotDay} ${submitted.slotTime}). Mohon info konfirmasinya ya 🙏`
         : `Halo Admin Metroscope! Saya sudah mengirim pendaftaran langsung atas nama ${submitted.childName} (${submittedProgram}, preferensi jadwal ${submitted.slotDay} ${submitted.slotTime}). Mohon info akun & invoice pendaftarannya ya 🙏`,
     );
     return (
@@ -286,7 +286,7 @@ export function RegistrationWizard({ programs }: { programs: PublicProgram[] }) 
         <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed font-light text-neutral-500">
           {wasConsult ? (
             <>
-              Terima kasih! {submitted.childName} terdaftar untuk konsultasi gratis 1-on-1{' '}
+              Terima kasih! {submitted.childName} terdaftar untuk sesi konsultasi 1-on-1{' '}
               <strong className="font-medium text-neutral-800">{consultFormatLabel}</strong> (min 45
               menit) untuk program{' '}
               <strong className="font-medium text-neutral-800">{submittedProgram}</strong> pada{' '}
@@ -572,7 +572,7 @@ export function RegistrationWizard({ programs }: { programs: PublicProgram[] }) 
         >
           <dl className="grid gap-6 rounded-2xl bg-neutral-50 p-6 ring-1 ring-neutral-100 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { label: 'Tipe', value: isConsult ? 'Konsultasi Gratis' : 'Daftar Langsung' },
+              { label: 'Tipe', value: isConsult ? 'Konsultasi Program' : 'Daftar Langsung' },
               { label: 'Nama Anak', value: values.childName || '-' },
               { label: 'Program', value: programName },
               ...(isConsult
@@ -606,7 +606,7 @@ export function RegistrationWizard({ programs }: { programs: PublicProgram[] }) 
           {STANDALONE ? (
             <StandaloneSubmitNotice
               description="Pendaftaran online belum aktif di pratinjau ini, jadi data di atas belum akan terkirim."
-              mailSubject="Pendaftaran konsultasi gratis Metroscope"
+              mailSubject="Pendaftaran program Metroscope"
               mailBody={[
                 'Halo tim Metroscope, saya ingin mendaftarkan anak saya.',
                 '',
