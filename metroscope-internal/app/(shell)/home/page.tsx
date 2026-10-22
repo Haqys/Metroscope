@@ -29,6 +29,24 @@ interface Widget {
 
 const WIDGETS: Widget[] = [
   {
+    requires: '/site/impacts',
+    title: 'Dampak & Prestasi (Impacts)',
+    hint: 'Kelola cerita delegasi, foto, dan penghargaan podium',
+    href: '/site/impacts',
+  },
+  {
+    requires: '/site/articles',
+    title: 'Artikel & Panduan Edukasi',
+    hint: 'Tulis draf dan publikasikan artikel ke website',
+    href: '/site/articles',
+  },
+  {
+    requires: '/site',
+    title: 'Pusat Konten & CMS',
+    hint: 'Draf, review, dan antrean status publikasi',
+    href: '/site',
+  },
+  {
     requires: '/leads',
     title: 'Pendaftar menunggu',
     hint: 'Antrean lead yang belum diputuskan',

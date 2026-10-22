@@ -25,7 +25,7 @@ const PUBLIC_PATHS = ['/forbidden', '/api/health'];
  * authenticates all four surfaces.
  */
 function loginUrl(req: NextRequest, next: string) {
-  const base = process.env.LOGIN_URL ?? 'http://localhost:3004/login';
+  const base = process.env.LOGIN_URL ?? `${req.nextUrl.origin}/forbidden`;
   const url = new URL(base);
   url.searchParams.set('next', new URL(next, req.url).toString());
   return url;
@@ -37,15 +37,23 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // Allow seamless standalone/preview mode when configured or in dev
-  const isDevAuthBypass =
+  // Standalone / CMS mode:
+  // Allow direct access unless NEXT_PUBLIC_STANDALONE is explicitly set to 'false'
+  // or when no public external LOGIN_URL is configured (avoiding broken redirect to localhost in production)
+  const hasNoExternalLogin =
+    !process.env.LOGIN_URL ||
+    process.env.LOGIN_URL.includes('localhost') ||
+    process.env.LOGIN_URL.includes('127.0.0.1');
+
+  const isStandalone =
+    process.env.NEXT_PUBLIC_STANDALONE !== 'false' ||
     process.env.DEV_BYPASS_AUTH === 'true' ||
-    process.env.NEXT_PUBLIC_STANDALONE === 'true' ||
+    hasNoExternalLogin ||
     (process.env.NODE_ENV !== 'production' &&
       (!process.env.NEXT_PUBLIC_SUPABASE_URL ||
         process.env.NEXT_PUBLIC_SUPABASE_URL.includes('your-project')));
 
-  if (isDevAuthBypass) {
+  if (isStandalone) {
     const res = NextResponse.next({ request: req });
     res.headers.set('x-request-id', req.headers.get('x-request-id') ?? crypto.randomUUID());
     return res;

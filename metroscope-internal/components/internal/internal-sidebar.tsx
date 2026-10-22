@@ -173,9 +173,14 @@ export function InternalShell({ children }: { children: React.ReactNode }) {
    * and this app has no /login route of its own.
    */
   const logout = () => {
-    // TODO (doc 14 Phase 0.3): POST /v1/auth/logout to revoke the refresh token.
+    // Revoke cookie and redirect to login if configured, otherwise stay on home
     document.cookie = `${REFRESH_COOKIE}=; path=/; max-age=0`;
-    window.location.href = process.env.NEXT_PUBLIC_LOGIN_URL ?? 'http://localhost:3004/login';
+    const target = process.env.NEXT_PUBLIC_LOGIN_URL;
+    if (target && !target.includes('localhost') && !target.includes('127.0.0.1')) {
+      window.location.href = target;
+    } else {
+      window.location.href = '/home';
+    }
   };
 
   return (
