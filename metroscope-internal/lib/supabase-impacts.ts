@@ -68,12 +68,80 @@ export interface SupabaseImpactRow {
   updated_at?: string;
 }
 
+export interface GenericImpactInput {
+  id?: string;
+  title?: string;
+  subtitle?: string | null;
+  category?: string;
+  categoryLabel?: string;
+  category_label?: string;
+  year?: string;
+  location?: string | null;
+  metric?: string | null;
+  summary?: string;
+  keyTakeaways?: string[];
+  key_takeaways?: string[];
+  coverUrl?: string;
+  cover_url?: string;
+  status?: string;
+  blocks?: ImpactBlock[];
+  created_at?: string;
+  updated_at?: string;
+}
+
 const CATEGORY_LABEL_MAP: Record<string, string> = {
   GLOBAL_DELEGATION: 'Delegasi Internasional',
   RESEARCH_INNOVATION: 'Riset Sains Terapan',
   PODIUM_AWARD: 'Prestasi Juara',
   COMMUNITY: 'Dampak Komunitas',
 };
+
+export function impactItemToRow(item: GenericImpactInput): SupabaseImpactRow {
+  const category = item.category || 'GLOBAL_DELEGATION';
+  const categoryLabel =
+    item.categoryLabel ||
+    item.category_label ||
+    CATEGORY_LABEL_MAP[category] ||
+    'Delegasi Internasional';
+
+  let takeaways: string[] = [];
+  if (Array.isArray(item.keyTakeaways)) {
+    takeaways = item.keyTakeaways;
+  } else if (Array.isArray(item.key_takeaways)) {
+    takeaways = item.key_takeaways;
+  } else if (typeof item.keyTakeaways === 'string') {
+    try {
+      const parsed = JSON.parse(item.keyTakeaways);
+      if (Array.isArray(parsed)) takeaways = parsed;
+    } catch {}
+  } else if (typeof item.key_takeaways === 'string') {
+    try {
+      const parsed = JSON.parse(item.key_takeaways);
+      if (Array.isArray(parsed)) takeaways = parsed;
+    } catch {}
+  }
+
+  const coverUrl =
+    item.coverUrl ||
+    item.cover_url ||
+    '/images/events/jisf-2026-smp-1.jpg';
+
+  return {
+    id: item.id || `impact-${Date.now()}`,
+    title: item.title || '',
+    subtitle: item.subtitle || null,
+    category,
+    category_label: categoryLabel,
+    year: String(item.year || new Date().getFullYear()),
+    location: item.location || null,
+    metric: item.metric || null,
+    summary: item.summary || '',
+    key_takeaways: takeaways,
+    cover_url: coverUrl,
+    status: item.status === 'PUBLISHED' ? 'PUBLISHED' : 'DRAFT',
+    updated_at: new Date().toISOString(),
+  };
+}
 
 export function rowToImpactRecord(row: SupabaseImpactRow): ImpactRecord {
   let takeaways: string[] = [];
@@ -126,25 +194,11 @@ export async function fetchImpactsFromSupabase(): Promise<ImpactRecord[]> {
   }
 }
 
-export async function saveImpactToSupabase(item: ImpactRecord): Promise<boolean> {
+export async function saveImpactToSupabase(item: GenericImpactInput): Promise<boolean> {
   const supabase = getSupabase();
   if (!supabase) return false;
 
-  const payload: SupabaseImpactRow = {
-    id: item.id,
-    title: item.title,
-    subtitle: item.subtitle || null,
-    category: item.category,
-    category_label: item.categoryLabel || CATEGORY_LABEL_MAP[item.category] || 'Delegasi Internasional',
-    year: item.year || new Date().getFullYear().toString(),
-    location: item.location || null,
-    metric: item.metric || null,
-    summary: item.summary || '',
-    key_takeaways: item.keyTakeaways || [],
-    cover_url: item.coverUrl,
-    status: item.status,
-    updated_at: new Date().toISOString(),
-  };
+  const payload = impactItemToRow(item);
 
   try {
     const { error } = await supabase.from('impacts').upsert(payload, { onConflict: 'id' });

@@ -212,10 +212,18 @@ export function ImpactsManager() {
         if (res.ok) {
           const data = await res.json();
           if (data?.items && Array.isArray(data.items) && !cancelled) {
-            setItems(data.items);
-            try {
-              localStorage.setItem(STORAGE_KEY, JSON.stringify(data.items));
-            } catch {}
+            setItems((prev) => {
+              const map = new Map<string, ImpactRecord>();
+              data.items.forEach((item: ImpactRecord) => map.set(item.id, item));
+              prev.forEach((item) => {
+                if (!map.has(item.id)) map.set(item.id, item);
+              });
+              const merged = Array.from(map.values());
+              try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+              } catch {}
+              return merged;
+            });
             return;
           }
         }
@@ -224,11 +232,19 @@ export function ImpactsManager() {
       // 2. Direct Supabase client fallback
       try {
         const direct = await fetchImpactsFromSupabase();
-        if (!cancelled && direct) {
-          setItems(direct);
-          try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(direct));
-          } catch {}
+        if (!cancelled && direct && direct.length > 0) {
+          setItems((prev) => {
+            const map = new Map<string, ImpactRecord>();
+            direct.forEach((item: ImpactRecord) => map.set(item.id, item));
+            prev.forEach((item) => {
+              if (!map.has(item.id)) map.set(item.id, item);
+            });
+            const merged = Array.from(map.values());
+            try {
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+            } catch {}
+            return merged;
+          });
         }
       } catch {}
     }
@@ -335,7 +351,7 @@ export function ImpactsManager() {
     setIsStudioOpen(true);
   };
 
-  // Image Upload Handler
+  // Image Upload Handlers with Canvas Compression to ensure fast writes and avoid payload limits
   const handleCoverFileUpload = (file: File) => {
     if (!file.type.startsWith('image/')) {
       alert('Mohon pilih file gambar (JPG, PNG, WebP).');
@@ -343,10 +359,37 @@ export function ImpactsManager() {
     }
     const reader = new FileReader();
     reader.onload = (e) => {
-      const result = e.target?.result as string;
-      if (result) {
-        setCoverUrl(result);
-      }
+      const rawUrl = e.target?.result as string;
+      if (!rawUrl) return;
+
+      const img = new window.Image();
+      img.onload = () => {
+        const MAX_DIM = 1200;
+        let width = img.width;
+        let height = img.height;
+        if (width > MAX_DIM || height > MAX_DIM) {
+          if (width > height) {
+            height = Math.round((height * MAX_DIM) / width);
+            width = MAX_DIM;
+          } else {
+            width = Math.round((width * MAX_DIM) / height);
+            height = MAX_DIM;
+          }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          const compressed = canvas.toDataURL('image/jpeg', 0.82);
+          setCoverUrl(compressed);
+        } else {
+          setCoverUrl(rawUrl);
+        }
+      };
+      img.onerror = () => setCoverUrl(rawUrl);
+      img.src = rawUrl;
     };
     reader.readAsDataURL(file);
   };
@@ -358,12 +401,45 @@ export function ImpactsManager() {
     }
     const reader = new FileReader();
     reader.onload = (e) => {
-      const result = e.target?.result as string;
-      if (result) {
+      const rawUrl = e.target?.result as string;
+      if (!rawUrl) return;
+
+      const img = new window.Image();
+      img.onload = () => {
+        const MAX_DIM = 1200;
+        let width = img.width;
+        let height = img.height;
+        if (width > MAX_DIM || height > MAX_DIM) {
+          if (width > height) {
+            height = Math.round((height * MAX_DIM) / width);
+            width = MAX_DIM;
+          } else {
+            width = Math.round((width * MAX_DIM) / height);
+            height = MAX_DIM;
+          }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          const compressed = canvas.toDataURL('image/jpeg', 0.82);
+          setBlocks((prev) =>
+            prev.map((b) => (b.id === blockId ? { ...b, imageUrl: compressed } : b)),
+          );
+        } else {
+          setBlocks((prev) =>
+            prev.map((b) => (b.id === blockId ? { ...b, imageUrl: rawUrl } : b)),
+          );
+        }
+      };
+      img.onerror = () => {
         setBlocks((prev) =>
-          prev.map((b) => (b.id === blockId ? { ...b, imageUrl: result } : b)),
+          prev.map((b) => (b.id === blockId ? { ...b, imageUrl: rawUrl } : b)),
         );
-      }
+      };
+      img.src = rawUrl;
     };
     reader.readAsDataURL(file);
   };
@@ -465,43 +541,17 @@ export function ImpactsManager() {
       updatedAt: new Date().toISOString(),
     };
 
-    // Optimistic UI Update
-    if (editingId) {
-      setItems((prev) =>
-        prev.map((i) => (i.id === editingId ? { ...i, ...impactItem } : i)),
-      );
-    } else {
-      setItems((prev) => [impactItem, ...prev]);
-    }
-
-    // 1. Direct Supabase client write (guarantees immediate update)
-    try {
-      await saveImpactToSupabase(impactItem);
-    } catch (e) {
-      console.error('Direct Supabase write failed:', e);
-    }
-
-    // 2. Persist to Supabase via BFF proxy
-    try {
-      const res = await fetch('/api/bff/site/impacts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(impactItem),
-      });
-
-      if (res.ok) {
-        // Trigger live refresh
-        const freshRes = await fetch('/api/bff/site/impacts');
-        if (freshRes.ok) {
-          const freshData = await freshRes.json();
-          if (freshData?.items && Array.isArray(freshData.items)) {
-            setItems(freshData.items);
-          }
-        }
-      }
-    } catch (err) {
-      console.error('Save to BFF failed:', err);
-    }
+    // 1. Immediately update UI state & localStorage so it is instantly visible and never disappears
+    setItems((prev) => {
+      const exists = prev.some((i) => i.id === impactItem.id);
+      const updated = exists
+        ? prev.map((i) => (i.id === impactItem.id ? impactItem : i))
+        : [impactItem, ...prev.filter((i) => i.id !== impactItem.id)];
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      } catch {}
+      return updated;
+    });
 
     setIsStudioOpen(false);
     showToast(
@@ -509,6 +559,24 @@ export function ImpactsManager() {
         ? '🎉 Cerita dampak berhasil diterbitkan langsung ke Web Klien!'
         : '💾 Draf cerita dampak berhasil disimpan.',
     );
+
+    // 2. Direct Supabase client write (guarantees immediate cloud update)
+    try {
+      await saveImpactToSupabase(impactItem);
+    } catch (e) {
+      console.error('Direct Supabase write failed:', e);
+    }
+
+    // 3. Persist to Supabase via BFF proxy as resilient second layer
+    try {
+      await fetch('/api/bff/site/impacts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(impactItem),
+      });
+    } catch (err) {
+      console.error('Save to BFF failed:', err);
+    }
   };
 
   const handleDelete = async (id: string) => {
