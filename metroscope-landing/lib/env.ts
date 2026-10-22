@@ -14,7 +14,7 @@ import { z } from 'zod';
  * from `process.env` directly rather than from `lib/standalone.ts`, because
  * this module is what that one would be validating.
  */
-const STANDALONE = process.env.NEXT_PUBLIC_STANDALONE === 'true';
+const STANDALONE = process.env.NEXT_PUBLIC_STANDALONE !== 'false';
 const unlessStandalone = <T extends z.ZodTypeAny>(s: T) => (STANDALONE ? s.optional() : s);
 
 const schema = z.object({
@@ -25,11 +25,11 @@ const schema = z.object({
   API_URL: unlessStandalone(z.string().url()),
   /** Publishing purges this site's cache. Nothing publishes in standalone. */
   REVALIDATE_SECRET: unlessStandalone(z.string().min(16)),
-  NEXT_PUBLIC_SITE_URL: z.string().url(),
+  NEXT_PUBLIC_SITE_URL: z.string().url().default('https://metroscope.id'),
 
   /** Sign-in. Standalone hides `/login` entirely, so no project is needed. */
-  NEXT_PUBLIC_SUPABASE_URL: unlessStandalone(z.string().url()),
-  NEXT_PUBLIC_SUPABASE_ANON_KEY: unlessStandalone(z.string().min(1)),
+  NEXT_PUBLIC_SUPABASE_URL: unlessStandalone(z.string().url()).default('https://your-project.supabase.co'),
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: unlessStandalone(z.string().min(1)).default('your-anon-key'),
 
   /**
    * Deploy this site without the API (doc 15 §1 makes each project standalone;
@@ -67,11 +67,11 @@ const schema = z.object({
 });
 
 export const env = schema.parse({
-  API_URL: process.env.API_URL,
-  REVALIDATE_SECRET: process.env.REVALIDATE_SECRET,
-  NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
-  NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-  NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  API_URL: process.env.API_URL || undefined,
+  REVALIDATE_SECRET: process.env.REVALIDATE_SECRET || undefined,
+  NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL || undefined,
+  NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL || undefined,
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || undefined,
   COOKIE_DOMAIN: process.env.COOKIE_DOMAIN || undefined,
   NODE_ENV: process.env.NODE_ENV,
 
