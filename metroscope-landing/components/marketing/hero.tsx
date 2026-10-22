@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { HeroVideo } from '@/components/marketing/hero-video';
 import { Reveal, WordReveal } from '@/components/marketing/scroll-fx';
 
 const HERO_IMAGE =
@@ -47,29 +46,13 @@ export function Hero() {
           <Reveal delay={1100}>
             <div className="mt-10 flex flex-wrap items-center gap-5">
               <Link
-                href="/register"
-                className="text-maroon rounded-full bg-white px-8 py-4 text-sm font-medium tracking-wide transition-transform duration-300 hover:scale-[1.03]"
-              >
-                Initial Assessment
-              </Link>
-              <Link
                 href="/programs"
-                className="rounded-full border border-white/40 px-8 py-4 text-sm font-medium tracking-wide text-white transition-colors duration-300 hover:bg-white/10"
+                className="text-maroon rounded-full bg-white px-8 py-4 text-sm font-medium tracking-wide transition-transform duration-300 hover:scale-[1.03]"
               >
                 View Programmes
               </Link>
-              <HeroVideo />
             </div>
           </Reveal>
-        </div>
-
-        {/* Scroll cue */}
-        <div
-          className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-white/60 lg:flex"
-          aria-hidden
-        >
-          <span className="text-[10px] tracking-[0.3em] uppercase">Scroll</span>
-          <span className="h-10 w-px animate-pulse bg-white/50" />
         </div>
       </div>
     </section>
