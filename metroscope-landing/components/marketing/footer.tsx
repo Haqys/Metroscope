@@ -2,6 +2,10 @@ import Link from 'next/link';
 
 import { CONTACT, STANDALONE } from '@/lib/standalone';
 
+// Set to true to re-enable in the future
+const SHOW_FAQ_CONTACT = false;
+const SHOW_FREE_CONSULTATION = false;
+
 /** `Portal Siswa` is dropped in standalone, like the navbar's `Sign In`. */
 const FOOTER_LINKS = [
   { href: '/about', label: 'About Us' },
@@ -10,8 +14,8 @@ const FOOTER_LINKS = [
   { href: '/team', label: 'Team' },
   { href: '/showcase', label: 'Students & Alumni' },
   { href: '/articles', label: 'Insights & Articles' },
-  { href: '/contact', label: 'FAQ & Contact' },
-  { href: '/register', label: 'Free Consultation' },
+  ...(SHOW_FAQ_CONTACT ? [{ href: '/contact', label: 'FAQ & Contact' }] : []),
+  ...(SHOW_FREE_CONSULTATION ? [{ href: '/register', label: 'Free Consultation' }] : []),
   ...(STANDALONE ? [] : [{ href: '/login', label: 'Student Portal' }]),
 ];
 

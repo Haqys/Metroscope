@@ -7,6 +7,10 @@ import { Menu, X, ChevronDown, LayoutTemplate, MapPin } from 'lucide-react';
 
 import { STANDALONE } from '@/lib/standalone';
 
+// Set to true if you want to re-enable FAQ & Contact or Free Consultation in the future
+const SHOW_FAQ_CONTACT = false;
+const SHOW_FREE_CONSULTATION = false;
+
 const NAV_LINKS = [
   { href: '/about', label: 'About Us' },
   { 
@@ -20,7 +24,7 @@ const NAV_LINKS = [
   { href: '/team', label: 'Team' },
   { href: '/showcase', label: 'Students & Alumni' },
   { href: '/articles', label: 'Insights & Articles' },
-  { href: '/contact', label: 'FAQ & Contact' },
+  ...(SHOW_FAQ_CONTACT ? [{ href: '/contact', label: 'FAQ & Contact' }] : []),
 ];
 
 /**
@@ -118,16 +122,18 @@ export function Navbar() {
                 Sign In
               </Link>
             )}
-            <Link
-              href="/register"
-              className={`rounded-full border px-6 py-2.5 text-sm font-medium transition-all duration-300 ${
-                solid
-                  ? 'border-maroon bg-maroon hover:bg-maroon-dark text-white shadow-md hover:-translate-y-0.5'
-                  : 'hover:text-maroon border-white/50 text-white hover:bg-white'
-              }`}
-            >
-              Free Consultation
-            </Link>
+            {SHOW_FREE_CONSULTATION && (
+              <Link
+                href="/register"
+                className={`rounded-full border px-6 py-2.5 text-sm font-medium transition-all duration-300 ${
+                  solid
+                    ? 'border-maroon bg-maroon hover:bg-maroon-dark text-white shadow-md hover:-translate-y-0.5'
+                    : 'hover:text-maroon border-white/50 text-white hover:bg-white'
+                }`}
+              >
+                Free Consultation
+              </Link>
+            )}
           </div>
 
           <button
@@ -190,13 +196,15 @@ export function Navbar() {
                   Sign In
                 </Link>
               )}
-              <Link
-                href="/register"
-                className="bg-maroon mt-3 rounded-full px-6 py-3.5 text-center text-sm font-medium text-white shadow-md"
-                onClick={() => setOpen(false)}
-              >
-                Free Consultation
-              </Link>
+              {SHOW_FREE_CONSULTATION && (
+                <Link
+                  href="/register"
+                  className="bg-maroon mt-3 rounded-full px-6 py-3.5 text-center text-sm font-medium text-white shadow-md"
+                  onClick={() => setOpen(false)}
+                >
+                  Free Consultation
+                </Link>
+              )}
             </div>
           </nav>
         )}
