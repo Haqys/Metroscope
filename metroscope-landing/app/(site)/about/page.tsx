@@ -1,6 +1,15 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Target, ShieldCheck } from 'lucide-react';
+import {
+  Target,
+  ShieldCheck,
+  Compass,
+  BookOpen,
+  Globe,
+  Award,
+  Sparkles,
+  CheckCircle2,
+} from 'lucide-react';
 
 import { Reveal } from '@/components/marketing/scroll-fx';
 import { absolute, social } from '@/lib/seo';
@@ -25,6 +34,30 @@ const STATS = [
   { value: '100%', label: 'Transparency' },
 ];
 
+const MISSIONS = [
+  {
+    number: '01',
+    icon: BookOpen,
+    tag: 'Research & Inquiry',
+    title: 'Foster Scientific Literacy',
+    desc: 'To foster a culture of research literacy, scientific inquiry, and creative thinking from an early age, encouraging students to view knowledge as a means for social change and global transformation.',
+  },
+  {
+    number: '02',
+    icon: Globe,
+    tag: 'Mentorship & Arena',
+    title: 'Inclusive Global Network',
+    desc: 'To establish an inclusive mentorship network that equips innovators with the skills, confidence, and international exposure needed to excel in competitive scientific and technological fields.',
+  },
+  {
+    number: '03',
+    icon: Award,
+    tag: 'Ethical Leadership',
+    title: 'Resilience & Data-Driven Solutions',
+    desc: 'To nurture future leaders who are resilient, ethically responsible, and capable of developing data-driven solutions to global challenges through critical thinking and interdisciplinary collaboration.',
+  },
+];
+
 export default function AboutPage() {
   return (
     <main className="bg-white">
@@ -44,49 +77,99 @@ export default function AboutPage() {
       {/* Vision & Mission */}
       <section className="container py-24 border-t border-neutral-100">
         <div className="grid gap-16 lg:grid-cols-12 items-start">
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-4 lg:sticky lg:top-28">
             <Reveal>
-              <h2 className="text-maroon text-xs font-medium tracking-[0.35em] uppercase">
-                Purpose
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-maroon/10 px-3.5 py-1 text-xs font-semibold tracking-wider text-maroon uppercase">
+                <Compass className="h-3.5 w-3.5" aria-hidden />
+                Our Foundations
+              </span>
+              <h2 className="mt-4 font-serif text-3xl sm:text-4xl font-medium tracking-tight text-neutral-900">
+                Vision &amp; Mission
               </h2>
-              <h3 className="mt-4 font-serif text-4xl font-medium tracking-tight text-neutral-900">
-                Vision & Mission
-              </h3>
+              <p className="mt-4 text-base leading-relaxed font-light text-neutral-500">
+                Guiding principles that steer our academic curriculum, mentorship ethos, and commitment to secondary student excellence.
+              </p>
+
+              {/* Core Commitments Pill Box */}
+              <div className="mt-8 rounded-3xl border border-neutral-200/80 bg-neutral-50/70 p-6 sm:p-7">
+                <div className="flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-neutral-400 uppercase">
+                  <Sparkles className="h-3.5 w-3.5 text-maroon" aria-hidden />
+                  Key Commitments
+                </div>
+                <ul className="mt-4 space-y-3.5 text-sm text-neutral-700 font-light">
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="h-4 w-4 text-maroon shrink-0 mt-0.5" aria-hidden />
+                    <span><strong>Empirical Rigor:</strong> Critical thinking over memorization</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="h-4 w-4 text-maroon shrink-0 mt-0.5" aria-hidden />
+                    <span><strong>Global Competency:</strong> International symposium readiness</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="h-4 w-4 text-maroon shrink-0 mt-0.5" aria-hidden />
+                    <span><strong>Ethical Integrity:</strong> Responsible, human-centric innovation</span>
+                  </li>
+                </ul>
+              </div>
             </Reveal>
           </div>
 
-          <div className="lg:col-span-8 space-y-16">
+          <div className="lg:col-span-8 space-y-8">
+            {/* Vision Banner */}
             <Reveal delay={100}>
-              <div className="border-b border-neutral-200 pb-12">
-                <h4 className="text-sm font-semibold tracking-wider text-neutral-400 uppercase mb-6">Our Vision</h4>
-                <p className="font-serif text-[clamp(1.75rem,4vw,2.5rem)] leading-[1.2] font-medium tracking-tight text-neutral-900">
+              <div className="relative overflow-hidden rounded-3xl border border-neutral-200/90 bg-gradient-to-br from-neutral-50/80 via-white to-neutral-50/50 p-8 sm:p-10 shadow-sm">
+                <div className="flex items-center justify-between gap-4 border-b border-neutral-100 pb-4 mb-6">
+                  <span className="text-xs font-semibold tracking-[0.2em] text-maroon uppercase">
+                    Our Vision
+                  </span>
+                  <span className="text-xs font-mono text-neutral-400 tracking-wider">
+                    FUTURE IMPACT
+                  </span>
+                </div>
+                <p className="font-serif text-[clamp(1.75rem,3.2vw,2.35rem)] leading-[1.25] font-medium tracking-tight text-neutral-900">
                   To build a generation of young researchers, innovators, and changemakers for society and the world.
                 </p>
               </div>
             </Reveal>
 
+            {/* Mission Cards */}
             <Reveal delay={200}>
               <div>
-                <h4 className="text-sm font-semibold tracking-wider text-neutral-400 uppercase mb-8">Our Mission</h4>
-                <div className="grid gap-8">
-                  <div className="flex gap-6 group">
-                    <span className="text-maroon font-serif text-3xl font-medium opacity-50 group-hover:opacity-100 transition-opacity">01</span>
-                    <p className="text-lg leading-relaxed font-light text-neutral-600">
-                      To foster a culture of research literacy, scientific inquiry, and creative thinking from an early age, encouraging students to view knowledge as a means for social change and global transformation.
-                    </p>
-                  </div>
-                  <div className="flex gap-6 group">
-                    <span className="text-maroon font-serif text-3xl font-medium opacity-50 group-hover:opacity-100 transition-opacity">02</span>
-                    <p className="text-lg leading-relaxed font-light text-neutral-600">
-                      To establish an inclusive mentorship network that equips innovators with the skills, confidence, and international exposure needed to excel in competitive scientific and technological fields.
-                    </p>
-                  </div>
-                  <div className="flex gap-6 group">
-                    <span className="text-maroon font-serif text-3xl font-medium opacity-50 group-hover:opacity-100 transition-opacity">03</span>
-                    <p className="text-lg leading-relaxed font-light text-neutral-600">
-                      To nurture future leaders who are resilient, ethically responsible, and capable of developing data-driven solutions to global challenges through critical thinking and interdisciplinary collaboration.
-                    </p>
-                  </div>
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-xs font-semibold tracking-[0.2em] text-neutral-400 uppercase">
+                    Our Mission
+                  </h3>
+                  <span className="text-xs font-mono text-neutral-400">03 PILLARS</span>
+                </div>
+
+                <div className="grid gap-4 sm:gap-5">
+                  {MISSIONS.map((m) => {
+                    const Icon = m.icon;
+                    return (
+                      <div
+                        key={m.number}
+                        className="group relative rounded-3xl border border-neutral-200/80 bg-white p-7 sm:p-8 shadow-sm transition-all duration-300 hover:border-maroon/30 hover:shadow-md"
+                      >
+                        <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+                          <div className="flex items-center gap-3">
+                            <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-maroon/10 font-mono text-xs font-semibold text-maroon">
+                              {m.number}
+                            </span>
+                            <h4 className="font-serif text-xl font-medium text-neutral-900 group-hover:text-maroon transition-colors">
+                              {m.title}
+                            </h4>
+                          </div>
+                          <span className="inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-3 py-1 text-[11px] font-medium text-neutral-600">
+                            <Icon className="h-3 w-3 text-maroon" aria-hidden />
+                            {m.tag}
+                          </span>
+                        </div>
+                        <p className="text-base sm:text-lg leading-relaxed font-light text-neutral-600 pl-0 sm:pl-11">
+                          {m.desc}
+                        </p>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </Reveal>
