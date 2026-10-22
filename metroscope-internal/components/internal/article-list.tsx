@@ -213,6 +213,46 @@ export function ArticleList({
     setIsStudioOpen(true);
   };
 
+function parseProseToBlocks(doc?: ProseNode): ArticleBlock[] {
+  if (!doc || !doc.content || !Array.isArray(doc.content)) return [];
+  const parsed: ArticleBlock[] = [];
+  doc.content.forEach((node, idx) => {
+    if (node.type === 'paragraph') {
+      const text = (node.content ?? []).map((c) => c.text ?? '').join('');
+      if (text.trim()) {
+        parsed.push({ id: `block-${idx}-${Date.now()}`, type: 'paragraph', text });
+      }
+    } else if (node.type === 'heading') {
+      const text = (node.content ?? []).map((c) => c.text ?? '').join('');
+      const level = node.attrs?.level === 3 ? 'heading3' : 'heading2';
+      parsed.push({ id: `block-${idx}-${Date.now()}`, type: level, text });
+    } else if (node.type === 'blockquote') {
+      const text = (node.content ?? [])
+        .map((p) => (p.content ?? []).map((c) => c.text ?? '').join(''))
+        .join('\n');
+      parsed.push({ id: `block-${idx}-${Date.now()}`, type: 'quote', text });
+    } else if (node.type === 'bulletList') {
+      const items = (node.content ?? []).map((li) =>
+        (li.content ?? [])
+          .map((p) => (p.content ?? []).map((c) => c.text ?? '').join(''))
+          .join(''),
+      );
+      parsed.push({ id: `block-${idx}-${Date.now()}`, type: 'bulletList', items });
+    } else if (node.type === 'image') {
+      const imageUrl = (node.attrs?.src as string) || '';
+      const imageAlt = (node.attrs?.alt as string) || '';
+      parsed.push({
+        id: `block-${idx}-${Date.now()}`,
+        type: 'image',
+        imageUrl,
+        imageAlt,
+        imageCaption: imageAlt,
+      });
+    }
+  });
+  return parsed;
+}
+
   const openEditArticleStudio = (article: ArticleRecord) => {
     setEditingArticleId(article.id);
     setTitle(article.title);
@@ -226,31 +266,19 @@ export function ArticleList({
     setCoverAlt(article.coverAlt ?? article.title);
     setTags(article.tags.map((t) => t.name));
 
-    if (article.blocks && article.blocks.length > 0) {
-      setBlocks(article.blocks);
+    const existingBlocks =
+      article.blocks && article.blocks.length > 0
+        ? article.blocks
+        : parseProseToBlocks(article.body || article.rawBody);
+
+    if (existingBlocks.length > 0) {
+      setBlocks(existingBlocks);
     } else {
       setBlocks([
         {
           id: 'block-1',
           type: 'paragraph',
-          text: article.excerpt ?? article.title,
-        },
-        {
-          id: 'block-2',
-          type: 'heading2',
-          text: 'Sorotan Utama & Kontribusi Riset',
-        },
-        {
-          id: 'block-3',
-          type: 'paragraph',
-          text: 'Delegasi siswa mempresentasikan penelitian mendalam dengan metodologi ilmiah yang kokoh dan pengujian terukur.',
-        },
-        {
-          id: 'block-4',
-          type: 'image',
-          imageUrl: article.coverUrl ?? '/images/events/sca-2025-award.jpg',
-          imageAlt: article.coverAlt ?? article.title,
-          imageCaption: 'Dokumentasi perwakilan delegasi Metroscope.',
+          text: article.excerpt || article.title,
         },
       ]);
     }
@@ -419,7 +447,11 @@ export function ArticleList({
     }
 
     try {
-      await createArticle({ title, categoryId: articleData.categoryId ?? undefined });
+      await fetch('/api/bff/site/articles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(articleData),
+      });
     } catch {}
 
     setIsStudioOpen(false);
@@ -430,24 +462,40 @@ export function ArticleList({
     );
   };
 
-  const handleDeleteArticle = (id: string) => {
+  const handleDeleteArticle = async (id: string) => {
     if (confirm('Hapus artikel ini dari sistem?')) {
       setArticles((prev) => prev.filter((a) => a.id !== id));
+      try {
+        await fetch(`/api/bff/site/articles/${id}`, { method: 'DELETE' });
+      } catch {}
       showToast('Artikel telah dihapus.');
     }
   };
 
-  const toggleArticleStatus = (id: string) => {
+  const toggleArticleStatus = async (id: string) => {
+    const target = articles.find((a) => a.id === id);
+    if (!target) return;
+    const next = target.status === 'PUBLISHED' ? 'DRAFT' : 'PUBLISHED';
     setArticles((prev) =>
       prev.map((a) => {
         if (a.id === id) {
-          const next = a.status === 'PUBLISHED' ? 'DRAFT' : 'PUBLISHED';
-          showToast(`Status artikel diubah menjadi: ${STATUS_CONFIG[next]?.label}`);
-          return { ...a, status: next, publishedAt: next === 'PUBLISHED' ? new Date().toISOString() : a.publishedAt };
+          return {
+            ...a,
+            status: next,
+            publishedAt: next === 'PUBLISHED' ? new Date().toISOString() : a.publishedAt,
+          };
         }
         return a;
       }),
     );
+    try {
+      await fetch('/api/bff/site/articles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...target, status: next }),
+      });
+    } catch {}
+    showToast(`Status artikel diubah menjadi: ${STATUS_CONFIG[next]?.label}`);
   };
 
   const triggerLiveSync = async () => {

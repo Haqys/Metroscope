@@ -64,9 +64,9 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
       if (req.method === 'POST') {
         const payload = bodyText ? JSON.parse(bodyText) : {};
         const created = saveRuntimeArticle({
+          ...payload,
           title: payload.title || 'Artikel Baru',
-          categoryId: payload.categoryId,
-          status: 'PUBLISHED',
+          status: payload.status || 'PUBLISHED',
         });
         return NextResponse.json({ data: { id: created.id, slug: created.slug } });
       }

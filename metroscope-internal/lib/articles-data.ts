@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import type { Article, ArticleCategory, ArticleListItem, ArticleTag, ProseNode } from './api';
 
 export const doc = (...nodes: ProseNode[]): ProseNode => ({
@@ -297,8 +299,39 @@ export const INITIAL_ARTICLES: Article[] = [
   },
 ];
 
+function loadStoredCustomArticles(): Article[] {
+  try {
+    const filePath = path.join(process.cwd(), 'lib', 'custom-articles.json');
+    if (fs.existsSync(filePath)) {
+      const data = fs.readFileSync(filePath, 'utf-8');
+      const parsed = JSON.parse(data);
+      if (Array.isArray(parsed)) return parsed as Article[];
+    }
+  } catch {}
+  return [];
+}
+
+function persistCustomArticles(articles: Article[]) {
+  try {
+    const custom = articles.filter(
+      (a) => !INITIAL_ARTICLES.some((init) => init.id === a.id),
+    );
+    const internalPath = path.join(process.cwd(), 'lib', 'custom-articles.json');
+    fs.writeFileSync(internalPath, JSON.stringify(custom, null, 2), 'utf-8');
+
+    const landingPath = path.join(process.cwd(), '..', 'metroscope-landing', 'lib', 'mock', 'custom-articles.json');
+    if (fs.existsSync(path.dirname(landingPath))) {
+      fs.writeFileSync(landingPath, JSON.stringify(custom, null, 2), 'utf-8');
+    }
+  } catch (err) {
+    console.warn('Failed to persist custom articles to disk:', err);
+  }
+}
+
+const storedCustom = loadStoredCustomArticles();
+
 /** In-memory article store (persists for the server process lifespan) */
-let runtimeArticles: Article[] = [...INITIAL_ARTICLES];
+let runtimeArticles: Article[] = [...storedCustom, ...INITIAL_ARTICLES];
 const runtimeCategories: ArticleCategory[] = [...INITIAL_CATEGORIES];
 const runtimeTags: (ArticleTag & { articleCount: number })[] = [...INITIAL_TAGS];
 
@@ -336,6 +369,7 @@ export function saveRuntimeArticle(
       version: existing.version + 1,
     };
     runtimeArticles[existingIndex] = updated;
+    persistCustomArticles(runtimeArticles);
     return updated;
   }
 
@@ -389,24 +423,31 @@ export function saveRuntimeArticle(
   };
 
   runtimeArticles = [newArticle, ...runtimeArticles];
+  persistCustomArticles(runtimeArticles);
   return newArticle;
 }
 
 export function deleteRuntimeArticle(id: string): boolean {
   const prevCount = runtimeArticles.length;
   runtimeArticles = runtimeArticles.filter((a) => a.id !== id && a.slug !== id);
-  return runtimeArticles.length < prevCount;
+  if (runtimeArticles.length < prevCount) {
+    persistCustomArticles(runtimeArticles);
+    return true;
+  }
+  return false;
 }
 
 export function toListItem(a: Article): ArticleListItem {
   return {
     id: a.id,
     title: a.title,
+    subtitle: a.subtitle,
     slug: a.slug,
     locale: a.locale,
     status: a.status,
     version: a.version,
     excerpt: a.excerpt,
+    body: a.body,
     featured: a.featured,
     pinnedRank: a.pinnedRank,
     readingMin: a.readingMin,

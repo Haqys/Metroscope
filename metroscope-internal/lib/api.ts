@@ -457,11 +457,13 @@ export interface ArticleTag {
 export interface ArticleListItem {
   id: string;
   title: string;
+  subtitle?: string | null;
   slug: string;
   locale: string;
   status: ContentStatus;
   version: number;
   excerpt: string | null;
+  body?: ProseNode;
   featured: boolean;
   pinnedRank: number | null;
   readingMin: number;
