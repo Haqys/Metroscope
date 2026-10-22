@@ -65,6 +65,24 @@ export function rowToArticleItem(row: SupabaseArticleRow): ArticleListItem {
       }))
     : [];
 
+  let parsedBody: ProseNode = { type: 'doc', content: [] };
+  if (typeof row.body === 'string') {
+    try {
+      parsedBody = JSON.parse(row.body) as ProseNode;
+    } catch {}
+  } else if (row.body && typeof row.body === 'object') {
+    parsedBody = row.body as ProseNode;
+  }
+
+  let parsedBlocks: unknown[] = [];
+  if (typeof row.blocks === 'string') {
+    try {
+      parsedBlocks = JSON.parse(row.blocks);
+    } catch {}
+  } else if (Array.isArray(row.blocks)) {
+    parsedBlocks = row.blocks;
+  }
+
   return {
     id: row.id,
     title: row.title,
@@ -74,7 +92,7 @@ export function rowToArticleItem(row: SupabaseArticleRow): ArticleListItem {
     status: (row.status as ContentStatus) || 'PUBLISHED',
     version: 1,
     excerpt: row.excerpt,
-    body: (row.body as ProseNode) || { type: 'doc', content: [] },
+    body: parsedBody,
     featured: Boolean(row.featured),
     pinnedRank: row.featured ? 1 : null,
     readingMin: row.reading_min || 5,
@@ -94,7 +112,7 @@ export function rowToArticleItem(row: SupabaseArticleRow): ArticleListItem {
     studentId: null,
     consentSource: 'METROSCOPE_CONSENT_REGISTRY',
     tags: mappedTags,
-    blocks: Array.isArray(row.blocks) ? row.blocks : [],
+    blocks: parsedBlocks,
   };
 }
 

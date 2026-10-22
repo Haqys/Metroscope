@@ -29,6 +29,7 @@ import {
 
 import type { ArticleCategory, ArticleListItem, ArticleTag, ProseNode } from '@/lib/api';
 import { cn } from '@/lib/utils';
+import { INITIAL_ARTICLES } from '@/lib/articles-data';
 
 const EVENT_PHOTO_PRESETS = [
   { url: '/images/events/sca-2025-award.jpg', label: 'Science Castle Asia Award 2025' },
@@ -235,10 +236,20 @@ export function ArticleList({
     setIsStudioOpen(true);
   };
 
-function parseProseToBlocks(doc?: ProseNode): ArticleBlock[] {
-  if (!doc || !doc.content || !Array.isArray(doc.content)) return [];
+function parseProseToBlocks(doc?: ProseNode | string): ArticleBlock[] {
+  let targetDoc: ProseNode | undefined;
+  if (typeof doc === 'string') {
+    try {
+      targetDoc = JSON.parse(doc) as ProseNode;
+    } catch {
+      return [];
+    }
+  } else {
+    targetDoc = doc;
+  }
+  if (!targetDoc || !targetDoc.content || !Array.isArray(targetDoc.content)) return [];
   const parsed: ArticleBlock[] = [];
-  doc.content.forEach((node, idx) => {
+  targetDoc.content.forEach((node, idx) => {
     if (node.type === 'paragraph') {
       const text = (node.content ?? []).map((c) => c.text ?? '').join('');
       if (text.trim()) {
@@ -288,10 +299,21 @@ function parseProseToBlocks(doc?: ProseNode): ArticleBlock[] {
     setCoverAlt(article.coverAlt ?? article.title);
     setTags(article.tags.map((t) => t.name));
 
-    const existingBlocks =
-      article.blocks && article.blocks.length > 0
-        ? article.blocks
-        : parseProseToBlocks(article.body || article.rawBody);
+    let existingBlocks: ArticleBlock[] = [];
+    if (article.blocks && Array.isArray(article.blocks) && article.blocks.length > 0) {
+      existingBlocks = article.blocks as ArticleBlock[];
+    }
+    if (existingBlocks.length === 0) {
+      existingBlocks = parseProseToBlocks(article.body || article.rawBody);
+    }
+    if (existingBlocks.length === 0) {
+      const initialMatch = INITIAL_ARTICLES.find(
+        (a) => a.id === article.id || a.slug === article.slug,
+      );
+      if (initialMatch?.body) {
+        existingBlocks = parseProseToBlocks(initialMatch.body);
+      }
+    }
 
     if (existingBlocks.length > 0) {
       setBlocks(existingBlocks);

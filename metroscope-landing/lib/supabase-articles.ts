@@ -70,12 +70,21 @@ export function toArticleCard(row: SupabaseRow): ArticleCard {
 
 export function toPublicArticle(row: SupabaseRow): PublicArticle {
   const card = toArticleCard(row);
+  let parsedBody: ProseNode = {
+    type: 'doc',
+    content: [{ type: 'paragraph', content: [{ type: 'text', text: row.excerpt || row.title }] }],
+  };
+  if (typeof row.body === 'string') {
+    try {
+      parsedBody = JSON.parse(row.body) as ProseNode;
+    } catch {}
+  } else if (row.body && typeof row.body === 'object') {
+    parsedBody = row.body;
+  }
+
   return {
     ...card,
-    body: row.body ?? {
-      type: 'doc',
-      content: [{ type: 'paragraph', content: [{ type: 'text', text: row.excerpt || row.title }] }],
-    },
+    body: parsedBody,
     categoryDescription: null,
     viewCount: 0,
     seoTitle: null,
