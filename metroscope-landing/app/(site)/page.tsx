@@ -19,6 +19,9 @@ import { listArticles } from '@/lib/articles-api';
 import { listPublicPrograms } from '@/lib/programs-api';
 import { absolute, organizationJsonLd, social } from '@/lib/seo';
 
+// Toggle for closing CTA. Set to true to re-enable in the future
+const SHOW_CLOSING_CTA = false;
+
 const TITLE = 'Metroscope. Olympiad & Competition Mentoring';
 const DESCRIPTION =
   'Competition mentoring for elementary to high school students: olympiads, debates, and scientific papers. Specialist mentors, tracked progress, free initial consultation.';
@@ -348,37 +351,39 @@ export default async function HomePage() {
           </p>
         </section>
 
-        {/*,,, Closing CTA,,, */}
-        <section className="relative overflow-hidden py-36 lg:py-48">
-          <BgWord word="Start" className="text-maroon" />
-          <div className="relative container text-center">
-            <h2 className="mx-auto max-w-3xl font-sans text-[clamp(2.75rem,7vw,6rem)] leading-[1.02] font-medium tracking-tight text-neutral-900">
-              <WordReveal text="Initial" />{' '}
-              <WordReveal text="assessment." startDelay={250} className="text-maroon" />
-            </h2>
-            <Reveal delay={400}>
-              <p className="mx-auto mt-8 max-w-md text-lg leading-relaxed font-light text-neutral-500">
-                Start your journey with a comprehensive IQ test and aptitude assessment. Our team will contact you within 24 hours.
-              </p>
-            </Reveal>
-            <Reveal delay={550}>
-              <div className="mt-12 flex justify-center gap-5">
-                <Link
-                  href="/register"
-                  className="bg-maroon hover:bg-maroon-dark rounded-full px-10 py-4 text-sm font-medium tracking-wide text-white transition-all duration-300 hover:scale-[1.03]"
-                >
-                  Register for Assessment
-                </Link>
-                <Link
-                  href="/programs"
-                  className="border-navy text-navy hover:bg-navy rounded-full border px-10 py-4 text-sm font-medium tracking-wide transition-colors hover:text-white"
-                >
-                  View Programmes
-                </Link>
-              </div>
-            </Reveal>
-          </div>
-        </section>
+        {/*,,, Closing CTA (set SHOW_CLOSING_CTA = true to re-enable),,, */}
+        {SHOW_CLOSING_CTA && (
+          <section className="relative overflow-hidden py-36 lg:py-48">
+            <BgWord word="Start" className="text-maroon" />
+            <div className="relative container text-center">
+              <h2 className="mx-auto max-w-3xl font-sans text-[clamp(2.75rem,7vw,6rem)] leading-[1.02] font-medium tracking-tight text-neutral-900">
+                <WordReveal text="Initial" />{' '}
+                <WordReveal text="assessment." startDelay={250} className="text-maroon" />
+              </h2>
+              <Reveal delay={400}>
+                <p className="mx-auto mt-8 max-w-md text-lg leading-relaxed font-light text-neutral-500">
+                  Start your journey with a comprehensive IQ test and aptitude assessment. Our team will contact you within 24 hours.
+                </p>
+              </Reveal>
+              <Reveal delay={550}>
+                <div className="mt-12 flex justify-center gap-5">
+                  <Link
+                    href="/register"
+                    className="bg-maroon hover:bg-maroon-dark rounded-full px-10 py-4 text-sm font-medium tracking-wide text-white transition-all duration-300 hover:scale-[1.03]"
+                  >
+                    Register for Assessment
+                  </Link>
+                  <Link
+                    href="/programs"
+                    className="border-navy text-navy hover:bg-navy rounded-full border px-10 py-4 text-sm font-medium tracking-wide transition-colors hover:text-white"
+                  >
+                    View Programmes
+                  </Link>
+                </div>
+              </Reveal>
+            </div>
+          </section>
+        )}
       </div>
     </>
   );
