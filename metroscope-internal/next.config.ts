@@ -10,7 +10,10 @@ const nextConfig: NextConfig = {
   // Placeholder marketing/portrait photography. Replace with Supabase Storage
   // assets once the media library lands (doc 13 §9).
   images: {
-    remotePatterns: [{ protocol: 'https', hostname: 'images.unsplash.com' }],
+    remotePatterns: [
+      { protocol: 'https', hostname: '**' },
+      { protocol: 'http', hostname: '**' },
+    ],
   },
 
   /** Routes renamed by the doc 14 §T tidy, no bookmark breaks (doc 02 §1.4). */

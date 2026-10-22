@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import {
   Plus,
   Sparkles,
@@ -84,6 +83,30 @@ const INITIAL_IMPACTS: ImpactRecord[] = [
     status: 'PUBLISHED',
   },
 ];
+
+function ImpactCardImage({ src, alt }: { src: string; alt: string }) {
+  const [error, setError] = useState(false);
+
+  if (error || !src) {
+    return (
+      <div className="flex h-full w-full flex-col items-center justify-center bg-neutral-100 text-neutral-400 p-4">
+        <Sparkles className="h-7 w-7 text-neutral-300" />
+        <span className="mt-1 text-[11px] font-medium text-neutral-400">Foto Kegiatan</span>
+      </div>
+    );
+  }
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={src}
+      alt={alt}
+      className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+      onError={() => setError(true)}
+      loading="lazy"
+    />
+  );
+}
 
 export function ImpactsManager() {
   const [items, setItems] = useState<ImpactRecord[]>(INITIAL_IMPACTS);
@@ -269,13 +292,7 @@ export function ImpactsManager() {
             <div>
               {/* Image Preview */}
               <div className="relative aspect-[16/9] w-full bg-neutral-100 overflow-hidden">
-                <Image
-                  src={item.coverUrl}
-                  alt={item.title}
-                  fill
-                  sizes="(min-width: 1024px) 33vw, 100vw"
-                  className="object-cover"
-                />
+                <ImpactCardImage src={item.coverUrl} alt={item.title} />
                 <div className="absolute top-3 left-3 flex items-center gap-2">
                   <span className="rounded-full bg-black/75 px-2.5 py-0.5 text-[11px] font-medium text-white backdrop-blur-sm">
                     {item.year}
@@ -483,10 +500,40 @@ export function ImpactsManager() {
                   value={coverUrl}
                   onChange={(e) => setCoverUrl(e.target.value)}
                   placeholder="/images/events/jisf-2026-smp-1.jpg"
-                  className="mt-1.5 w-full rounded-xl border border-neutral-300 px-4 py-2.5 text-sm focus:border-navy focus:outline-none"
+                  className="mt-1.5 w-full rounded-xl border border-neutral-300 px-4 py-2.5 text-sm focus:border-maroon focus:outline-none"
                 />
-                <p className="mt-1 text-[11px] text-neutral-400">
-                  Gunakan foto yang sudah ada di folder /images/events/ atau pilih via Galeri Media.
+
+                {/* Quick Presets */}
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {[
+                    { label: 'JISF SMP 1', path: '/images/events/jisf-2026-smp-1.jpg' },
+                    { label: 'JISF SD 1', path: '/images/events/jisf-2026-sd-1.jpg' },
+                    { label: 'SCA Award', path: '/images/events/sca-2025-award.jpg' },
+                    { label: 'SCA Delegasi', path: '/images/events/sca-2025-delegation.jpg' },
+                    { label: 'SCA Judging', path: '/images/events/sca-2025-judging.jpg' },
+                  ].map((preset) => (
+                    <button
+                      key={preset.path}
+                      type="button"
+                      onClick={() => setCoverUrl(preset.path)}
+                      className={`rounded-lg border px-2 py-1 text-[11px] font-medium transition-colors ${
+                        coverUrl === preset.path
+                          ? 'border-maroon bg-maroon-light text-maroon font-semibold'
+                          : 'border-neutral-200 bg-neutral-50 text-neutral-600 hover:bg-neutral-100'
+                      }`}
+                    >
+                      {preset.label}
+                    </button>
+                  ))}
+                </div>
+
+                {coverUrl && (
+                  <div className="mt-3 relative h-28 w-44 rounded-xl border border-neutral-200 overflow-hidden bg-neutral-100">
+                    <ImpactCardImage src={coverUrl} alt="Pratinjau Foto" />
+                  </div>
+                )}
+                <p className="mt-1.5 text-[11px] text-neutral-400">
+                  Gunakan foto acara yang sudah tersedia atau masukkan URL gambar web (HTTPS).
                 </p>
               </div>
             </div>
