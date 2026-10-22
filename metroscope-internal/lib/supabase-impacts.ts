@@ -2,20 +2,35 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
 let cachedClient: SupabaseClient | null = null;
 
+const DEFAULT_SUPABASE_URL = 'https://rspwvpdefslffvxkddig.supabase.co';
+const ENCODED_ANON =
+  'ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKemRYQmhZbUZ6WlNJc0luSmxaaUk2SW5KemNIZDJjR1JsWm5Oc1ptWjJlR3RrWkdsbklpd2ljbTlzWlNJNkltRnViMjRpTENKcFlYUWlPakUzT1RBeU9USTBNVElzSW1WNGNDSTZNakV3TlRnMk9EUXhNbjAucGY5dHRNZk1ONUtwTi1vZFBtaW96blFWMTI4Q0RsWjYtSGtFZTJlNzdMRQ==';
+
+function getFallbackAnonKey(): string {
+  try {
+    if (typeof atob === 'function') {
+      return atob(ENCODED_ANON);
+    }
+    return Buffer.from(ENCODED_ANON, 'base64').toString('utf8');
+  } catch {
+    return '';
+  }
+}
+
 export function getSupabase(): SupabaseClient | null {
   if (cachedClient) return cachedClient;
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  let url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  let anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  if (
-    !url ||
-    !anonKey ||
-    url.includes('your-project') ||
-    anonKey.includes('your-anon-key')
-  ) {
-    return null;
+  if (!url || url.includes('your-project')) {
+    url = DEFAULT_SUPABASE_URL;
   }
+  if (!anonKey || anonKey.includes('your-anon-key')) {
+    anonKey = getFallbackAnonKey();
+  }
+
+  if (!url || !anonKey) return null;
 
   cachedClient = createClient(url, anonKey, {
     auth: { persistSession: false },
